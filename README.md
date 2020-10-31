@@ -6,24 +6,24 @@
 - [x] (constructor)
 - [x] (destructor)
 - [x] operator=
-- [ ] assign
 
-**Element access**  
-- [ ] front
-- [ ] back
-
-**Iterators**  
+**_Iterators_**  
 - [ ] begin
 - [ ] end
 - [ ] rbegin
 - [ ] rend
 
-**Capacity**  
+**_Capacity_**  
 - [ ] empty
 - [x] size
 - [ ] max_size
 
-**Modifiers**  
+**_Element access_**  
+- [ ] front
+- [ ] back
+
+**_Modifiers_**  
+- [ ] assign
 - [ ] clear
 - [ ] insert
 - [ ] erase
@@ -34,7 +34,7 @@
 - [ ] resize
 - [ ] swap
 
-**Operations**  
+**_Operations_**  
 - [ ] merge
 - [ ] splice
 - [ ] remove (remove_if)
@@ -42,12 +42,6 @@
 - [ ] unique
 - [ ] sort
 
-**Non-member functions**  
-- [ ] operator==
-- [ ] operator!=
-- [ ] operator<
-- [ ] operator<=
-- [ ] operator>
-- [ ] operator>=
-- [ ] std::swap
-
+**Non-member function overloads**
+- [ ] relational operators (list)
+- [ ] swap (list)
