@@ -1,17 +1,22 @@
 #pragma once
 
+#include <cstdlib>
+
+namespace ft
+{
+
 template<typename Type>
 class List
 {
 	private:
-		template<typename Type>
+		template<typename T>
 		class Node
 		{
 			public:
 				Node *_next;
-				Type _data;
+				T _data;
 
-				Node(Type &data = Type(), Node *next = NULL)
+				Node(T &data = T(), Node *next = NULL)
 				{
 					this->_data = data;
 					this->_next = next;
@@ -46,7 +51,7 @@ List<Type>::List()
 template<typename Type>
 List<Type>::List(List const &other)
 {
-
+	*this = other;
 }
 
 template<typename Type>
@@ -58,7 +63,7 @@ List<Type>::~List()
 template<typename Type>
 List<Type> &List<Type>::operator=(List<Type> const &other)
 {
-
+	*this = other;
 	return(*this);
 }
 
@@ -84,3 +89,7 @@ int List<Type>::size() const
 {
 	return (this->_size);
 }
+
+
+
+} // namespace
