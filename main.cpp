@@ -1,5 +1,6 @@
 #include <iostream>
-#include "List.hpp"
+
+#include "List/List.hpp"
 
 /*
 **==========================
@@ -24,7 +25,24 @@ int main()
     std::cout << YELLOW << "[Size list]: " << CYAN << list_int.size() << std::endl;
     std::cout << YELLOW << "[Max Size list]: " << CYAN << list_int.max_size() << std::endl;
     std::cout << YELLOW << "[Empty]: " << ((list_int.empty()) ? GREEN"TRUE" : RED"FALSE" ) << std::endl;
-
+    list_int.pop_front();
+    std::cout << YELLOW << "[pop_front]: " << GREEN << "Done\n" << RESET;
+    std::cout << YELLOW << "[Size list]: " << CYAN << list_int.size() << std::endl;
+    list_int.pop_back();
+    std::cout << YELLOW << "[pop_back]: " << GREEN << "Done\n" << RESET;
+    std::cout << YELLOW << "[Size list]: " << CYAN << list_int.size() << std::endl;
+    list_int.push_front(228);
+    std::cout << YELLOW << "[push_front]: " << GREEN << "Done\n" << RESET;
+    std::cout << YELLOW << "[Size list]: " << CYAN << list_int.size() << std::endl;
     
+    ft::List<int>::iterator it_begin = list_int.begin();
+    ft::List<int>::iterator it_end = list_int.end();
+    std::cout << YELLOW << "[Array]: " << CYAN;
+    while (it_begin != it_end)
+    {
+        std::cout << *it_begin << " ";
+        ++it_begin;
+    }
+    std::cout << RESET << std::endl;
     return (0);
 }

@@ -2,6 +2,7 @@ NAME = start
 FLAGS = -Wall -Wextra -Werror -std=c++98
 SRC = ./main.cpp
 OBJ=$(SRC:.cpp=.o)
+DEBUG = -g
 
 #colors
 RED=\033[1;31m
@@ -11,11 +12,11 @@ CYAN=\033[1;36m
 RESET=\033[0m
 
 %.o:%.cpp
-	@clang++ -o $@ -c $< $(FLAGS)
+	@clang++ $(DEBUG) -o $@ -c $< $(FLAGS)
 	@echo "[$(GREEN)OK$(RESET)]$(YELLOW) Compiling $<$(RESET)"
 
 $(NAME): $(OBJ)
-	@clang++ -o $(NAME) $(OBJ) $(FLAGS)
+	@clang++ -o $(NAME) $(DEBUG) $(OBJ) $(FLAGS)
 	@echo "[$(GREEN)Success$(RESET)]$(GREEN) Successfully compiled $(NAME) project.$(RESET)"
 	@echo ""
 	@echo "$(CYAN)      /|/|"

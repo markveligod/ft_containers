@@ -28,9 +28,9 @@
 - [ ] insert
 - [ ] erase
 - [x] push_back
-- [ ] pop_back
-- [ ] push_front
-- [ ] pop_front
+- [x] pop_back
+- [x] push_front
+- [x] pop_front
 - [ ] resize
 - [ ] swap
 
