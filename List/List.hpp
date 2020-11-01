@@ -18,6 +18,9 @@ class List
 
 	public:
 		typedef Iterator<T> iterator;
+		typedef Const_iterator<T> const_iterator;
+		typedef Reverse_iterator<T> reverse_iterator;
+		typedef Const_reverse_iterator<T> const_reverse_iterator;
 
 		List();
 		List(List const &other);
@@ -36,7 +39,12 @@ class List
 
 		iterator begin();
 		iterator end();
-
+		const_iterator begin() const;
+		const_iterator end() const;
+		reverse_iterator rbegin();
+		reverse_iterator rend();
+		const_reverse_iterator rbegin() const;
+		const_reverse_iterator rend() const;
 };
 
 
@@ -156,8 +164,52 @@ typename List<T>::iterator List<T>::end()
 	List<T>::Node *temp = this->head;
 	while (temp->_next)
 		temp = temp->_next;
-	return (List<T>::iterator(temp));
+	return (List<T>::iterator(temp->_next));
 }
 
+template<typename T>
+typename List<T>::const_iterator List<T>::begin() const
+{
+	return (List<T>::const_iterator(this->head));
+}
+
+template<typename T>
+typename List<T>::const_iterator List<T>::end() const
+{
+	List<T>::Node *temp = this->head;
+	while (temp->_next)
+		temp = temp->_next;
+	return (List<T>::const_iterator(temp->_next));
+}
+
+template<typename T>
+typename List<T>::reverse_iterator List<T>::rbegin()
+{
+	List<T>::Node *temp = this->head;
+	while (temp->_next)
+		temp = temp->_next;
+	return (List<T>::reverse_iterator(temp));
+}
+
+template<typename T>
+typename List<T>::reverse_iterator List<T>::rend()
+{
+	return (List<T>::reverse_iterator(this->head->_prev));
+}
+
+template<typename T>
+typename List<T>::const_reverse_iterator List<T>::rbegin() const
+{
+	List<T>::Node *temp = this->head;
+	while (temp->_next)
+		temp = temp->_next;
+	return (List<T>::const_reverse_iterator(temp));
+}
+
+template<typename T>
+typename List<T>::const_reverse_iterator List<T>::rend() const
+{
+	return (List<T>::const_reverse_iterator(this->head->_prev));
+}
 
 } // namespace

@@ -20,7 +20,7 @@ int main()
     std::cout << RED << "|==========================|\n" << RESET;
     std::cout << YELLOW << "Testing " << GREEN << "list" << YELLOW << " with INT...\n" << RESET;
     ft::List<int> list_int;
-    for (size_t i = 0; i < 30; i++)
+    for (size_t i = 0; i < 10; i++)
         list_int.push_back(rand() % 100);
     std::cout << YELLOW << "[Size list]: " << CYAN << list_int.size() << std::endl;
     std::cout << YELLOW << "[Max Size list]: " << CYAN << list_int.max_size() << std::endl;
@@ -37,12 +37,23 @@ int main()
     
     ft::List<int>::iterator it_begin = list_int.begin();
     ft::List<int>::iterator it_end = list_int.end();
-    std::cout << YELLOW << "[Array]: " << CYAN;
+    std::cout << YELLOW << "[Array]: *simple* " << CYAN;
     while (it_begin != it_end)
     {
         std::cout << *it_begin << " ";
         ++it_begin;
     }
     std::cout << RESET << std::endl;
+
+    ft::List<int>::iterator it_rbegin = list_int.rbegin();
+    ft::List<int>::iterator it_rend = list_int.rend();
+    std::cout << YELLOW << "[Array]: *reverse* " << CYAN;
+    while (it_rbegin != it_rend)
+    {
+        std::cout << *it_rbegin << " ";
+        --it_rbegin;
+    }
+    std::cout << RESET << std::endl;
+
     return (0);
 }

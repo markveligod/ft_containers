@@ -8,10 +8,10 @@
 - [x] operator=
 
 **_Iterators_**  
-- [ ] begin
-- [ ] end
-- [ ] rbegin
-- [ ] rend
+- [x] begin
+- [x] end
+- [x] rbegin
+- [x] rend
 
 **_Capacity_**  
 - [x] empty
