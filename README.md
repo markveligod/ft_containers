@@ -14,9 +14,9 @@
 - [ ] rend
 
 **_Capacity_**  
-- [ ] empty
+- [x] empty
 - [x] size
-- [ ] max_size
+- [x] max_size
 
 **_Element access_**  
 - [ ] front

@@ -34,7 +34,10 @@ class List
 		List &operator=(List const &other);
 
 		void push_back(Type data);
+
+		bool empty() const;
 		int size() const;
+		int max_size() const;
 
 };
 
@@ -57,7 +60,12 @@ List<Type>::List(List const &other)
 template<typename Type>
 List<Type>::~List()
 {
-
+	while (this->head)
+	{
+		Node<Type> *temp = this->head->_next;
+		delete this->head;
+		this->head = temp;
+	}
 }
 
 template<typename Type>
@@ -90,6 +98,19 @@ int List<Type>::size() const
 	return (this->_size);
 }
 
+template<typename Type>
+bool List<Type>::empty() const
+{
+	if (this->head)
+		return (false);
+	return (true);
+}
+
+template<typename Type>
+int List<Type>::max_size() const
+{
+	return (this->_size);
+}
 
 
 } // namespace

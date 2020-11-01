@@ -22,6 +22,8 @@ int main()
     for (size_t i = 0; i < 30; i++)
         list_int.push_back(rand() % 100);
     std::cout << YELLOW << "[Size list]: " << CYAN << list_int.size() << std::endl;
+    std::cout << YELLOW << "[Max Size list]: " << CYAN << list_int.max_size() << std::endl;
+    std::cout << YELLOW << "[Empty]: " << ((list_int.empty()) ? GREEN"TRUE" : RED"FALSE" ) << std::endl;
 
     
     return (0);
