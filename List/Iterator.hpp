@@ -38,11 +38,12 @@ class Iterator
 template<typename T>
 class Const_iterator: public Iterator<T>
 {
+   
     public:
-    Const_iterator(Node<T> *ptr = NULL)
-    {
-        this->it = ptr;
-    }
+        Const_iterator(Node<T> *ptr = NULL)
+        {
+            this->it = ptr;
+        }
 };
 
 template<typename T>
@@ -83,8 +84,8 @@ template<typename T>
 class Const_reverse_iterator: public Reverse_iterator<T>
 {
     public:
-    Const_reverse_iterator(Node<T> *ptr = NULL)
-    {
-        this->it = ptr;
-    }
+        Const_reverse_iterator(Node<T> *ptr = NULL)
+        {
+            this->it = ptr;
+        }
 };

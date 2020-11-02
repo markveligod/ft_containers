@@ -18,9 +18,9 @@ class List
 
 	public:
 		typedef Iterator<T> iterator;
-		typedef Const_iterator<T> const_iterator;
+		typedef Iterator<T> const_iterator;
 		typedef Reverse_iterator<T> reverse_iterator;
-		typedef Const_reverse_iterator<T> const_reverse_iterator;
+		typedef Reverse_iterator<T> const_reverse_iterator;
 
 		List();
 		List(List const &other);
@@ -60,6 +60,7 @@ List<T>::List()
 template<typename T>
 List<T>::List(List const &other)
 {
+	this->clear();
 	*this = other;
 }
 
@@ -72,6 +73,7 @@ List<T>::~List()
 template<typename T>
 List<T> &List<T>::operator=(List<T> const &other)
 {
+	this->clear();
 	*this = other;
 	return(*this);
 }
