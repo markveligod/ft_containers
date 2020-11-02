@@ -46,17 +46,41 @@ class Const_iterator: public Iterator<T>
 };
 
 template<typename T>
-class Reverse_iterator: public Iterator<T>
+class Reverse_iterator
 {
+    protected:
+        Node<T> *it;
     public:
-    Reverse_iterator(Node<T> *ptr = NULL)
-    {
-        this->it = ptr;
-    }
+        Reverse_iterator(Node<T> *ptr = NULL)
+        {
+            this->it = ptr;
+        }
+        Reverse_iterator<T> &operator++()
+        {
+            this->it = this->it->_prev;
+            return (*this);
+        }
+        Reverse_iterator<T> &operator--()
+        {
+            this->it = this->it->_next;
+            return (*this);
+        }
+        bool operator==(const Reverse_iterator<T> &other) const
+        {
+            return (this->it == other.it);
+        }
+        bool operator!=(const Reverse_iterator<T> &other) const
+        {
+            return (this->it != other.it);
+        }
+        T &operator*()
+        {
+            return (this->it->_data);
+        }
 };
 
 template<typename T>
-class Const_reverse_iterator: public Iterator<T>
+class Const_reverse_iterator: public Reverse_iterator<T>
 {
     public:
     Const_reverse_iterator(Node<T> *ptr = NULL)

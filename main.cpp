@@ -45,15 +45,39 @@ int main()
     }
     std::cout << RESET << std::endl;
 
-    ft::List<int>::iterator it_rbegin = list_int.rbegin();
-    ft::List<int>::iterator it_rend = list_int.rend();
+    ft::List<int>::reverse_iterator it_rbegin = list_int.rbegin();
+    ft::List<int>::reverse_iterator it_rend = list_int.rend();
     std::cout << YELLOW << "[Array]: *reverse* " << CYAN;
     while (it_rbegin != it_rend)
     {
         std::cout << *it_rbegin << " ";
-        --it_rbegin;
+        ++it_rbegin;
     }
     std::cout << RESET << std::endl;
 
+    list_int.insert(98483355, 8);
+    list_int.insert(98483355, 4);
+    list_int.insert(98483355, 0);
+    std::cout << YELLOW << "[insert]: " << GREEN << "Done\n";
+    std::cout << YELLOW << "[Size list]: " << CYAN << list_int.size() << std::endl;
+    ft::List<int>::iterator it_begin_2 = list_int.begin();
+    ft::List<int>::iterator it_end_2 = list_int.end();
+    std::cout << YELLOW << "[Array]: *simple* " << CYAN;
+    while (it_begin_2 != it_end_2)
+    {
+        std::cout << *it_begin_2 << " ";
+        ++it_begin_2;
+    }
+    std::cout << RESET << std::endl;
+
+    ft::List<int>::reverse_iterator it_rbegin_2 = list_int.rbegin();
+    ft::List<int>::reverse_iterator it_rend_2 = list_int.rend();
+    std::cout << YELLOW << "[Array]: *reverse* " << CYAN;
+    while (it_rbegin_2 != it_rend_2)
+    {
+        std::cout << *it_rbegin_2 << " ";
+        ++it_rbegin_2;
+    }
+    std::cout << RESET << std::endl;
     return (0);
 }

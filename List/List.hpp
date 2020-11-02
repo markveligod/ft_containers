@@ -32,6 +32,8 @@ class List
 		void push_front(T data);
 		void pop_front();
 		void pop_back();
+		void clear();
+		void insert(T data, int index);
 
 		bool empty() const;
 		int size() const;
@@ -64,12 +66,7 @@ List<T>::List(List const &other)
 template<typename T>
 List<T>::~List()
 {
-	while (this->head)
-	{
-		Node *temp = this->head->_next;
-		delete this->head;
-		this->head = temp;
-	}
+	this->clear();
 }
 
 template<typename T>
@@ -150,6 +147,38 @@ void List<T>::pop_back()
 	delete temp;
 	temp_2->_next = NULL;
 	this->_size--;
+}
+
+template<typename T>
+void List<T>::clear()
+{
+	while (this->head)
+	{
+		Node *temp = this->head->_next;
+		delete this->head;
+		this->head = temp;
+	}
+}
+
+template<typename T>
+void List<T>::insert(T data, int index)
+{
+	if (index == 0)
+	{
+		this->push_front(data);
+	}
+	else
+	{
+		Node *prev = this->head;
+		for (int i = 0; i < index - 1; i++)
+			prev = prev->_next;
+		Node *curr = new Node(data, prev->_next);
+		prev->_next->_prev = curr;
+		prev->_next = curr;
+		curr->_prev = prev;
+		this->_size++;
+	}
+	
 }
 
 template<typename T>
