@@ -1,7 +1,6 @@
 #pragma once
 
 #include <cstdlib>
-#include <memory>
 #include "./Node.hpp"
 #include "./Iterator.hpp"
 
@@ -24,8 +23,10 @@ class List
 		typedef Reverse_iterator<T> const_reverse_iterator;
 
 		List();
+		List(int count, T data);
+		List(iterator first, iterator last);
 		List(List const &other);
-		List(size_t n, const T &value, const std::allocator<T> &a);
+		List(size_t n, const T &value);
 		~List();
 
 		List<T> &operator=(List<T> const &other);
@@ -62,6 +63,38 @@ List<T>::List()
 {
 	this->_size = 0;
 	this->head = NULL;
+}
+
+template<typename T>
+List<T>::List(int count, T data)
+{
+	this->head = new Node(data);
+	this->_size = 1;
+	Node *temp_1 = this->head;
+	for (int i = 1; i < count; i++)
+	{
+		Node *temp_2 = new Node(data, NULL, temp_1);
+		temp_1->_next = temp_2;
+		temp_1 = temp_1->_next;
+		this->_size++;
+	}
+}
+
+template<typename T>
+List<T>::List(iterator first, iterator last)
+{
+	this->head = new Node(first.getIt()->_data);
+	this->_size = 1;
+	Node *temp_1 = this->head;
+	++first;
+	while (first != last)
+	{
+		Node *temp_2 = new Node(first.getIt()->_data, NULL, temp_1);
+		temp_1->_next = temp_2;
+		temp_1 = temp_1->_next;
+		++first;
+		this->_size++;
+	}
 }
 
 template<typename T>

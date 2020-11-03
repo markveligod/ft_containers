@@ -20,7 +20,7 @@ void print(T data)
     std::cout << data << " ";
 }
 
-void test_list_example()
+void test_list_example_1()
 {
     std::list<int> ex_original;
     ft::List<int> ex_nooriginal;
@@ -248,6 +248,8 @@ void test_list_example()
     std::cout << YELLOW << "[NO Original]: \t" << CYAN;
     std::for_each(ex_nooriginal.begin(), ex_nooriginal.end(), print<int>);
     std::cout << RESET << std::endl;
+
+    std::cout << YELLOW << "\nTesting" << GREEN << " insert()" << RESET << std::endl;
     std::cout << YELLOW << "[Original]: \t" << CYAN;
     std::for_each(ex_original.rbegin(), ex_original.rend(), print<int>);
     std::cout << RESET << std::endl;
@@ -257,11 +259,45 @@ void test_list_example()
 
 }
 
+void test_list_example_2()
+{
+    //constructor
+    std::cout << YELLOW << "\nTesting" << GREEN << " constructor" << RESET << std::endl;
+    std::list<int> ex_original(7, 228);
+    ft::List<int> ex_nooriginal(7, 228);
+    std::cout << YELLOW << "[Original]: \t" << CYAN;
+    std::for_each(ex_original.begin(), ex_original.end(), print<int>);
+    std::cout << RESET << std::endl;
+    std::cout << YELLOW << "[NO Original]: \t" << CYAN;
+    std::for_each(ex_nooriginal.begin(), ex_nooriginal.end(), print<int>);
+    std::cout << RESET << std::endl;
+    std::cout << YELLOW << "[Original]: <size>\t" << CYAN << ex_original.size() << RESET << std::endl;
+    std::cout << YELLOW << "[NO Original]: <size>\t" << CYAN << ex_nooriginal.size() << RESET << std::endl;
+
+    std::cout << YELLOW << "\nTesting" << GREEN << " constructor" << RESET << std::endl;
+    std::list<int>::iterator it_begin_1 = ex_original.begin();
+    std::list<int>::iterator it_end_1 = ex_original.end();
+    ft::List<int>::iterator it_begin_2 = ex_nooriginal.begin();
+    ft::List<int>::iterator it_end_2 = ex_nooriginal.end();
+    std::list<int> test_original(it_begin_1, it_end_1);
+    ft::List<int> test_nooriginal(it_begin_2, it_end_2);
+    std::cout << YELLOW << "[Original]: \t" << CYAN;
+    std::for_each(test_original.begin(), test_original.end(), print<int>);
+    std::cout << RESET << std::endl;
+    std::cout << YELLOW << "[NO Original]: \t" << CYAN;
+    std::for_each(test_nooriginal.begin(), test_nooriginal.end(), print<int>);
+    std::cout << RESET << std::endl;
+    std::cout << YELLOW << "[Original]: <size>\t" << CYAN << test_original.size() << RESET << std::endl;
+    std::cout << YELLOW << "[NO Original]: <size>\t" << CYAN << test_nooriginal.size() << RESET << std::endl;
+
+}
+
 int main()
 {
     srand(time(NULL));
     std::cout << RED << "|==========================|\n" << RESET;
-    test_list_example();
+    test_list_example_1();
+    test_list_example_2();
     std::cout << RED << "|==========================|\n" << RESET;
     return (0);
 }
