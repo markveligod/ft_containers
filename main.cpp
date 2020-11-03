@@ -153,6 +153,108 @@ void test_list_example()
     std::cout << YELLOW << "\nTesting" << GREEN << " max_size()" << RESET << std::endl;
     std::cout << YELLOW << "[Original]: \t" << CYAN << ex_original.max_size() << RESET << std::endl;
     std::cout << YELLOW << "[NO Original]: \t" << CYAN << ex_nooriginal.max_size() << RESET << std::endl;
+
+    //front()
+    std::cout << YELLOW << "\nTesting" << GREEN << " front()" << RESET << std::endl;
+    ex_original.front() -= ex_original.back();
+    ex_nooriginal.front() -= ex_nooriginal.back();
+    std::cout << YELLOW << "[Original]: \t" << CYAN << ex_original.front() << RESET << std::endl;
+    std::cout << YELLOW << "[NO Original]: \t" << CYAN << ex_nooriginal.front() << RESET << std::endl;
+
+    //back()
+    std::cout << YELLOW << "\nTesting" << GREEN << " back()" << RESET << std::endl;
+    ex_original.back() += ex_original.front();
+    ex_nooriginal.back() += ex_nooriginal.front();
+    std::cout << YELLOW << "[Original]: \t" << CYAN << ex_original.back() << RESET << std::endl;
+    std::cout << YELLOW << "[NO Original]: \t" << CYAN << ex_nooriginal.back() << RESET << std::endl;
+
+    //insert()
+    std::cout << YELLOW << "\nTesting" << GREEN << " insert()" << RESET << std::endl;
+    std::list<int>::iterator it_1 = ex_original.begin();
+    ++it_1;
+    ft::List<int>::iterator it_2 = ex_nooriginal.begin();
+    ++it_2;
+    ex_original.insert(it_1, 1488228);
+    ex_nooriginal.insert(it_2, 1488228);
+    std::cout << YELLOW << "[Original]: \t" << CYAN;
+    std::for_each(ex_original.begin(), ex_original.end(), print<int>);
+    std::cout << RESET << std::endl;
+    std::cout << YELLOW << "[NO Original]: \t" << CYAN;
+    std::for_each(ex_nooriginal.begin(), ex_nooriginal.end(), print<int>);
+    std::cout << RESET << std::endl;
+
+    std::cout << YELLOW << "\nTesting" << GREEN << " insert()" << RESET << std::endl;
+    std::list<int>::iterator it_3 = ex_original.begin();
+    ft::List<int>::iterator it_4 = ex_nooriginal.begin();
+    ex_original.insert(it_3, 2281488);
+    ex_nooriginal.insert(it_4, 2281488);
+    std::cout << YELLOW << "[Original]: \t" << CYAN;
+    std::for_each(ex_original.rbegin(), ex_original.rend(), print<int>);
+    std::cout << RESET << std::endl;
+    std::cout << YELLOW << "[NO Original]: \t" << CYAN;
+    std::for_each(ex_nooriginal.rbegin(), ex_nooriginal.rend(), print<int>);
+    std::cout << RESET << std::endl;
+
+    std::cout << YELLOW << "\nTesting" << GREEN << " insert()" << RESET << std::endl;
+    std::list<int>::iterator it_5 = ex_original.begin();
+    ft::List<int>::iterator it_6 = ex_nooriginal.begin();
+    ex_original.insert(it_5, 4, 1488);
+    ex_nooriginal.insert(it_6, 4, 1488);
+    std::cout << YELLOW << "[Original]: \t" << CYAN;
+    std::for_each(ex_original.rbegin(), ex_original.rend(), print<int>);
+    std::cout << RESET << std::endl;
+    std::cout << YELLOW << "[NO Original]: \t" << CYAN;
+    std::for_each(ex_nooriginal.rbegin(), ex_nooriginal.rend(), print<int>);
+    std::cout << RESET << std::endl;
+
+    std::cout << YELLOW << "\nTesting" << GREEN << " insert()" << RESET << std::endl;
+    std::list<int>::iterator it_7 = ex_original.begin();
+    ft::List<int>::iterator it_8 = ex_nooriginal.begin();
+    ++it_7; ++it_7; ++it_7; ++it_7; ++it_7; ++it_7; ++it_7; ++it_7;
+    ++it_8; ++it_8; ++it_8; ++it_8; ++it_8; ++it_8; ++it_8; ++it_8;
+    ex_original.insert(it_7, 4, 1488);
+    ex_nooriginal.insert(it_8, 4, 1488);
+    std::cout << YELLOW << "[Original]: \t" << CYAN;
+    std::for_each(ex_original.rbegin(), ex_original.rend(), print<int>);
+    std::cout << RESET << std::endl;
+    std::cout << YELLOW << "[NO Original]: \t" << CYAN;
+    std::for_each(ex_nooriginal.rbegin(), ex_nooriginal.rend(), print<int>);
+    std::cout << RESET << std::endl;
+
+    std::cout << YELLOW << "\nTesting" << GREEN << " insert()" << RESET << std::endl;
+    std::cout << YELLOW << "[Original]: \t" << CYAN;
+    std::for_each(ex_original.begin(), ex_original.end(), print<int>);
+    std::cout << RESET << std::endl;
+    std::cout << YELLOW << "[NO Original]: \t" << CYAN;
+    std::for_each(ex_nooriginal.begin(), ex_nooriginal.end(), print<int>);
+    std::cout << RESET << std::endl;
+
+    std::cout << YELLOW << "\nTesting" << GREEN << " insert()" << RESET << std::endl;
+    std::list<int> temp_1; temp_1.push_back(20); temp_1.push_back(30); temp_1.push_back(40);
+    ft::List<int> temp_2; temp_2.push_back(20); temp_2.push_back(30); temp_2.push_back(40);
+    std::list<int>::iterator it_begin_temp_1 = temp_1.begin();
+    std::list<int>::iterator it_end_temp_1 = temp_1.end();
+    ft::List<int>::iterator it_begin_temp_2 = temp_2.begin();
+    ft::List<int>::iterator it_end_temp_2 = temp_2.end();
+    std::list<int>::iterator it_9 = ex_original.begin();
+    ft::List<int>::iterator it_10 = ex_nooriginal.begin();
+    ++it_9; ++it_9; ++it_9; ++it_9; ++it_9; ++it_9; ++it_9; ++it_9;
+    ++it_10; ++it_10; ++it_10; ++it_10; ++it_10; ++it_10; ++it_10; ++it_10;
+    ex_original.insert(it_9, it_begin_temp_1, it_end_temp_1);
+    ex_nooriginal.insert(it_10, it_begin_temp_2, it_end_temp_2);
+    std::cout << YELLOW << "[Original]: \t" << CYAN;
+    std::for_each(ex_original.begin(), ex_original.end(), print<int>);
+    std::cout << RESET << std::endl;
+    std::cout << YELLOW << "[NO Original]: \t" << CYAN;
+    std::for_each(ex_nooriginal.begin(), ex_nooriginal.end(), print<int>);
+    std::cout << RESET << std::endl;
+    std::cout << YELLOW << "[Original]: \t" << CYAN;
+    std::for_each(ex_original.rbegin(), ex_original.rend(), print<int>);
+    std::cout << RESET << std::endl;
+    std::cout << YELLOW << "[NO Original]: \t" << CYAN;
+    std::for_each(ex_nooriginal.rbegin(), ex_nooriginal.rend(), print<int>);
+    std::cout << RESET << std::endl;
+
 }
 
 int main()

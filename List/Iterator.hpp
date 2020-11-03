@@ -33,6 +33,10 @@ class Iterator
         {
             return (this->it->_data);
         }
+        Node<T> *getIt() const
+        {
+            return (this->it);
+        }
 };
 
 template<typename T>

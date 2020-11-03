@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdlib>
+#include <memory>
 #include "./Node.hpp"
 #include "./Iterator.hpp"
 
@@ -24,6 +25,7 @@ class List
 
 		List();
 		List(List const &other);
+		List(size_t n, const T &value, const std::allocator<T> &a);
 		~List();
 
 		List<T> &operator=(List<T> const &other);
@@ -33,11 +35,16 @@ class List
 		void pop_front();
 		void pop_back();
 		void clear();
-		void insert(T data, int index);
+		void insert(iterator index, T data);
+		void insert(iterator index, size_t type, T data);
+		void insert(iterator index, iterator &first, iterator &last);
+
+		T& front();
+		T& back();
 
 		bool empty() const;
 		int size() const;
-		int max_size() const;
+		unsigned long max_size() const;
 
 		iterator begin();
 		iterator end();
@@ -92,10 +99,11 @@ bool List<T>::empty() const
 	return (true);
 }
 
+// https://stackoverflow.com/questions/7949486/how-is-max-size-calculated-in-the-function-max-size-in-stdlist
 template<typename T>
-int List<T>::max_size() const
+unsigned long List<T>::max_size() const
 {
-	return (this->_size);
+	return (size_t(-1) / (sizeof(List<T>) * (this->_size - 2)));
 }
 
 template<typename T>
@@ -163,25 +171,87 @@ void List<T>::clear()
 }
 
 template<typename T>
-void List<T>::insert(T data, int index)
+void List<T>::insert(iterator index, T data)
 {
-	if (index == 0)
+	if (index.getIt() == this->head)
 	{
 		this->push_front(data);
 	}
 	else
 	{
 		Node *prev = this->head;
-		for (int i = 0; i < index - 1; i++)
+		while (prev->_next != index.getIt())
 			prev = prev->_next;
-		Node *curr = new Node(data, prev->_next);
-		prev->_next->_prev = curr;
-		prev->_next = curr;
-		curr->_prev = prev;
+		Node *temp = new Node(data);
+		temp->_next = prev->_next;
+		temp->_prev = prev->_next->_prev;
+		prev->_next = temp;
+		temp->_next->_prev = temp;
 		this->_size++;
 	}
 	
 }
+
+template<typename T>
+void List<T>::insert(iterator index, size_t type, T data)
+{
+	if (index.getIt() == this->head)
+	{
+		for (size_t i = 0; i < type; i++)
+			this->push_front(data);
+	}
+	else
+	{
+		Node *prev = this->head;
+		while (prev->_next != index.getIt())
+			prev = prev->_next;
+		for (size_t i = 0; i < type; i++)
+		{
+			Node *temp = new Node(data);
+			temp->_next = prev->_next;
+			temp->_prev = prev->_next->_prev;
+			prev->_next = temp;
+			temp->_next->_prev = temp;
+			this->_size++;
+		}
+	}
+}
+
+template<typename T>
+void List<T>::insert(iterator index, iterator &first, iterator &last)
+{
+	Node *temp = this->head;
+	Node *temp_index = index.getIt();
+	if (temp == temp_index)
+	{
+		Node *temp_end_it = first.getIt();
+		while (temp_end_it->_next)
+			temp_end_it = temp_end_it->_next;
+		while (first != last)
+		{
+			this->push_front(temp_end_it->_data);
+			temp_end_it = temp_end_it->_prev;
+			++first;
+		}
+	}
+	else
+	{
+		while (temp->_next != temp_index)
+			temp = temp->_next;
+		while (first != last)
+		{
+			Node *temp_curr = new Node(first.getIt()->_data);
+			temp_curr->_next = temp->_next;
+			temp->_next->_prev = temp_curr;
+			temp_curr->_prev = temp;
+			temp->_next = temp_curr;
+			temp = temp_curr;
+			++first;
+			this->_size++;
+		}
+	}
+}
+
 
 template<typename T>
 typename List<T>::iterator List<T>::begin()
@@ -241,6 +311,21 @@ template<typename T>
 typename List<T>::const_reverse_iterator List<T>::rend() const
 {
 	return (List<T>::const_reverse_iterator(this->head->_prev));
+}
+
+template<typename T>
+T& List<T>::front()
+{
+	return (this->head->_data);
+}
+
+template<typename T>
+T& List<T>::back()
+{
+	Node *temp = this->head;
+	while (temp->_next)
+		temp = temp->_next;
+	return (temp->_data);
 }
 
 } // namespace
