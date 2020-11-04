@@ -1,5 +1,9 @@
 #include <iostream>
+#include <cstdio>
+#include <sstream>
+#include <iterator>
 #include <algorithm>
+#include <fstream>
 #include <list>
 #include "List/List.hpp"
 
@@ -15,289 +19,158 @@
 # define RESET "\033[0m"
 
 template<typename T>
-void print(T data)
+void print_list(std::stringstream &os, std::list<T> &orig, ft::list<T> &no)
 {
-    std::cout << data << " ";
+    typename std::list<T>::iterator or_begin = orig.begin();
+    typename std::list<T>::iterator or_end = orig.end();
+    typename ft::list<T>::iterator no_begin = no.begin();
+    typename ft::list<T>::iterator no_end = no.end();
+
+    os << "[Orig]: ";
+    while (or_begin != or_end)
+    {
+        os << *or_begin << " ";
+        ++or_begin;
+    }
+    os << std::endl;
+    os << "[No orig]: ";
+    while (no_begin != no_end)
+    {
+        os << *no_begin << " ";
+        ++no_begin;
+    }
+    os << std::endl;
 }
 
-void test_list_example_1()
+template<typename T>
+void print_size(std::stringstream &os, std::list<T> &orig, ft::list<T> &no)
 {
-    std::list<int> ex_original;
-    ft::List<int> ex_nooriginal;
-    
-    //push_back()
-    std::cout << YELLOW << "\nTesting" << GREEN << " push_back()" << RESET << std::endl;
-    for (int i = 0; i < 10; i++)
-    {
-        int temp = rand() % 100;
-        ex_original.push_back(temp);
-        ex_nooriginal.push_back(temp);
-    }
-    std::cout << YELLOW << "[Original]: \t" << CYAN;
-    std::for_each(ex_original.begin(), ex_original.end(), print<int>);
-    std::cout << RESET << std::endl;
-    std::cout << YELLOW << "[NO Original]: \t" << CYAN;
-    std::for_each(ex_nooriginal.begin(), ex_nooriginal.end(), print<int>);
-    std::cout << RESET << std::endl;
-    
-    //push_front()
-    std::cout << YELLOW << "\nTesting" << GREEN << " push_front()" << RESET << std::endl;
-    for (int i = 0; i < 5; i++)
-    {
-        int temp = rand() % 100;
-        ex_original.push_front(temp);
-        ex_nooriginal.push_front(temp);
-    }
-    std::cout << YELLOW << "[Original]: \t" << CYAN;
-    std::for_each(ex_original.begin(), ex_original.end(), print<int>);
-    std::cout << RESET << std::endl;
-    std::cout << YELLOW << "[NO Original]: \t" << CYAN;
-    std::for_each(ex_nooriginal.begin(), ex_nooriginal.end(), print<int>);
-    std::cout << RESET << std::endl;
-
-    //size()
-    std::cout << YELLOW << "\nTesting" << GREEN << " size()" << RESET << std::endl;
-    std::cout << YELLOW << "[Original]: \t" << CYAN << ex_original.size() << RESET << std::endl;
-    std::cout << YELLOW << "[NO Original]: \t" << CYAN << ex_nooriginal.size() << RESET << std::endl;
-
-    //empty()
-    std::cout << YELLOW << "\nTesting" << GREEN << " empty()" << RESET << std::endl;
-    std::cout << YELLOW << "[Original]: \t" << ((ex_original.empty()) ? GREEN"TRUE" : RED"FALSE" ) << RESET << std::endl;
-    std::cout << YELLOW << "[NO Original]: \t" << ((ex_nooriginal.empty()) ? GREEN"TRUE" : RED"FALSE" ) << RESET << std::endl;
-
-    //pop_front()
-    std::cout << YELLOW << "\nTesting" << GREEN << " pop_front()" << RESET << std::endl;
-    for (int i = 0; i < 5; i++)
-    {
-        ex_original.pop_front();
-        ex_nooriginal.pop_front();
-    }
-    std::cout << YELLOW << "[Original]: \t" << CYAN;
-    std::for_each(ex_original.begin(), ex_original.end(), print<int>);
-    std::cout << RESET << std::endl;
-    std::cout << YELLOW << "[NO Original]: \t" << CYAN;
-    std::for_each(ex_nooriginal.begin(), ex_nooriginal.end(), print<int>);
-    std::cout << RESET << std::endl;
-
-    //pop_back()
-    std::cout << YELLOW << "\nTesting" << GREEN << " pop_back()" << RESET << std::endl;
-    for (int i = 0; i < 5; i++)
-    {
-        ex_original.pop_back();
-        ex_nooriginal.pop_back();
-    }
-    std::cout << YELLOW << "[Original]: \t" << CYAN;
-    std::for_each(ex_original.begin(), ex_original.end(), print<int>);
-    std::cout << RESET << std::endl;
-    std::cout << YELLOW << "[NO Original]: \t" << CYAN;
-    std::for_each(ex_nooriginal.begin(), ex_nooriginal.end(), print<int>);
-    std::cout << RESET << std::endl;
-
-    //iterator
-    std::cout << YELLOW << "\nTesting" << GREEN << " iterator" << RESET << std::endl;
-    std::list<int>::iterator it_begin_1 = ex_original.begin();
-    std::list<int>::iterator it_end_1 = ex_original.end();
-    ft::List<int>::iterator it_begin_2 = ex_nooriginal.begin();
-    ft::List<int>::iterator it_end_2 = ex_nooriginal.end();
-
-    std::cout << YELLOW << "[Original]: \t" << CYAN;
-    std::for_each(it_begin_1, it_end_1, print<int>);
-    std::cout << RESET << std::endl;
-    std::cout << YELLOW << "[NO Original]: \t" << CYAN;
-    std::for_each(it_begin_2, it_end_2, print<int>);
-    std::cout << RESET << std::endl;
-
-    //const_iterator
-    std::cout << YELLOW << "\nTesting" << GREEN << " const_iterator" << RESET << std::endl;
-    std::list<int>::const_iterator it_begin_3 = ex_original.begin();
-    std::list<int>::const_iterator it_end_3 = ex_original.end();
-    ft::List<int>::const_iterator it_begin_4 = ex_nooriginal.begin();
-    ft::List<int>::const_iterator it_end_4 = ex_nooriginal.end();
-
-    std::cout << YELLOW << "[Original]: \t" << CYAN;
-    std::for_each(it_begin_3, it_end_3, print<int>);
-    std::cout << RESET << std::endl;
-    std::cout << YELLOW << "[NO Original]: \t" << CYAN;
-    std::for_each(it_begin_4, it_end_4, print<int>);
-    std::cout << RESET << std::endl;
-
-    //reverse_iterator
-    std::cout << YELLOW << "\nTesting" << GREEN << " reverse_iterator" << RESET << std::endl;
-    std::list<int>::reverse_iterator it_begin_5 = ex_original.rbegin();
-    std::list<int>::reverse_iterator it_end_5 = ex_original.rend();
-    ft::List<int>::reverse_iterator it_begin_6 = ex_nooriginal.rbegin();
-    ft::List<int>::reverse_iterator it_end_6 = ex_nooriginal.rend();
-
-    std::cout << YELLOW << "[Original]: \t" << CYAN;
-    std::for_each(it_begin_5, it_end_5, print<int>);
-    std::cout << RESET << std::endl;
-    std::cout << YELLOW << "[NO Original]: \t" << CYAN;
-    std::for_each(it_begin_6, it_end_6, print<int>);
-    std::cout << RESET << std::endl;
-
-    //const_reverse_iterator
-    std::cout << YELLOW << "\nTesting" << GREEN << " const_reverse_iterator" << RESET << std::endl;
-    std::list<int>::const_reverse_iterator it_begin_7 = ex_original.rbegin();
-    std::list<int>::const_reverse_iterator it_end_7 = ex_original.rend();
-    ft::List<int>::const_reverse_iterator it_begin_8 = ex_nooriginal.rbegin();
-    ft::List<int>::const_reverse_iterator it_end_8 = ex_nooriginal.rend();
-
-    std::cout << YELLOW << "[Original]: \t" << CYAN;
-    std::for_each(it_begin_7, it_end_7, print<int>);
-    std::cout << RESET << std::endl;
-    std::cout << YELLOW << "[NO Original]: \t" << CYAN;
-    std::for_each(it_begin_8, it_end_8, print<int>);
-    std::cout << RESET << std::endl;
-
-    //max_size()
-    std::cout << YELLOW << "\nTesting" << GREEN << " max_size()" << RESET << std::endl;
-    std::cout << YELLOW << "[Original]: \t" << CYAN << ex_original.max_size() << RESET << std::endl;
-    std::cout << YELLOW << "[NO Original]: \t" << CYAN << ex_nooriginal.max_size() << RESET << std::endl;
-
-    //front()
-    std::cout << YELLOW << "\nTesting" << GREEN << " front()" << RESET << std::endl;
-    ex_original.front() -= ex_original.back();
-    ex_nooriginal.front() -= ex_nooriginal.back();
-    std::cout << YELLOW << "[Original]: \t" << CYAN << ex_original.front() << RESET << std::endl;
-    std::cout << YELLOW << "[NO Original]: \t" << CYAN << ex_nooriginal.front() << RESET << std::endl;
-
-    //back()
-    std::cout << YELLOW << "\nTesting" << GREEN << " back()" << RESET << std::endl;
-    ex_original.back() += ex_original.front();
-    ex_nooriginal.back() += ex_nooriginal.front();
-    std::cout << YELLOW << "[Original]: \t" << CYAN << ex_original.back() << RESET << std::endl;
-    std::cout << YELLOW << "[NO Original]: \t" << CYAN << ex_nooriginal.back() << RESET << std::endl;
-
-    //insert()
-    std::cout << YELLOW << "\nTesting" << GREEN << " insert()" << RESET << std::endl;
-    std::list<int>::iterator it_1 = ex_original.begin();
-    ++it_1;
-    ft::List<int>::iterator it_2 = ex_nooriginal.begin();
-    ++it_2;
-    ex_original.insert(it_1, 1488228);
-    ex_nooriginal.insert(it_2, 1488228);
-    std::cout << YELLOW << "[Original]: \t" << CYAN;
-    std::for_each(ex_original.begin(), ex_original.end(), print<int>);
-    std::cout << RESET << std::endl;
-    std::cout << YELLOW << "[NO Original]: \t" << CYAN;
-    std::for_each(ex_nooriginal.begin(), ex_nooriginal.end(), print<int>);
-    std::cout << RESET << std::endl;
-
-    std::cout << YELLOW << "\nTesting" << GREEN << " insert()" << RESET << std::endl;
-    std::list<int>::iterator it_3 = ex_original.begin();
-    ft::List<int>::iterator it_4 = ex_nooriginal.begin();
-    ex_original.insert(it_3, 2281488);
-    ex_nooriginal.insert(it_4, 2281488);
-    std::cout << YELLOW << "[Original]: \t" << CYAN;
-    std::for_each(ex_original.rbegin(), ex_original.rend(), print<int>);
-    std::cout << RESET << std::endl;
-    std::cout << YELLOW << "[NO Original]: \t" << CYAN;
-    std::for_each(ex_nooriginal.rbegin(), ex_nooriginal.rend(), print<int>);
-    std::cout << RESET << std::endl;
-
-    std::cout << YELLOW << "\nTesting" << GREEN << " insert()" << RESET << std::endl;
-    std::list<int>::iterator it_5 = ex_original.begin();
-    ft::List<int>::iterator it_6 = ex_nooriginal.begin();
-    ex_original.insert(it_5, 4, 1488);
-    ex_nooriginal.insert(it_6, 4, 1488);
-    std::cout << YELLOW << "[Original]: \t" << CYAN;
-    std::for_each(ex_original.rbegin(), ex_original.rend(), print<int>);
-    std::cout << RESET << std::endl;
-    std::cout << YELLOW << "[NO Original]: \t" << CYAN;
-    std::for_each(ex_nooriginal.rbegin(), ex_nooriginal.rend(), print<int>);
-    std::cout << RESET << std::endl;
-
-    std::cout << YELLOW << "\nTesting" << GREEN << " insert()" << RESET << std::endl;
-    std::list<int>::iterator it_7 = ex_original.begin();
-    ft::List<int>::iterator it_8 = ex_nooriginal.begin();
-    ++it_7; ++it_7; ++it_7; ++it_7; ++it_7; ++it_7; ++it_7; ++it_7;
-    ++it_8; ++it_8; ++it_8; ++it_8; ++it_8; ++it_8; ++it_8; ++it_8;
-    ex_original.insert(it_7, 4, 1488);
-    ex_nooriginal.insert(it_8, 4, 1488);
-    std::cout << YELLOW << "[Original]: \t" << CYAN;
-    std::for_each(ex_original.rbegin(), ex_original.rend(), print<int>);
-    std::cout << RESET << std::endl;
-    std::cout << YELLOW << "[NO Original]: \t" << CYAN;
-    std::for_each(ex_nooriginal.rbegin(), ex_nooriginal.rend(), print<int>);
-    std::cout << RESET << std::endl;
-
-    std::cout << YELLOW << "\nTesting" << GREEN << " insert()" << RESET << std::endl;
-    std::cout << YELLOW << "[Original]: \t" << CYAN;
-    std::for_each(ex_original.begin(), ex_original.end(), print<int>);
-    std::cout << RESET << std::endl;
-    std::cout << YELLOW << "[NO Original]: \t" << CYAN;
-    std::for_each(ex_nooriginal.begin(), ex_nooriginal.end(), print<int>);
-    std::cout << RESET << std::endl;
-
-    std::cout << YELLOW << "\nTesting" << GREEN << " insert()" << RESET << std::endl;
-    std::list<int> temp_1; temp_1.push_back(20); temp_1.push_back(30); temp_1.push_back(40);
-    ft::List<int> temp_2; temp_2.push_back(20); temp_2.push_back(30); temp_2.push_back(40);
-    std::list<int>::iterator it_begin_temp_1 = temp_1.begin();
-    std::list<int>::iterator it_end_temp_1 = temp_1.end();
-    ft::List<int>::iterator it_begin_temp_2 = temp_2.begin();
-    ft::List<int>::iterator it_end_temp_2 = temp_2.end();
-    std::list<int>::iterator it_9 = ex_original.begin();
-    ft::List<int>::iterator it_10 = ex_nooriginal.begin();
-    ++it_9; ++it_9; ++it_9; ++it_9; ++it_9; ++it_9; ++it_9; ++it_9;
-    ++it_10; ++it_10; ++it_10; ++it_10; ++it_10; ++it_10; ++it_10; ++it_10;
-    ex_original.insert(it_9, it_begin_temp_1, it_end_temp_1);
-    ex_nooriginal.insert(it_10, it_begin_temp_2, it_end_temp_2);
-    std::cout << YELLOW << "[Original]: \t" << CYAN;
-    std::for_each(ex_original.begin(), ex_original.end(), print<int>);
-    std::cout << RESET << std::endl;
-    std::cout << YELLOW << "[NO Original]: \t" << CYAN;
-    std::for_each(ex_nooriginal.begin(), ex_nooriginal.end(), print<int>);
-    std::cout << RESET << std::endl;
-
-    std::cout << YELLOW << "\nTesting" << GREEN << " insert()" << RESET << std::endl;
-    std::cout << YELLOW << "[Original]: \t" << CYAN;
-    std::for_each(ex_original.rbegin(), ex_original.rend(), print<int>);
-    std::cout << RESET << std::endl;
-    std::cout << YELLOW << "[NO Original]: \t" << CYAN;
-    std::for_each(ex_nooriginal.rbegin(), ex_nooriginal.rend(), print<int>);
-    std::cout << RESET << std::endl;
-
+    os << "Size orig: " << orig.size() << std::endl;
+    os << "Size noorig: " << no.size() << std::endl;
 }
 
-void test_list_example_2()
+template<typename T>
+bool check_list(std::list<T> &orig, ft::list<T> &no)
 {
-    //constructor
-    std::cout << YELLOW << "\nTesting" << GREEN << " constructor" << RESET << std::endl;
-    std::list<int> ex_original(7, 228);
-    ft::List<int> ex_nooriginal(7, 228);
-    std::cout << YELLOW << "[Original]: \t" << CYAN;
-    std::for_each(ex_original.begin(), ex_original.end(), print<int>);
-    std::cout << RESET << std::endl;
-    std::cout << YELLOW << "[NO Original]: \t" << CYAN;
-    std::for_each(ex_nooriginal.begin(), ex_nooriginal.end(), print<int>);
-    std::cout << RESET << std::endl;
-    std::cout << YELLOW << "[Original]: <size>\t" << CYAN << ex_original.size() << RESET << std::endl;
-    std::cout << YELLOW << "[NO Original]: <size>\t" << CYAN << ex_nooriginal.size() << RESET << std::endl;
+    typename std::list<T>::iterator or_begin = orig.begin();
+    typename std::list<T>::iterator or_end = orig.end();
+    typename ft::list<T>::iterator no_begin = no.begin();
+    typename ft::list<T>::iterator no_end = no.end();
 
-    std::cout << YELLOW << "\nTesting" << GREEN << " constructor" << RESET << std::endl;
-    std::list<int>::iterator it_begin_1 = ex_original.begin();
-    std::list<int>::iterator it_end_1 = ex_original.end();
-    ft::List<int>::iterator it_begin_2 = ex_nooriginal.begin();
-    ft::List<int>::iterator it_end_2 = ex_nooriginal.end();
-    std::list<int> test_original(it_begin_1, it_end_1);
-    ft::List<int> test_nooriginal(it_begin_2, it_end_2);
-    std::cout << YELLOW << "[Original]: \t" << CYAN;
-    std::for_each(test_original.begin(), test_original.end(), print<int>);
-    std::cout << RESET << std::endl;
-    std::cout << YELLOW << "[NO Original]: \t" << CYAN;
-    std::for_each(test_nooriginal.begin(), test_nooriginal.end(), print<int>);
-    std::cout << RESET << std::endl;
-    std::cout << YELLOW << "[Original]: <size>\t" << CYAN << test_original.size() << RESET << std::endl;
-    std::cout << YELLOW << "[NO Original]: <size>\t" << CYAN << test_nooriginal.size() << RESET << std::endl;
+    while (or_begin != or_end)
+    {
+        if (*or_begin != *no_begin)
+            return (false);
+        ++or_begin;
+        ++no_begin;
+    }
+    return (true);
+}
 
+bool list_check_main(std::ofstream *out)
+{
+    std::stringstream os;
+    os << "\nCHECK MAIN!!!\n";
+    os << "\nCreaty constructor empty\n";
+    std::list<int> orig_1;
+    ft::list<int> noorig_1;
+
+    print_size(os, orig_1, noorig_1);
+    if (orig_1.size() != noorig_1.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    
+    os << "\nCreaty constructor with orig_2(4, 21) and noorig_2(4, 21)\n";
+    std::list<int> orig_2(4, 21);
+    ft::list<int> noorig_2(4, 21);
+
+    print_size(os, orig_2, noorig_2);
+    if (orig_2.size() != noorig_2.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    print_list(os, orig_2, noorig_2);
+    if (!check_list(orig_2, noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+    
+    os << "\nCreaty constructor copy\n";
+    std::list<int> orig_3(orig_2);
+    ft::list<int> noorig_3(noorig_2);
+    print_size(os, orig_3, noorig_3);
+    if (orig_3.size() != noorig_3.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    print_list(os, orig_3, noorig_3);
+    if (!check_list(orig_3, noorig_3))
+    {
+        *out << os.str();
+        return (false);
+    }
+    
+    os << "\nCreaty constructor in iterator\n";
+    std::list<int>::iterator or_begin = orig_3.begin();
+    std::list<int>::iterator or_end = orig_3.end();
+    ft::list<int>::iterator no_begin = noorig_3.begin();
+    ft::list<int>::iterator no_end = noorig_3.end();
+    std::list<int> orig_4(or_begin, or_end);
+    ft::list<int> noorig_4(no_begin, no_end);
+    print_size(os, orig_4, noorig_4);
+    if (orig_4.size() != noorig_4.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    print_list(os, orig_4, noorig_4);
+    if (!check_list(orig_4, noorig_4))
+    {
+        *out << os.str();
+        return (false);
+    }
+    *out << os.str();
+    return (true);
+}
+
+void list_start()
+{
+    std::ofstream out;
+    std::cout <<  "\033c";
+    out.open("log_list", std::ios::trunc);
+    std::cout << YELLOW << "\n\n[Start check main(Constructor, destructor, operator=)]: " << (list_check_main(&out) ? GREEN"OK" : RED"FAIL") << std::endl;
+    out.close();
+    std::cout << CYAN << "\tCheck log_list\n\n" << RESET;
+    getchar();
+    getchar();
 }
 
 int main()
 {
+    int num;
     srand(time(NULL));
-    std::cout << RED << "|==========================|\n" << RESET;
-    test_list_example_1();
-    test_list_example_2();
-    std::cout << RED << "|==========================|\n" << RESET;
+    while (true)
+    {
+        std::cout <<  "\033c";
+        std::cout << YELLOW << "\n\nThis tests aim on testing the project of name \"ft_containers\" \n" << RESET;
+        std::cout << RED << "Progress status will be displayed on the screen and the result will be recorded in a " << CYAN << "LOG" << RED << " file!!!\n" << RESET;
+        std::cout << CYAN << "1. " << RESET << "List\n";
+        std::cout << CYAN << "0. " << RESET << "Exit\n";
+        std::cout << YELLOW << "Choice a number: " << RESET;
+        std::cin >> num;
+        switch (num)
+        {
+        case 1:
+            list_start();
+            break;
+        case 0:
+            return (0);
+        }
+    }
     return (0);
 }

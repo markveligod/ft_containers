@@ -4,14 +4,28 @@ template<typename T>
 class Node
 {
 	public:
-		Node *_next;
-        Node *_prev;
+		Node<T> *_next;
+		Node<T> *_prev;
 		T _data;
 
-		Node(T &data = T(), Node *next = NULL, Node *prev = NULL)
+		Node() 
+		{
+			this->_data = 0;
+			this->_next = NULL;
+			this->_prev = NULL;
+		};
+		Node(T &data, Node<T> *next = NULL, Node<T> *prev = NULL)
 		{
 			this->_data = data;
 			this->_next = next;
-            this->_prev = prev;
+			this->_prev = prev;
+		}
+		Node(const Node<T> &other) {*this = other;}
+		~Node() {};
+
+		Node<T> &operator=(const Node<T> &other)
+		{
+			*this = other;
+			return (*this);
 		}
 };

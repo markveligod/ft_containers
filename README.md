@@ -16,21 +16,21 @@
 **_Capacity_**  
 - [x] empty
 - [x] size
-- [x] max_size
+- [ ] max_size
 
 **_Element access_**  
-- [x] front
-- [x] back
+- [ ] front
+- [ ] back
 
 **_Modifiers_**  
 - [ ] assign
 - [x] clear
-- [x] insert
+- [ ] insert
 - [ ] erase
 - [x] push_back
-- [x] pop_back
-- [x] push_front
-- [x] pop_front
+- [ ] pop_back
+- [ ] push_front
+- [ ] pop_front
 - [ ] resize
 - [ ] swap
 

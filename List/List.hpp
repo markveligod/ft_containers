@@ -1,364 +1,230 @@
 #pragma once
 
+/*
+**==========================
+**         Includes
+**==========================
+*/
 #include <cstdlib>
 #include "./Node.hpp"
 #include "./Iterator.hpp"
 
 namespace ft
 {
+	template<typename T>
+	class list
+	{
+		private:
+			typedef Node<T> 					Node;
+
+			size_t _size;
+			Node *head;
+			Node *tail;
+		public:
+			typedef Iterator<T> 				iterator;
+			typedef Const_iterator<T> 			const_iterator;
+			typedef Reverse_iterator<T> 		reverse_iterator;
+			typedef Const_reverse_iterator<T> 	const_reverse_iterator;
+
+			//main
+			list();
+			list(size_t count, T data);
+			list(iterator &first, iterator &last);
+			list(const list<T> &other);
+			~list();
+			list<T> &operator=(const list<T> &other);
+
+			//Iterators
+			iterator				begin() { return iterator(this->head); }
+			iterator				end() { return iterator( this->tail ); }
+
+			const_iterator			begin() const { return const_iterator(this->head); }
+			const_iterator			end() const { return const_iterator( this->tail ); }
+
+			reverse_iterator		rbegin() { return reverse_iterator( this->tail ); }
+			reverse_iterator		rend() { return reverse_iterator( this->head ); }
+
+			const_reverse_iterator	rbegin() const { return const_reverse_iterator(this->tail ); }
+			const_reverse_iterator	rend() const { return const_reverse_iterator( this->head ); }
+
+			//Capacity
+			size_t 					size() const {return (this->_size);}
+			bool					empty() const {return ((this->_size == 0) ? true : false);}
+
+			//Element access
+
+			//Modifiers
+			void clear();
+			void push_back(T data);
+	};
+
+/*
+**==========================
+**       Constructor
+**       Destructor
+**       operator=
+**==========================
+*/
 
 template<typename T>
-class List
-{
-	private:
-		typedef Node<T> Node;
-
-		int _size;
-		Node *head;
-
-	public:
-		typedef Iterator<T> iterator;
-		typedef Iterator<T> const_iterator;
-		typedef Reverse_iterator<T> reverse_iterator;
-		typedef Reverse_iterator<T> const_reverse_iterator;
-
-		List();
-		List(int count, T data);
-		List(iterator first, iterator last);
-		List(List const &other);
-		List(size_t n, const T &value);
-		~List();
-
-		List<T> &operator=(List<T> const &other);
-
-		void push_back(T data);
-		void push_front(T data);
-		void pop_front();
-		void pop_back();
-		void clear();
-		void insert(iterator index, T data);
-		void insert(iterator index, size_t type, T data);
-		void insert(iterator index, iterator &first, iterator &last);
-
-		T& front();
-		T& back();
-
-		bool empty() const;
-		int size() const;
-		unsigned long max_size() const;
-
-		iterator begin();
-		iterator end();
-		const_iterator begin() const;
-		const_iterator end() const;
-		reverse_iterator rbegin();
-		reverse_iterator rend();
-		const_reverse_iterator rbegin() const;
-		const_reverse_iterator rend() const;
-};
-
-
-template<typename T>
-List<T>::List()
+list<T>::list()
 {
 	this->_size = 0;
 	this->head = NULL;
+	this->tail = NULL;
 }
 
 template<typename T>
-List<T>::List(int count, T data)
+list<T>::list(size_t count, T data)
 {
-	this->head = new Node(data);
-	this->_size = 1;
-	Node *temp_1 = this->head;
-	for (int i = 1; i < count; i++)
+	if (count > 0)
 	{
-		Node *temp_2 = new Node(data, NULL, temp_1);
-		temp_1->_next = temp_2;
-		temp_1 = temp_1->_next;
-		this->_size++;
+		this->head = new Node(data);
+		this->_size = 1;
+		Node *temp_1 = this->head;
+		Node *temp_2;
+		for (size_t i = 1; i < count; i++)
+		{
+			temp_2 = new Node(data, NULL, temp_1);
+			temp_1->_next = temp_2;
+			temp_1 = temp_1->_next;
+			this->_size++;
+		}
+		this->tail = new Node;
+		temp_2->_next = this->tail;
+		this->tail->_next = this->head;
+		this->tail->_prev = temp_2;
+		this->head->_prev = this->tail;
 	}
 }
 
 template<typename T>
-List<T>::List(iterator first, iterator last)
+list<T>::list(iterator &first, iterator &last)
 {
-	this->head = new Node(first.getIt()->_data);
+	this->head = new Node(first.getNode()->_data);
 	this->_size = 1;
 	Node *temp_1 = this->head;
-	++first;
-	while (first != last)
+	Node *temp_2;
+	while (++first != last)
 	{
-		Node *temp_2 = new Node(first.getIt()->_data, NULL, temp_1);
+		temp_2 = new Node(first.getNode()->_data, NULL, temp_1);
 		temp_1->_next = temp_2;
 		temp_1 = temp_1->_next;
-		++first;
 		this->_size++;
 	}
+	this->tail = new Node;
+	temp_2->_next = this->tail;
+	this->tail->_next = this->head;
+	this->tail->_prev = temp_2;
+	this->head->_prev = this->tail;
 }
 
 template<typename T>
-List<T>::List(List const &other)
+list<T>::list(const list<T> &other)
 {
-	this->clear();
+	this->_size = 0;
+	this->head = NULL;
+	this->tail = NULL;
 	*this = other;
 }
 
 template<typename T>
-List<T>::~List()
+list<T>::~list()
 {
 	this->clear();
 }
 
 template<typename T>
-List<T> &List<T>::operator=(List<T> const &other)
+list<T> &list<T>::operator=(const list<T> &other)
 {
-	this->clear();
-	*this = other;
+	if (!this->empty())
+		this->clear();
+	for (const_iterator dd = other.begin(); dd != other.end(); ++dd)
+		this->push_back(dd.getNode()->_data);
+	this->_size = other._size;
 	return(*this);
 }
 
-template<typename T>
-int List<T>::size() const
-{
-	return (this->_size);
-}
+/*
+**==========================
+**       Capacity
+**==========================
+*/
+
+
+
+/*
+**==========================
+**     Element access
+**==========================
+*/
+
+
+
+/*
+**==========================
+**        Modifiers
+**==========================
+*/
 
 template<typename T>
-bool List<T>::empty() const
+void list<T>::clear()
 {
 	if (this->head)
-		return (false);
-	return (true);
+		while (this->head != this->tail)
+		{
+			Node *temp = this->head->_next;
+			delete this->head;
+			this->head = temp;
+		}
+	if (this->tail)
+		delete this->tail;
+	this->_size = 0;
+	this->head = NULL;
+	this->tail = NULL;
 }
 
-// https://stackoverflow.com/questions/7949486/how-is-max-size-calculated-in-the-function-max-size-in-stdlist
 template<typename T>
-unsigned long List<T>::max_size() const
+void list<T>::push_back(T data)
 {
-	return (size_t(-1) / (sizeof(List<T>) * (this->_size - 2)));
-}
-
-template<typename T>
-void List<T>::push_back(T data)
-{
+	if (!this->tail)
+		this->tail = new Node;
 	if (this->head == NULL)
 	{
-		head = new Node(data);
+		this->head = new Node(data, this->tail);
+		this->head->_prev = this->tail;
+		this->tail->_next = this->head;
+		this->tail->_prev = this->head;
+		
 	}
 	else
 	{
 		Node *curr = this->head;
-		while (curr->_next != NULL)
+		while (curr->_next != this->tail)
 			curr = curr->_next;
-		curr->_next = new Node(data);
-		curr->_next->_prev = curr;
-	}
-	this->_size++;
-}
-
-template<typename T>
-void List<T>::push_front(T data)
-{
-	head = new Node(data, head);
-	head->_next->_prev = head;
-	this->_size++;
-}
-
-template<typename T>
-void List<T>::pop_front()
-{
-	Node *temp = this->head;
-	this->head = this->head->_next;
-	delete temp;
-	this->head->_prev = NULL;
-	this->_size--;
-}
-
-template<typename T>
-void List<T>::pop_back()
-{
-	Node *temp = this->head;
-	Node *temp_2;
-	while (temp->_next)
-	{
-		if (temp->_next && temp->_next->_next == NULL)
-			temp_2 = temp;
-		temp = temp->_next;
-	}
-	temp->_prev = NULL;
-	delete temp;
-	temp_2->_next = NULL;
-	this->_size--;
-}
-
-template<typename T>
-void List<T>::clear()
-{
-	while (this->head)
-	{
-		Node *temp = this->head->_next;
-		delete this->head;
-		this->head = temp;
-	}
-}
-
-template<typename T>
-void List<T>::insert(iterator index, T data)
-{
-	if (index.getIt() == this->head)
-	{
-		this->push_front(data);
-	}
-	else
-	{
-		Node *prev = this->head;
-		while (prev->_next != index.getIt())
-			prev = prev->_next;
 		Node *temp = new Node(data);
-		temp->_next = prev->_next;
-		temp->_prev = prev->_next->_prev;
-		prev->_next = temp;
-		temp->_next->_prev = temp;
-		this->_size++;
+		curr->_next = temp;
+		temp->_prev = curr;
+		temp->_next = this->tail;
+		this->tail->_prev = temp;
 	}
-	
+	this->_size++;
 }
 
-template<typename T>
-void List<T>::insert(iterator index, size_t type, T data)
-{
-	if (index.getIt() == this->head)
-	{
-		for (size_t i = 0; i < type; i++)
-			this->push_front(data);
-	}
-	else
-	{
-		Node *prev = this->head;
-		while (prev->_next != index.getIt())
-			prev = prev->_next;
-		for (size_t i = 0; i < type; i++)
-		{
-			Node *temp = new Node(data);
-			temp->_next = prev->_next;
-			temp->_prev = prev->_next->_prev;
-			prev->_next = temp;
-			temp->_next->_prev = temp;
-			this->_size++;
-		}
-	}
-}
-
-template<typename T>
-void List<T>::insert(iterator index, iterator &first, iterator &last)
-{
-	Node *temp = this->head;
-	Node *temp_index = index.getIt();
-	if (temp == temp_index)
-	{
-		Node *temp_end_it = first.getIt();
-		while (temp_end_it->_next)
-			temp_end_it = temp_end_it->_next;
-		while (first != last)
-		{
-			this->push_front(temp_end_it->_data);
-			temp_end_it = temp_end_it->_prev;
-			++first;
-		}
-	}
-	else
-	{
-		while (temp->_next != temp_index)
-			temp = temp->_next;
-		while (first != last)
-		{
-			Node *temp_curr = new Node(first.getIt()->_data);
-			temp_curr->_next = temp->_next;
-			temp->_next->_prev = temp_curr;
-			temp_curr->_prev = temp;
-			temp->_next = temp_curr;
-			temp = temp_curr;
-			++first;
-			this->_size++;
-		}
-	}
-}
+/*
+**==========================
+**        Operations
+**==========================
+*/
 
 
-template<typename T>
-typename List<T>::iterator List<T>::begin()
-{
-	return (List<T>::iterator(this->head));
-}
+/*
+**==========================
+**   Non-member function 
+**        overloads
+**==========================
+*/
 
-template<typename T>
-typename List<T>::iterator List<T>::end()
-{
-	List<T>::Node *temp = this->head;
-	while (temp->_next)
-		temp = temp->_next;
-	return (List<T>::iterator(temp->_next));
-}
 
-template<typename T>
-typename List<T>::const_iterator List<T>::begin() const
-{
-	return (List<T>::const_iterator(this->head));
-}
-
-template<typename T>
-typename List<T>::const_iterator List<T>::end() const
-{
-	List<T>::Node *temp = this->head;
-	while (temp->_next)
-		temp = temp->_next;
-	return (List<T>::const_iterator(temp->_next));
-}
-
-template<typename T>
-typename List<T>::reverse_iterator List<T>::rbegin()
-{
-	List<T>::Node *temp = this->head;
-	while (temp->_next)
-		temp = temp->_next;
-	return (List<T>::reverse_iterator(temp));
-}
-
-template<typename T>
-typename List<T>::reverse_iterator List<T>::rend()
-{
-	return (List<T>::reverse_iterator(this->head->_prev));
-}
-
-template<typename T>
-typename List<T>::const_reverse_iterator List<T>::rbegin() const
-{
-	List<T>::Node *temp = this->head;
-	while (temp->_next)
-		temp = temp->_next;
-	return (List<T>::const_reverse_iterator(temp));
-}
-
-template<typename T>
-typename List<T>::const_reverse_iterator List<T>::rend() const
-{
-	return (List<T>::const_reverse_iterator(this->head->_prev));
-}
-
-template<typename T>
-T& List<T>::front()
-{
-	return (this->head->_data);
-}
-
-template<typename T>
-T& List<T>::back()
-{
-	Node *temp = this->head;
-	while (temp->_next)
-		temp = temp->_next;
-	return (temp->_data);
-}
 
 } // namespace

@@ -3,6 +3,7 @@ FLAGS = -Wall -Wextra -Werror -std=c++98
 SRC = ./main.cpp
 OBJ=$(SRC:.cpp=.o)
 DEBUG = -g
+LOG = log_*
 
 #colors
 RED=\033[1;31m
@@ -38,6 +39,7 @@ clean:
 
 fclean: clean
 	@rm $(NAME)
+	@rm $(LOG)
 	@echo "[$(RED)Deleting$(RESET)]$(RED) $(NAME) deleted.$(RESET)"
 
 re: fclean all
