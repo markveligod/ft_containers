@@ -22,7 +22,7 @@ $(NAME): $(OBJ)
 	@echo ""
 	@echo "$(CYAN)      /|/|"
 	@echo "     ( @ @)"
-	@echo "      ) ^ $(RESET)   CPP Module 07 (project 2020) $(CYAN)"
+	@echo "      ) ^ $(RESET)   ft_containers (project 2020) $(CYAN)"
 	@echo "     / |||       $(RESET) by ckakuna$(CYAN)"
 	@echo "    / )|||_"
 	@echo "   (_______)$(RESET)"

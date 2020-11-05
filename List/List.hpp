@@ -22,36 +22,30 @@ namespace ft
 			Node *tail;
 		public:
 			typedef Iterator<T> 				iterator;
-			typedef Const_iterator<T> 			const_iterator;
 			typedef Reverse_iterator<T> 		reverse_iterator;
-			typedef Const_reverse_iterator<T> 	const_reverse_iterator;
 
 			//main
 			list();
 			list(size_t count, T data);
 			list(iterator &first, iterator &last);
-			list(const list<T> &other);
+			list(list<T> &other);
 			~list();
-			list<T> &operator=(const list<T> &other);
+			list<T> &operator=(list<T> &other);
 
 			//Iterators
-			iterator				begin() { return iterator(this->head); }
-			iterator				end() { return iterator( this->tail ); }
-
-			const_iterator			begin() const { return const_iterator(this->head); }
-			const_iterator			end() const { return const_iterator( this->tail ); }
-
-			reverse_iterator		rbegin() { return reverse_iterator( this->tail ); }
-			reverse_iterator		rend() { return reverse_iterator( this->head ); }
-
-			const_reverse_iterator	rbegin() const { return const_reverse_iterator(this->tail ); }
-			const_reverse_iterator	rend() const { return const_reverse_iterator( this->head ); }
+			iterator				begin(void) { return iterator(this->head); }
+			iterator				end(void) { return iterator( this->tail ); }
+			reverse_iterator		rbegin(void) { return reverse_iterator( (this->tail && this->tail->_prev) ? this->tail->_prev : NULL ); }
+			reverse_iterator		rend(void) { return reverse_iterator( (this->tail && this->tail->_prev) ? this->head->_prev : NULL ); }
 
 			//Capacity
 			size_t 					size() const {return (this->_size);}
 			bool					empty() const {return ((this->_size == 0) ? true : false);}
+			size_t					max_size() const {return (size_t(-1) / (sizeof(list<T>) * (this->_size - (this->_size - 2))));}
 
 			//Element access
+			T						front() {return (((this->head) ? this->head->_data : 0 ));}
+			T						back() {return (((this->tail && this->tail->_prev) ? this->tail->_prev->_data : 0 ));}
 
 			//Modifiers
 			void clear();
@@ -120,7 +114,7 @@ list<T>::list(iterator &first, iterator &last)
 }
 
 template<typename T>
-list<T>::list(const list<T> &other)
+list<T>::list(list<T> &other)
 {
 	this->_size = 0;
 	this->head = NULL;
@@ -135,11 +129,11 @@ list<T>::~list()
 }
 
 template<typename T>
-list<T> &list<T>::operator=(const list<T> &other)
+list<T> &list<T>::operator=(list<T> &other)
 {
 	if (!this->empty())
 		this->clear();
-	for (const_iterator dd = other.begin(); dd != other.end(); ++dd)
+	for (iterator dd = other.begin(); dd != other.end(); ++dd)
 		this->push_back(dd.getNode()->_data);
 	this->_size = other._size;
 	return(*this);

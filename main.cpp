@@ -26,20 +26,41 @@ void print_list(std::stringstream &os, std::list<T> &orig, ft::list<T> &no)
     typename ft::list<T>::iterator no_begin = no.begin();
     typename ft::list<T>::iterator no_end = no.end();
 
-    os << "[Orig]: ";
+    os << "[Orig]: \t";
     while (or_begin != or_end)
     {
         os << *or_begin << " ";
         ++or_begin;
     }
     os << std::endl;
-    os << "[No orig]: ";
+    os << "[No orig]: \t";
     while (no_begin != no_end)
     {
         os << *no_begin << " ";
         ++no_begin;
     }
     os << std::endl;
+
+    typename std::list<T>::reverse_iterator or_rbegin = orig.rbegin();
+    typename std::list<T>::reverse_iterator or_rend = orig.rend();
+    typename ft::list<T>::reverse_iterator no_rbegin = no.rbegin();
+    typename ft::list<T>::reverse_iterator no_rend = no.rend();
+
+    os << "[R_Orig]: \t";
+    while (or_rbegin != or_rend)
+    {
+        os << *or_rbegin << " ";
+        ++or_rbegin;
+    }
+    os << std::endl;
+    os << "[R_No or]: \t";
+    while (no_rbegin != no_rend)
+    {
+        os << *no_rbegin << " ";
+        ++no_rbegin;
+    }
+    os << std::endl;
+
 }
 
 template<typename T>
@@ -63,6 +84,18 @@ bool check_list(std::list<T> &orig, ft::list<T> &no)
             return (false);
         ++or_begin;
         ++no_begin;
+    }
+
+    typename std::list<T>::reverse_iterator or_rbegin = orig.rbegin();
+    typename std::list<T>::reverse_iterator or_rend = orig.rend();
+    typename ft::list<T>::reverse_iterator no_rbegin = no.rbegin();
+    typename ft::list<T>::reverse_iterator no_rend = no.rend();
+    while (or_rbegin != or_rend)
+    {
+        if (*or_rbegin != *no_rbegin)
+            return (false);
+        ++or_rbegin;
+        ++no_rbegin;
     }
     return (true);
 }
@@ -99,7 +132,7 @@ bool list_check_main(std::ofstream *out)
         return (false);
     }
     
-    os << "\nCreaty constructor copy\n";
+    os << "\nCreaty constructor copy orig_3(orig_2) and noorig_3(noorig_2)\n";
     std::list<int> orig_3(orig_2);
     ft::list<int> noorig_3(noorig_2);
     print_size(os, orig_3, noorig_3);
@@ -138,14 +171,176 @@ bool list_check_main(std::ofstream *out)
     return (true);
 }
 
+bool list_check_iterator(std::ofstream *out)
+{
+    std::stringstream os;
+
+    os << "\nCHECK ITERATOR!!!\n";
+    os << "\nTest iterator\n";
+    std::list<int> orig(40, 42);
+    ft::list<int> noorig(40, 42);
+    print_list(os, orig, noorig);
+    print_size(os, orig, noorig);
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+    *out << os.str();
+    return (true);
+}
+
+bool list_check_capacity(std::ofstream *out)
+{
+    std::stringstream os;
+
+    os << "\nCHECK capacity!!!\n";
+    os << "\nTest empty\n";
+    std::list<int> orig;
+    ft::list<int> noorig;
+    print_list(os, orig, noorig);
+    os << "[Or]: \t" << orig.empty() << std::endl;
+    os << "[No Or]: \t" << noorig.empty() << std::endl;
+    if (orig.empty() != noorig.empty())
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    for (size_t i = 0; i < 8; i++)
+    {
+        int temp = rand() % 100;
+        orig.push_back(temp);
+        noorig.push_back(temp);
+    }
+    print_list(os, orig, noorig);
+    os << "[Or]: \t" << orig.empty() << std::endl;
+    os << "[No Or]: \t" << noorig.empty() << std::endl;
+    if (orig.empty() != noorig.empty())
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nTest max_size\n";
+    os << "[Or]: \t" << orig.max_size() << std::endl;
+    os << "[No Or]: \t" << noorig.max_size() << std::endl;
+    if (orig.max_size() != noorig.max_size())
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nTest size\n";
+    print_list(os, orig, noorig);
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    
+    orig.clear();
+    noorig.clear();
+    print_list(os, orig, noorig);
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    *out << os.str();
+    return (true);
+}
+
+bool list_check_elaccess(std::ofstream *out)
+{
+    std::stringstream os;
+
+    os << "\nCHECK Element access!!!\n";
+    os << "\nTest front\n";
+    std::list<int> orig;
+    ft::list<int> noorig;
+    for (size_t i = 0; i < 8; i++)
+    {
+        int temp = rand() % 100;
+        orig.push_back(temp);
+        noorig.push_back(temp);
+    }
+    print_list(os, orig, noorig);
+    os << "[Or]: \t" << orig.front() << std::endl;
+    os << "[No Or]: \t" << noorig.front() << std::endl;
+    if (orig.front() != noorig.front())
+    {
+        *out << os.str();
+        return (false);
+    }
+    orig.clear();
+    noorig.clear();
+    print_list(os, orig, noorig);
+    os << "[Or]: \t" << orig.front() << std::endl;
+    os << "[No Or]: \t" << noorig.front() << std::endl;
+    if (orig.front() != noorig.front())
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nTest back\n";
+    for (size_t i = 0; i < 8; i++)
+    {
+        int temp = rand() % 100;
+        orig.push_back(temp);
+        noorig.push_back(temp);
+    }
+    print_list(os, orig, noorig);
+    os << "[Or]: \t" << orig.back() << std::endl;
+    os << "[No Or]: \t" << noorig.back() << std::endl;
+    if (orig.back() != noorig.back())
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    orig.clear();
+    noorig.clear();
+    print_list(os, orig, noorig);
+    os << "[Or]: \t" << orig.back() << std::endl;
+    os << "[No Or]: \t" << noorig.back() << std::endl;
+    if (orig.back() != noorig.back())
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    *out << os.str();
+    return (true);
+}
+
 void list_start()
 {
     std::ofstream out;
     std::cout <<  "\033c";
     out.open("log_list", std::ios::trunc);
-    std::cout << YELLOW << "\n\n[Start check main(Constructor, destructor, operator=)]: " << (list_check_main(&out) ? GREEN"OK" : RED"FAIL") << std::endl;
+    out << "|========================================================================================================|\n";
+    std::cout << YELLOW << "\n\n[check main(Constructor, destructor, operator=)]: " << (list_check_main(&out) ? GREEN"OK" : RED"FAIL") << std::endl;
+    out << "|========================================================================================================|\n";
+    std::cout << YELLOW << "[check iterator(begin end rbegin rend)]: " << (list_check_iterator(&out) ? GREEN"OK" : RED"FAIL") << std::endl;
+    out << "|========================================================================================================|\n";
+    std::cout << YELLOW << "[check capacity(size empty max_size)]: " << (list_check_capacity(&out) ? GREEN"OK" : RED"FAIL") << std::endl;
+    out << "|========================================================================================================|\n";
+    std::cout << YELLOW << "[check Element access(front back)]: " << (list_check_elaccess(&out) ? GREEN"OK" : RED"FAIL") << std::endl;
+    out << "|========================================================================================================|\n";
     out.close();
-    std::cout << CYAN << "\tCheck log_list\n\n" << RESET;
+    std::cout << CYAN << "\n\tCheck log_list\n\n" << RESET;
     getchar();
     getchar();
 }

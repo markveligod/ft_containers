@@ -78,63 +78,63 @@ class Iterator
 };
 
 template<typename T>
-class Const_iterator
+class Reverse_iterator
 {
-     private:
+         private:
         Node<T> *node;
     public:
-        Const_iterator() {this->node = NULL;}
+        Reverse_iterator() {this->node = NULL;}
 
-        Const_iterator(Node<T> *data)
+        Reverse_iterator(Node<T> *data)
         {
             this->node = data;
         }
 
-        Const_iterator(const Const_iterator &other)
+        Reverse_iterator(const Reverse_iterator &other)
         {
             *this = other;
         }
 
-        Const_iterator &operator=(const Const_iterator &other)
+        Reverse_iterator &operator=(const Reverse_iterator &other)
         {
             this->node = other.node;
             return (*this);
         }
 
-        ~Const_iterator() {}
+        ~Reverse_iterator() {}
 
-        Const_iterator &operator++()
-        {
-            this->node = this->node->_next;
-            return (*this);
-        }
-
-        Const_iterator operator++(int)
-        {
-            Const_iterator temp = *this;
-            this->operator++();
-            return (temp);
-        }
-
-        Const_iterator &operator--()
+        Reverse_iterator &operator++()
         {
             this->node = this->node->_prev;
             return (*this);
         }
 
-        Const_iterator operator--(int)
+        Reverse_iterator operator++(int)
         {
-            Const_iterator temp = *this;
+            Reverse_iterator temp = *this;
+            this->operator++();
+            return (temp);
+        }
+
+        Reverse_iterator &operator--()
+        {
+            this->node = this->node->_next;
+            return (*this);
+        }
+
+        Reverse_iterator operator--(int)
+        {
+            Reverse_iterator temp = *this;
             this->operator--();
             return (temp);
         }
 
-        bool operator==(const Const_iterator<T> &other) const
+        bool operator==(const Reverse_iterator<T> &other) const
         {
             return (this->node == other.node);
         }
 
-        bool operator!=(const Const_iterator<T> &other) const
+        bool operator!=(const Reverse_iterator<T> &other) const
         {
             return (this->node != other.node);
         }
@@ -148,16 +148,4 @@ class Const_iterator
         {
             return (this->node);
         }
-};
-
-template<typename T>
-class Reverse_iterator
-{
-    
-};
-
-template<typename T>
-class Const_reverse_iterator
-{
-    
 };
