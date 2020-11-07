@@ -9,6 +9,21 @@
 #include "./Node.hpp"
 #include "./Iterator.hpp"
 
+/**
+ * 
+ * class list
+ * Основной класс листа включает:
+ * 
+ * main(Constructor, destructor, operator=)
+ * iterator(begin end rbegin rend)
+ * capacity(size empty max_size)
+ * Element access(front back)
+ * Modifiers (assign clear insert erase push_back pop_back push_front pop_front resize swap)
+ * Operations (merge splice remove (remove_if) reverse unique sort)
+ * Non-member function overloads (relational operators (list) swap (list))
+ * 
+ */
+
 namespace ft
 {
 	template<typename T>
@@ -49,7 +64,14 @@ namespace ft
 
 			//Modifiers
 			void clear();
-			void push_back(T data);
+			void push_back(const T &data);
+			void pop_back();
+			void push_front(const T &data);
+			void pop_front();
+			void resize(size_t n, T data = T());
+			void assign(iterator first, iterator last);
+			void assign(size_t n, const T &data);
+
 	};
 
 /*
@@ -141,22 +163,6 @@ list<T> &list<T>::operator=(list<T> &other)
 
 /*
 **==========================
-**       Capacity
-**==========================
-*/
-
-
-
-/*
-**==========================
-**     Element access
-**==========================
-*/
-
-
-
-/*
-**==========================
 **        Modifiers
 **==========================
 */
@@ -179,7 +185,36 @@ void list<T>::clear()
 }
 
 template<typename T>
-void list<T>::push_back(T data)
+void list<T>::assign(iterator first, iterator last)
+{
+	this->clear();
+	while (first != last)
+	{
+		this->push_back(first.getNode()->_data);
+		++first;
+	}
+}
+
+template<typename T>
+void list<T>::assign(size_t n, const T &data)
+{
+	this->clear();
+	for (size_t i = 0; i < n; i++)
+		this->push_back(data);
+}
+
+template<typename T>
+void list<T>::pop_back()
+{
+	Node *temp = this->tail->_prev;
+	temp->_prev->_next = this->tail;
+	this->tail->_prev = temp->_prev;
+	delete temp;
+	this->_size--;
+}
+
+template<typename T>
+void list<T>::push_back(const T &data)
 {
 	if (!this->tail)
 		this->tail = new Node;
@@ -203,6 +238,58 @@ void list<T>::push_back(T data)
 		this->tail->_prev = temp;
 	}
 	this->_size++;
+}
+
+template<typename T>
+void list<T>::push_front(const T &data)
+{
+	if (!this->tail)
+		this->tail = new Node;
+	if (this->head == NULL)
+	{
+		this->head = new Node(data, this->tail);
+		this->head->_prev = this->tail;
+		this->tail->_next = this->head;
+		this->tail->_prev = this->head;
+		
+	}
+	else
+	{
+		Node *curr = this->head;
+		this->head = new Node(data);
+		this->head->_next = curr;
+		this->head->_prev = this->tail;
+		this->tail->_next = this->head;
+		curr->_prev = this->head;
+		
+	}
+	this->_size++;
+}
+
+template<typename T>
+void list<T>::pop_front()
+{
+	Node *temp = this->head;
+	this->head = this->head->_next;
+	this->tail->_next = this->head;
+	this->head->_prev = this->tail;
+	delete temp;
+	this->_size--;
+}
+
+template<typename T>
+void list<T>::resize(size_t n, T data)
+{
+	if (this->_size < n)
+	{
+		while (this->_size < n)
+			this->push_back(data);	
+	}
+	else
+	{
+		while (this->_size > n)
+			this->pop_back();
+	}
 }
 
 /*

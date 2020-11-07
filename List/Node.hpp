@@ -1,5 +1,9 @@
 #pragma once
-
+/**
+ * class Node
+ * Крутой класс который помогает строить цепочку списка
+ *  
+ */
 template<typename T>
 class Node
 {
@@ -14,7 +18,7 @@ class Node
 			this->_next = NULL;
 			this->_prev = NULL;
 		};
-		Node(T &data, Node<T> *next = NULL, Node<T> *prev = NULL)
+		Node(const T &data, Node<T> *next = NULL, Node<T> *prev = NULL)
 		{
 			this->_data = data;
 			this->_next = next;

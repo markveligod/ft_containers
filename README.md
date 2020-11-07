@@ -23,15 +23,15 @@
 - [x] back
 
 **_Modifiers_**  
-- [ ] assign
+- [x] assign
 - [x] clear
 - [ ] insert
 - [ ] erase
 - [x] push_back
-- [ ] pop_back
-- [ ] push_front
-- [ ] pop_front
-- [ ] resize
+- [x] pop_back
+- [x] push_front
+- [x] pop_front
+- [x] resize
 - [ ] swap
 
 **_Operations_**  

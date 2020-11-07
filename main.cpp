@@ -325,6 +325,225 @@ bool list_check_elaccess(std::ofstream *out)
     return (true);
 }
 
+bool list_check_modifiers(std::ofstream *out)
+{
+    std::stringstream os;
+    os << "\nCHECK Modifiers!!!\n";
+    os << "\nTest assign I\n";
+    std::list<int> orig;
+    ft::list<int> noorig;
+
+    orig.assign(7, 100);
+    noorig.assign((size_t)7, 100);
+
+    print_list(os, orig, noorig);
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    std::list<int> orig_2(14, 42);
+    ft::list<int> noorig_2(14, 42);
+    os << "\nTest assign II before\n";
+    print_list(os, orig_2, noorig_2);
+    orig_2.assign(orig.begin(), orig.end());
+    noorig_2.assign(noorig.begin(), noorig.end());
+    os << "\nTest assign II after\n";
+    print_list(os, orig_2, noorig_2);
+    if (!check_list(orig_2, noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+    os << "[Or]: \t" << orig_2.size() << std::endl;
+    os << "[No Or]: \t" << noorig_2.size() << std::endl;
+    if (orig_2.size() != noorig_2.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nTest push_back and pop_back\n";
+    orig.clear();
+    noorig.clear();
+    os << "\nTest push_back before\n";
+    print_list(os, orig, noorig);
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    for (size_t i = 0; i < 27; i++)
+    {
+        int temp = rand() % 100;
+        orig.push_back(temp);
+        noorig.push_back(temp);
+    }
+    os << "\nTest push_back after\n";
+    print_list(os, orig, noorig);
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nTest pop_back \n";
+    for (size_t i = 0; i < 17; i++)
+    {
+        orig.pop_back();
+        noorig.pop_back();
+    }
+    print_list(os, orig, noorig);
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+
+        os << "\nTest push_front and pop_front\n";
+    orig.clear();
+    noorig.clear();
+    os << "\nTest push_front before\n";
+    print_list(os, orig, noorig);
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    for (size_t i = 0; i < 27; i++)
+    {
+        int temp = rand() % 100;
+        orig.push_front(temp);
+        noorig.push_front(temp);
+    }
+    os << "\nTest push_front after\n";
+    print_list(os, orig, noorig);
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nTest pop_front \n";
+    for (size_t i = 0; i < 17; i++)
+    {
+        orig.pop_front();
+        noorig.pop_front();
+    }
+    print_list(os, orig, noorig);
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nTest resize BIG with Number\n";
+    orig.resize(20, 42);
+    noorig.resize(20, 42);
+    print_list(os, orig, noorig);
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nTest resize SMALL\n";
+    orig.resize(5, 42);
+    noorig.resize(5, 42);
+    print_list(os, orig, noorig);
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nTest resize BIG without Number\n";
+    orig.resize(20);
+    noorig.resize(20);
+    print_list(os, orig, noorig);
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    *out << os.str();
+    return (true);
+}
+
 void list_start()
 {
     std::ofstream out;
@@ -338,6 +557,8 @@ void list_start()
     std::cout << YELLOW << "[check capacity(size empty max_size)]: " << (list_check_capacity(&out) ? GREEN"OK" : RED"FAIL") << std::endl;
     out << "|========================================================================================================|\n";
     std::cout << YELLOW << "[check Element access(front back)]: " << (list_check_elaccess(&out) ? GREEN"OK" : RED"FAIL") << std::endl;
+    out << "|========================================================================================================|\n";
+    std::cout << YELLOW << "[check Modifiers (assign clear insert erase push_back pop_back push_front pop_front resize swap)]: " << (list_check_modifiers(&out) ? GREEN"OK" : RED"FAIL") << std::endl;
     out << "|========================================================================================================|\n";
     out.close();
     std::cout << CYAN << "\n\tCheck log_list\n\n" << RESET;
