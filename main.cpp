@@ -540,6 +540,294 @@ bool list_check_modifiers(std::ofstream *out)
         return (false);
     }
 
+
+    os << "\nTest insert (iterator position, const T& data)\n";
+    os << "\nTest before\n";
+    print_list(os, orig, noorig);
+    std::list<int>::iterator it_or_begin = orig.begin();
+    std::list<int>::iterator it_or_end = orig.end();
+    ft::list<int>::iterator it_no_begin = noorig.begin();
+    ft::list<int>::iterator it_no_end = noorig.end();
+    ++it_or_begin;
+    ++it_no_begin;
+    orig.insert(it_or_begin, 1448228);
+    noorig.insert(it_no_begin, 1448228);
+    os << "\nTest after\n";
+    print_list(os, orig, noorig);
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    --it_or_begin; --it_or_begin;
+    --it_no_begin; --it_no_begin;
+    orig.insert(it_or_begin, 1448228);
+    noorig.insert(it_no_begin, 1448228);
+    os << "\nTest after\n";
+    print_list(os, orig, noorig);
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    orig.insert(it_or_end, 1448228);
+    noorig.insert(it_no_end, 1448228);
+    os << "\nTest after\n";
+    print_list(os, orig, noorig);
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nTest insert (iterator position, size_t n, const T& data)\n";
+    orig.clear();
+    noorig.clear();
+    for (size_t i = 0; i < 27; i++)
+    {
+        int temp = rand() % 100;
+        orig.push_front(temp);
+        noorig.push_front(temp);
+    }
+    it_or_begin = orig.begin();
+    it_or_end = orig.end();
+    it_no_begin = noorig.begin();
+    it_no_end = noorig.end();
+    os << "\nTest before\n";
+    print_list(os, orig, noorig);
+    orig.insert(it_or_begin, 4, 1448228);
+    noorig.insert(it_no_begin, 4, 1448228);
+    os << "\nTest after\n";
+    print_list(os, orig, noorig);
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nTest after\n";
+    orig.insert(it_or_end, 4, 1448228);
+    noorig.insert(it_no_end, 4, 1448228);
+    print_list(os, orig, noorig);
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nTest after\n";
+    ++it_or_begin; ++it_or_begin; ++it_or_begin; ++it_or_begin; ++it_or_begin;
+    ++it_no_begin; ++it_no_begin; ++it_no_begin; ++it_no_begin; ++it_no_begin;
+
+    orig.insert(it_or_begin, 4, 1448228);
+    noorig.insert(it_no_begin, 4, 1448228);
+    print_list(os, orig, noorig);
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nTest insert (iterator position, iterator first, iterator last)\n";
+    orig.clear();
+    noorig.clear();
+    orig_2.clear();
+    noorig_2.clear();
+    for (size_t i = 0; i < 7; i++)
+    {
+        int temp = rand() % 100;
+        orig.push_front(temp);
+        noorig.push_front(temp);
+    }
+    os << "\nTest insert before I\n";
+    print_list(os, orig, noorig);
+    for (size_t i = 0; i < 7; i++)
+    {
+        orig_2.push_front(42);
+        noorig_2.push_front(42);
+    }
+
+    os << "\nTest insert before II\n";
+    print_list(os, orig_2, noorig_2);
+    std::list<int>::iterator or_begin = orig_2.begin();
+    std::list<int>::iterator or_end = orig_2.end();
+    ft::list<int>::iterator no_begin = noorig_2.begin();
+    ft::list<int>::iterator no_end = noorig_2.end();
+    it_or_begin = orig.begin();
+    it_or_end = orig.end();
+    it_no_begin = noorig.begin();
+    it_no_end = noorig.end();
+
+    os << "\nTest after with END\n";
+    orig.insert(it_or_end, or_begin, or_end);
+    noorig.insert(it_no_end, no_begin, no_end);
+    print_list(os, orig, noorig);
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nTest after with BEGIN\n";
+    orig.insert(it_or_begin, or_begin, or_end);
+    noorig.insert(it_no_begin, no_begin, no_end);
+    print_list(os, orig, noorig);
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    ++it_or_begin; ++it_or_begin; ++it_or_begin; ++it_or_begin; ++it_or_begin;
+    ++it_no_begin; ++it_no_begin; ++it_no_begin; ++it_no_begin; ++it_no_begin;
+
+    os << "\nTest after with MID\n";
+    orig.insert(it_or_begin, or_begin, or_end);
+    noorig.insert(it_no_begin, no_begin, no_end);
+    print_list(os, orig, noorig);
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nTest erase (iterator position)\n";
+    orig.clear();
+    noorig.clear();
+    for (size_t i = 0; i < 7; i++)
+    {
+        int temp = rand() % 100;
+        orig.push_front(temp);
+        noorig.push_front(temp);
+    }
+    os << "\nTest before\n";
+    print_list(os, orig, noorig);
+    it_or_begin = orig.begin();
+    it_or_end = orig.end();
+    it_no_begin = noorig.begin();
+    it_no_end = noorig.end();
+
+    os << "\nTest after with BEGIN\n";
+    orig.erase(it_or_begin);
+    noorig.erase(it_no_begin);
+    print_list(os, orig, noorig);
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nTest after with END\n";
+    orig.erase(it_or_end);
+    noorig.erase(it_no_end);
+    print_list(os, orig, noorig);
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nTest after with MID\n";
+    it_or_begin = orig.begin();
+    it_no_begin = noorig.begin();
+    ++it_or_begin; ++it_or_begin;
+    ++it_no_begin; ++it_no_begin;
+    orig.erase(it_or_begin);
+    noorig.erase(it_no_begin);
+    print_list(os, orig, noorig);
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    
     *out << os.str();
     return (true);
 }

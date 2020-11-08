@@ -25,7 +25,7 @@
 **_Modifiers_**  
 - [x] assign
 - [x] clear
-- [ ] insert
+- [x] insert
 - [ ] erase
 - [x] push_back
 - [x] pop_back

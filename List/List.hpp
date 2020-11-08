@@ -37,6 +37,7 @@ namespace ft
 			Node *tail;
 		public:
 			typedef Iterator<T> 				iterator;
+			typedef Iterator<T> 				InputIterator;
 			typedef Reverse_iterator<T> 		reverse_iterator;
 
 			//main
@@ -71,6 +72,11 @@ namespace ft
 			void resize(size_t n, T data = T());
 			void assign(iterator first, iterator last);
 			void assign(size_t n, const T &data);
+			iterator insert(iterator position, const T& data);
+			void insert(iterator position, size_t n, const T& data);
+			void insert(iterator position, iterator first, iterator last);
+    		iterator erase (iterator position);
+			iterator erase (iterator first, iterator last);
 
 	};
 
@@ -290,6 +296,166 @@ void list<T>::resize(size_t n, T data)
 		while (this->_size > n)
 			this->pop_back();
 	}
+}
+
+template<typename T>
+typename list<T>::iterator list<T>::insert(iterator position, const T& data)
+{
+	Node *pos = position.getNode();
+	if (pos == this->head)
+		this->push_front(data);
+	else if (pos == this->tail)
+		this->push_back(data);
+	else
+	{
+		Node *temp = this->head;
+		while (temp->_next != pos)
+			temp = temp->_next;
+		Node *new_node = new Node(data);
+		temp->_next = new_node;
+		pos->_prev = new_node;
+		new_node->_prev = temp;
+		new_node->_next = pos;
+		this->_size++;
+	}
+	return (iterator(this->head));
+}
+
+template<typename T>
+void list<T>::insert(iterator position, size_t n, const T& data)
+{
+	Node *pos = position.getNode();
+	if (pos == this->head)
+	{
+		for (size_t i = 0; i < n; i++)
+			this->push_front(data);
+		
+	}
+	else if (pos == this->tail)
+	{
+		for (size_t i = 0; i < n; i++)
+			this->push_back(data);
+	}
+	else
+	{
+		Node *temp = this->head;
+		while (temp->_next != pos)
+			temp = temp->_next;
+		for (size_t i = 0; i < n; i++)
+		{
+			Node *new_node = new Node(data);
+			temp->_next = new_node;
+			pos->_prev = new_node;
+			new_node->_prev = temp;
+			new_node->_next = pos;
+			this->_size++;
+			temp = temp->_next;
+		}
+	}
+}
+
+template<typename T>
+void list<T>::insert(iterator position, iterator first, iterator last)
+{
+	Node *pos = position.getNode();
+			
+	if (pos == this->head)
+	{
+		--last;
+		--first;
+		while (last != first)
+		{
+			push_front(last.getNode()->_data);
+			--last;
+		}
+	}
+	else if (pos == this->tail)
+	{
+		while (first != last)
+		{
+			push_back(first.getNode()->_data);
+			++first;
+		}
+	}
+	else
+	{
+		Node *temp = this->head;
+		while (temp->_next != pos)
+			temp = temp->_next;
+		while (first != last)
+		{
+			Node *new_node = new Node(first.getNode()->_data);
+			temp->_next = new_node;
+			pos->_prev = new_node;
+			new_node->_prev = temp;
+			new_node->_next = pos;
+			temp = temp->_next;
+			this->_size++;
+			++first;
+		}	
+	}				
+}
+
+template<typename T>
+typename list<T>::iterator list<T>::erase(iterator position)
+{
+	Node *pos = position.getNode();
+	if (pos == this->head)
+		this->pop_front();
+	else if (pos == this->tail)
+		this->pop_back();
+	else
+	{
+		Node *temp = this->head;
+		while (temp->_next != pos)
+			temp = temp->_next;
+		temp->_next = pos->_next;
+		pos->_prev = temp;
+		delete pos;
+		this->_size--;
+	}
+	return (iterator(this->head));
+}
+
+template<typename T>
+typename list<T>::iterator list<T>::erase(iterator first, iterator last)
+{
+	Node *begin = first.getNode();
+	Node *end = last.getNode();
+
+	if (end == this->tail)
+	{
+		while (first != last)
+		{
+			this->pop_back();
+			++first;
+		}
+	}
+	else if (begin == this->head)
+	{
+		while (first != last)
+		{
+			this->pop_front();
+			++first;
+		}
+	}
+	else
+	{
+		begin->_prev->_next = end->_next;
+		end->_next->_prev = begin->_prev;
+		Node *temp;
+		while (first != last)
+		{
+			temp = first.getNode();
+			++first;
+			delete temp;
+			this->_size--;
+		}
+		temp = first.getNode();
+		delete temp;
+		this->_size--;
+	}
+	return (iterator(this->head));
 }
 
 /*
