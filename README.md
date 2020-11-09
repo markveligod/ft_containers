@@ -26,13 +26,13 @@
 - [x] assign
 - [x] clear
 - [x] insert
-- [ ] erase
+- [x] erase
 - [x] push_back
 - [x] pop_back
 - [x] push_front
 - [x] pop_front
 - [x] resize
-- [ ] swap
+- [x] swap
 
 **_Operations_**  
 - [ ] merge

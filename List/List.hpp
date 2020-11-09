@@ -77,6 +77,12 @@ namespace ft
 			void insert(iterator position, iterator first, iterator last);
     		iterator erase (iterator position);
 			iterator erase (iterator first, iterator last);
+			void swap(list &other);
+
+			//Operations:
+			void splice(iterator position, list &other);
+			void splice(iterator position, list &other, iterator i);
+			void splice(iterator position, list &other, iterator first, iterator last);
 
 	};
 
@@ -410,7 +416,7 @@ typename list<T>::iterator list<T>::erase(iterator position)
 		while (temp->_next != pos)
 			temp = temp->_next;
 		temp->_next = pos->_next;
-		pos->_prev = temp;
+		pos->_next->_prev = temp;
 		delete pos;
 		this->_size--;
 	}
@@ -423,26 +429,28 @@ typename list<T>::iterator list<T>::erase(iterator first, iterator last)
 	Node *begin = first.getNode();
 	Node *end = last.getNode();
 
-	if (end == this->tail)
+	if (begin == this->head)
 	{
 		while (first != last)
 		{
-			this->pop_back();
 			++first;
+			this->pop_front();
 		}
 	}
-	else if (begin == this->head)
+	else if (end == this->tail)
 	{
+		--last;
 		while (first != last)
 		{
-			this->pop_front();
-			++first;
+			--last;
+			this->pop_back();
 		}
+		this->pop_back();
 	}
 	else
 	{
-		begin->_prev->_next = end->_next;
-		end->_next->_prev = begin->_prev;
+		begin->_prev->_next = end;
+		end->_prev = begin->_prev;
 		Node *temp;
 		while (first != last)
 		{
@@ -451,11 +459,16 @@ typename list<T>::iterator list<T>::erase(iterator first, iterator last)
 			delete temp;
 			this->_size--;
 		}
-		temp = first.getNode();
-		delete temp;
-		this->_size--;
 	}
 	return (iterator(this->head));
+}
+
+template<typename T>
+void list<T>::swap(list<T> &other)
+{
+	list<T> temp = *this;
+	*this = other;
+	other = temp;
 }
 
 /*
@@ -464,6 +477,26 @@ typename list<T>::iterator list<T>::erase(iterator first, iterator last)
 **==========================
 */
 
+template<typename T>
+void list<T>::splice(iterator position, list<T> &other)
+{
+	this->insert(position, other.begin(), other.end());
+	other.clear();
+}
+
+template<typename T>
+void list<T>::splice(iterator position, list<T> &other, iterator i)
+{
+	this->insert(position, i.getNode()->_data);
+	other.erase(i);
+}
+
+template<typename T>
+void list<T>::splice(iterator position, list<T> &other, iterator first, iterator last)
+{
+	this->insert(position, first, last);
+	other.erase(first, last);
+}
 
 /*
 **==========================
