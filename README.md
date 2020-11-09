@@ -1,6 +1,6 @@
 # :black_square_button: ft_containers (project 2020)
 ## Todo list:
-### Container ft::List\<\>:  
+### Container ft::list\<\>:  
 
 **Main coplien's form**  
 - [x] (constructor)
