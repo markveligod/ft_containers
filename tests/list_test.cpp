@@ -1555,12 +1555,94 @@ bool list_check_operations(std::ofstream *out)
         return (false);
     }
 
+    //reverse
+    os << "\nTest reverse\n";
+    orig.clear();
+    noorig.clear();
+    for (size_t i = 0; i < 7; i++)
+    {
+        int temp = rand() % 100;
+        orig.push_front(temp);
+        noorig.push_front(temp);
+    }
 
+    os << "\nTest before\n";
+    print_list(os, orig, noorig);
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
 
+    orig.reverse();
+    noorig.reverse();
 
+    os << "\nTest after\n";
+    print_list(os, orig, noorig);
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
 
     *out << os.str();
     return (true);
+}
+
+bool list_check_non(std::ofstream *out)
+{
+    std::stringstream os;
+    std::list<int> orig(4, 42);
+    std::list<int> orig_2(4, 42);
+    ft::list<int> noorig(4, 42);
+    ft::list<int> noorig_2(4, 42);
+
+    os << "\nCHECK Modifiers!!!\n";
+    os << "\nTest operator ==\n";
+    print_list(os, orig, noorig);
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+    print_list(os, orig_2, noorig_2);
+    os << "[Or]: \t" << orig_2.size() << std::endl;
+    os << "[No Or]: \t" << noorig_2.size() << std::endl;
+    
+    os << "[Or == Or_2] => " << (orig == orig_2) << std::endl;
+    os << "[Noor == noor_2] => " << (noorig == noorig_2) << std::endl;
+
+    if ((orig == orig_2) != (noorig == noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+    
+    orig.insert(orig.begin(), 42);
+    orig_2.insert(orig_2.begin(), 21);
+    noorig.insert(noorig.begin(), 42);
+    noorig_2.insert(noorig_2.begin(), 21);
+
+    os << "\nTest operator ==\n";
+    print_list(os, orig, noorig);
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+    print_list(os, orig_2, noorig_2);
+    os << "[Or]: \t" << orig_2.size() << std::endl;
+    os << "[No Or]: \t" << noorig_2.size() << std::endl;
+    
+    os << "[Or == Or_2] => " << (orig == orig_2) << std::endl;
+    os << "[Noor == noor_2] => " << (noorig == noorig_2) << std::endl;
+
+    if ((orig == orig_2) != (noorig == noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+   *out << os.str();
+    return (true); 
 }
 
 void list_start()
@@ -1580,6 +1662,8 @@ void list_start()
     std::cout << YELLOW << "[check Modifiers]: " << (list_check_modifiers(&out) ? GREEN"OK" : RED"FAIL") << std::endl;
     out << "|========================================================================================================|\n";
     std::cout << YELLOW << "[check Operations]: " << (list_check_operations(&out) ? GREEN"OK" : RED"FAIL") << std::endl;
+    out << "|========================================================================================================|\n";
+    std::cout << YELLOW << "[check Non-member function]: " << (list_check_non(&out) ? GREEN"OK" : RED"FAIL") << std::endl;
     out << "|========================================================================================================|\n";
     out.close();
     std::cout << CYAN << "\n\tCheck log_list" << RESET;

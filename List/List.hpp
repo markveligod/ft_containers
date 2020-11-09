@@ -6,6 +6,7 @@
 **==========================
 */
 #include <cstdlib>
+#include <limits>
 #include "./Node.hpp"
 #include "./Iterator.hpp"
 
@@ -37,7 +38,6 @@ namespace ft
 			Node *tail;
 		public:
 			typedef Iterator<T> 				iterator;
-			typedef Iterator<T> 				InputIterator;
 			typedef Reverse_iterator<T> 		reverse_iterator;
 
 			//main
@@ -45,7 +45,7 @@ namespace ft
 			list(size_t count, T data);
 			list(iterator &first, iterator &last);
 			list(list<T> &other);
-			~list();
+			virtual ~list();
 			list<T> &operator=(list<T> &other);
 
 			//Iterators
@@ -57,7 +57,7 @@ namespace ft
 			//Capacity
 			size_t 					size() const {return (this->_size);}
 			bool					empty() const {return ((this->_size == 0) ? true : false);}
-			size_t					max_size() const {return (size_t(-1) / (sizeof(list<T>) * (this->_size - (this->_size - 2))));}
+			size_t					max_size() const {return ((std::numeric_limits<size_t>::max() / (sizeof(Node))) / 2);}
 
 			//Element access
 			T						front() {return (((this->head) ? this->head->_data : 0 ));}
@@ -89,6 +89,7 @@ namespace ft
 			bool compare(const T &i, const T &j) {return (i < j);}
 			void merge(list &other);
 			void sort();
+			void reverse();
 
 			template <class Compare>
   			void sort(Compare comp)
@@ -180,7 +181,6 @@ namespace ft
 					}		
 				}
 			}
-
 	};
 
 /*
@@ -682,6 +682,22 @@ void list<T>::sort()
 	}
 }
 
+template<typename T>
+void list<T>::reverse()
+{
+	list<T> temp;
+	iterator begin = this->begin();
+	iterator end = this->end();
+
+	while (begin != end)
+	{
+		temp.push_front(begin.getNode()->_data);
+		++begin;
+	}
+	this->clear();
+	*this = temp;
+}
+
 /*
 **==========================
 **   Non-member function 
@@ -689,6 +705,56 @@ void list<T>::sort()
 **==========================
 */
 
+template<typename T>
+bool operator==(list<T> &lhs, list<T> &rhs)
+{
+	ft::list<int>::iterator begin_lhs = lhs.begin();
+	ft::list<int>::iterator end_lhs = lhs.end();
+	ft::list<int>::iterator begin_rhs = rhs.begin();
+	ft::list<int>::iterator end_rhs = rhs.end();
 
+	while ((begin_lhs != end_lhs) && (begin_rhs != end_rhs))
+	{
+		if (begin_rhs.getNode()->_data != begin_lhs.getNode()->_data)
+			return (false);
+		++begin_lhs;
+		++begin_rhs;
+	}
+	if ((begin_lhs != end_lhs) || (begin_rhs != end_rhs))
+		return (false);
+	return (true);
+}
+
+/*
+template<typename T>
+bool operator!=(const list<T> &lhs, const list<T> &rhs)
+{
+
+}
+
+template<typename T>
+bool operator<(const list<T> &lhs, const list<T> &rhs)
+{
+
+}
+
+template<typename T>
+bool operator<=(const list<T> &lhs, const list<T> &rhs)
+{
+
+}
+
+template<typename T>
+bool operator>(const list<T> &lhs, const list<T> &rhs)
+{
+
+}
+
+template<typename T>
+bool operator>=(const list<T> &lhs, const list<T> &rhs)
+{
+	
+}
+*/
 
 } // namespace

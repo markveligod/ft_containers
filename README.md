@@ -38,7 +38,7 @@
 - [x] merge
 - [x] splice
 - [x] remove (remove_if)
-- [ ] reverse
+- [x] reverse
 - [x] unique
 - [x] sort
 
