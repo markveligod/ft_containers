@@ -2,46 +2,23 @@
 ## Todo list:
 ### Container ft::List\<\>:  
 
-**Member functions**  
+**Main coplien's form**  
 - [x] (constructor)
 - [x] (destructor)
 - [x] operator=
 
-**_Iterators_**  
-- [x] begin
-- [x] end
-- [x] rbegin
-- [x] rend
-
-**_Capacity_**  
-- [x] empty
-- [x] size
-- [x] max_size
-
-**_Element access_**  
-- [x] front
-- [x] back
-
-**_Modifiers_**  
-- [x] assign
-- [x] clear
-- [x] insert
-- [x] erase
-- [x] push_back
-- [x] pop_back
-- [x] push_front
-- [x] pop_front
-- [x] resize
-- [x] swap
-
-**_Operations_**  
-- [x] merge
-- [x] splice
-- [x] remove (remove_if)
-- [x] reverse
-- [x] unique
-- [x] sort
-
+|**_Iterators_**|**_Capacity_**|**_Element access_**|**_Modifiers_**|**_Operations_**|**Non-member function overloads**|
+|:-------------:|:------------:|:------------------:|:-------------:|:--------------:|:-------------------------------:|
+|     begin     |    empty     |        front       |     assign    |     merge      |                                 |
+|     end       |    size      |        back        |     clear     |     splice     |                                 |
+|     rbegin    |    max_size  |                    |     insert    |     remove     |                                 |
+|     rend      |              |                    |     push_back |     remove_if  |                                 |
+|               |              |                    |     pop_back  |     unique     |                                 |
+|               |              |                    |     push_front|     sort       |                                 |
+|               |              |                    |     pop_front |                |                                 |
+|               |              |                    |     resize    |                |                                 |
+|               |              |                    |     swap      |                |                                 |
+  
 **Non-member function overloads**
 - [ ] relational operators (list)
 - [ ] swap (list)
