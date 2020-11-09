@@ -1,10 +1,10 @@
 #include "../main.hpp"
 
-template<typename T>
-bool compare(const T &x, const T& y)
-{
-    return (x > y);
-}
+bool compare(int i, int j) {return (i > j);}
+
+bool predict(int i) {return (i == 1448228);}
+
+bool binarypredicate(int i, int j) {return (i == j);}
 
 template<typename T>
 void print_list(std::stringstream &os, std::list<T> &orig, ft::list<T> &no)
@@ -1267,7 +1267,297 @@ bool list_check_operations(std::ofstream *out)
         return (false);
     }
 
-    //
+    //remove
+    os << "\nTest remove\n";
+    orig.clear();
+    noorig.clear();
+
+    orig.insert(orig.begin(), 4, 1448228);
+    noorig.insert(noorig.begin(), 4, 1448228);
+    orig.insert(orig.begin(), 4, 42);
+    noorig.insert(noorig.begin(), 4, 42);
+    orig.insert(orig.begin(), 4, 21);
+    noorig.insert(noorig.begin(), 4, 21);
+
+    os << "\nTest before\n";
+    print_list(os, orig, noorig);
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+
+    orig.remove(1448228);
+    noorig.remove(1448228);
+
+    os << "\nTest after with 1448228\n";
+    print_list(os, orig, noorig);
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    orig.remove(42);
+    noorig.remove(42);
+
+    os << "\nTest after with 42\n";
+    print_list(os, orig, noorig);
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    //remove_if
+    os << "\nTest remove_if\n";
+    orig.clear();
+    noorig.clear();
+
+    orig.insert(orig.begin(), 4, 1448228);
+    noorig.insert(noorig.begin(), 4, 1448228);
+    orig.insert(orig.begin(), 4, 42);
+    noorig.insert(noorig.begin(), 4, 42);
+    orig.insert(orig.begin(), 4, 21);
+    noorig.insert(noorig.begin(), 4, 21);
+
+    os << "\nTest before\n";
+    print_list(os, orig, noorig);
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+
+    orig.remove_if(predict);
+    noorig.remove_if(predict);
+
+    os << "\nTest after with predict function (1448228)\n";
+    print_list(os, orig, noorig);
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    //unique
+    os << "\nTest unique\n";
+    orig.clear();
+    noorig.clear();
+
+    orig.insert(orig.begin(), 5, 1448228);
+    noorig.insert(noorig.begin(), 5, 1448228);
+    orig.insert(orig.begin(), 5, 42);
+    noorig.insert(noorig.begin(), 5, 42);
+    orig.insert(orig.begin(), 5, 21);
+    noorig.insert(noorig.begin(), 5, 21);
+
+    os << "\nTest before\n";
+    print_list(os, orig, noorig);
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+
+    orig.unique();
+    noorig.unique();
+
+    os << "\nTest after without binarypredict function\n";
+    print_list(os, orig, noorig);
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    orig.insert(orig.begin(), 5, 1448228);
+    noorig.insert(noorig.begin(), 5, 1448228);
+    orig.insert(orig.begin(), 5, 42);
+    noorig.insert(noorig.begin(), 5, 42);
+    orig.insert(orig.begin(), 5, 21);
+    noorig.insert(noorig.begin(), 5, 21);
+
+    os << "\nTest before\n";
+    print_list(os, orig, noorig);
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+
+    orig.unique(binarypredicate);
+    noorig.unique(binarypredicate);
+
+    os << "\nTest after with binarypredict function\n";
+    print_list(os, orig, noorig);
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+
+
+    //sort
+    os << "\nTest sort\n";
+    orig.clear();
+    noorig.clear();
+    for (size_t i = 0; i < 7; i++)
+    {
+        int temp = rand() % 100;
+        orig.push_front(temp);
+        noorig.push_front(temp);
+    }
+    os << "\nTest before\n";
+    print_list(os, orig, noorig);
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+
+    orig.sort();
+    noorig.sort();
+
+    os << "\nTest after\n";
+    print_list(os, orig, noorig);
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nTest sort with compare function\n";
+    orig.clear();
+    noorig.clear();
+    for (size_t i = 0; i < 7; i++)
+    {
+        int temp = rand() % 100;
+        orig.push_front(temp);
+        noorig.push_front(temp);
+    }
+    os << "\nTest before\n";
+    print_list(os, orig, noorig);
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+
+    orig.sort(compare);
+    noorig.sort(compare);
+
+    os << "\nTest after\n";
+    print_list(os, orig, noorig);
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+
+
+
+    //merge
+    os << "\nTest merge\n";
+    orig.clear();
+    noorig.clear();
+    orig_2.clear();
+    noorig_2.clear();
+
+    for (size_t i = 0; i < 7; i++)
+    {
+        int temp = rand() % 100;
+        orig.push_front(temp);
+        noorig.push_front(temp);
+    }
+
+    os << "\nTest before\n";
+    print_list(os, orig, noorig);
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+
+    orig_2.insert(orig_2.begin(), 5, 1448228);
+    noorig_2.insert(noorig_2.begin(), 5, 1448228);
+    orig_2.insert(orig_2.begin(), 5, 42);
+    noorig_2.insert(noorig_2.begin(), 5, 42);
+    orig_2.insert(orig_2.begin(), 5, 21);
+    noorig_2.insert(noorig_2.begin(), 5, 21);
+
+    print_list(os, orig_2, noorig_2);
+    os << "[Or]: \t" << orig_2.size() << std::endl;
+    os << "[No Or]: \t" << noorig_2.size() << std::endl;
+
+    orig.sort();
+    noorig.sort();
+    orig_2.sort();
+    noorig_2.sort();
+
+    orig.merge(orig_2);
+    noorig.merge(noorig_2);
+
+    os << "\nTest after\n";
+    print_list(os, orig, noorig);
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    print_list(os, orig_2, noorig_2);
+    if (!check_list(orig_2, noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+    os << "[Or]: \t" << orig_2.size() << std::endl;
+    os << "[No Or]: \t" << noorig_2.size() << std::endl;
+    if (orig_2.size() != noorig_2.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+
+
+
+
 
     *out << os.str();
     return (true);

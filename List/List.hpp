@@ -83,6 +83,103 @@ namespace ft
 			void splice(iterator position, list &other);
 			void splice(iterator position, list &other, iterator i);
 			void splice(iterator position, list &other, iterator first, iterator last);
+			void remove(const T &data);
+			bool binarypredicate(const T &i, const T &j) {return (i == j);}
+			void unique();
+			bool compare(const T &i, const T &j) {return (i < j);}
+			void merge(list &other);
+			void sort();
+
+			template <class Compare>
+  			void sort(Compare comp)
+			{
+				iterator begin_1 = this->begin();
+				iterator begin_2 = this->begin();
+				iterator end = this->end();
+				T temp;
+
+				while (++begin_2 != end)
+				{
+					if (comp(begin_2.getNode()->_data, begin_1.getNode()->_data))
+					{
+						temp = begin_1.getNode()->_data;
+						begin_1.getNode()->_data = begin_2.getNode()->_data;
+						begin_2.getNode()->_data = temp;
+						begin_1 = this->begin();
+						begin_2 = this->begin();
+					}
+					else
+						++begin_1;
+				}
+			}
+
+			template <class Compare>
+			void merge (list &other, Compare comp)
+			{
+				iterator begin_this = this->begin();
+				iterator end_this = this->end();
+				iterator begin_other = other.begin();
+				iterator end_other = other.end();
+				iterator temp;
+
+				while (begin_other != end_other)
+				{
+					if (comp(begin_this.getNode()->_data, begin_other.getNode()->_data))
+					{
+						temp = begin_other;
+						++begin_other;
+						this->splice(begin_this, other, temp);
+						if (begin_this != end_this)
+							++begin_this;
+					}
+					else
+						if (begin_this != end_this)
+							++begin_this;
+				}
+			}
+
+			template <class BinaryPredicate>
+  			void unique(BinaryPredicate binary_pred)
+			{
+				ft::list<T>::iterator begin = this->begin();
+				ft::list<T>::iterator end = this->end();
+				ft::list<T>::iterator pos;
+				while (begin != end)
+				{
+					if ((begin.getNode()->_next != this->tail) && binary_pred(begin.getNode()->_data, begin.getNode()->_next->_data))
+					{
+						pos = begin;
+						++begin;
+						this->erase(pos);
+					}
+					else
+					{
+						++begin;	
+					}
+				}
+			}
+			
+			template <class Predicate>
+  			void remove_if (Predicate pred)
+			{
+				iterator begin = this->begin();
+				iterator end = this->end();
+				iterator temp;
+
+				while (begin != end)
+				{
+					if (pred(begin.getNode()->_data))
+					{
+						temp = begin;
+						++begin;
+						this->erase(temp);
+					}
+					else
+					{
+						++begin;
+					}		
+				}
+			}
 
 	};
 
@@ -496,6 +593,93 @@ void list<T>::splice(iterator position, list<T> &other, iterator first, iterator
 {
 	this->insert(position, first, last);
 	other.erase(first, last);
+}
+
+template<typename T>
+void list<T>::remove(const T &data)
+{
+	ft::list<T>::iterator begin = this->begin();
+	ft::list<T>::iterator end = this->end();
+	ft::list<T>::iterator pos;
+	while (begin != end)
+	{
+		if (begin.getNode()->_data == data)
+		{
+			pos = begin;
+			++begin;
+			this->erase(pos);
+		}
+		else
+		{
+			++begin;	
+		}
+	}
+}
+
+template<typename T>
+void list<T>::unique()
+{
+	ft::list<T>::iterator begin = this->begin();
+	ft::list<T>::iterator end = this->end();
+	ft::list<T>::iterator pos;
+	while (begin != end)
+	{
+		if ((begin.getNode()->_next != this->tail) && binarypredicate(begin.getNode()->_data, begin.getNode()->_next->_data))
+		{
+			pos = begin;
+			++begin;
+			this->erase(pos);
+		}
+		else
+		{
+			++begin;	
+		}
+	}
+}
+
+template<typename T>
+void list<T>::merge(list<T> &other)
+{
+	iterator begin_this = this->begin();
+	iterator end_this = this->end();
+	iterator begin_other = other.begin();
+	iterator end_other = other.end();
+	iterator temp;
+
+	while (begin_other != end_other)
+	{
+		if (compare(begin_other.getNode()->_data, begin_this.getNode()->_data) || begin_this == end_this)
+		{
+			temp = begin_other;
+			++begin_other;
+			this->splice(begin_this, other, temp);
+		}
+		else
+			++begin_this;
+	}
+}
+
+template<typename T>
+void list<T>::sort()
+{
+	iterator begin_1 = this->begin();
+	iterator begin_2 = this->begin();
+	iterator end = this->end();
+	T temp;
+
+	while (++begin_2 != end)
+	{
+		if (compare(begin_2.getNode()->_data, begin_1.getNode()->_data))
+		{
+			temp = begin_1.getNode()->_data;
+			begin_1.getNode()->_data = begin_2.getNode()->_data;
+			begin_2.getNode()->_data = temp;
+			begin_1 = this->begin();
+			begin_2 = this->begin();
+		}
+		else
+			++begin_1;
+	}
 }
 
 /*

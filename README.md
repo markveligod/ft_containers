@@ -35,12 +35,12 @@
 - [x] swap
 
 **_Operations_**  
-- [ ] merge
-- [ ] splice
-- [ ] remove (remove_if)
+- [x] merge
+- [x] splice
+- [x] remove (remove_if)
 - [ ] reverse
-- [ ] unique
-- [ ] sort
+- [x] unique
+- [x] sort
 
 **Non-member function overloads**
 - [ ] relational operators (list)
