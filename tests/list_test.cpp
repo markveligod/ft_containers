@@ -164,9 +164,17 @@ bool list_check_iterator(std::ofstream *out)
     std::stringstream os;
 
     os << "\nCHECK ITERATOR!!!\n";
-    os << "\nTest iterator\n";
-    std::list<int> orig(40, 42);
-    ft::list<int> noorig(40, 42);
+    os << "\nTest iterator begin rbegin end rend\n";
+    std::list<int> orig;
+    ft::list<int> noorig;
+
+    for (size_t i = 0; i < 8; i++)
+    {
+        int temp = rand() % 100;
+        orig.push_back(temp);
+        noorig.push_back(temp);
+    }
+
     print_list(os, orig, noorig);
     print_size(os, orig, noorig);
     if (orig.size() != noorig.size())
@@ -179,6 +187,49 @@ bool list_check_iterator(std::ofstream *out)
         *out << os.str();
         return (false);
     }
+
+    os << "\nTest const iterator begin rbegin end rend\n";
+
+    std::list<int>::const_iterator or_begin = orig.begin();
+    std::list<int>::const_iterator or_end = orig.end();
+    ft::list<int>::const_iterator no_begin = noorig.begin();
+    ft::list<int>::const_iterator no_end = noorig.end();
+
+    os << "[COrig]: \t";
+    while (or_begin != or_end)
+    {
+        os << *or_begin << " ";
+        ++or_begin;
+    }
+    os << std::endl;
+    os << "[CNo orig]: ";
+    while (no_begin != no_end)
+    {
+        os << *no_begin << " ";
+        ++no_begin;
+    }
+    os << std::endl;
+
+    std::list<int>::const_reverse_iterator or_rbegin = orig.rbegin();
+    std::list<int>::const_reverse_iterator or_rend = orig.rend();
+    ft::list<int>::const_reverse_iterator no_rbegin = noorig.rbegin();
+    ft::list<int>::const_reverse_iterator no_rend = noorig.rend();
+
+    os << "[CR_Orig]: \t";
+    while (or_rbegin != or_rend)
+    {
+        os << *or_rbegin << " ";
+        ++or_rbegin;
+    }
+    os << std::endl;
+    os << "[CR_No or]: ";
+    while (no_rbegin != no_rend)
+    {
+        os << *no_rbegin << " ";
+        ++no_rbegin;
+    }
+    os << std::endl;
+
     *out << os.str();
     return (true);
 }

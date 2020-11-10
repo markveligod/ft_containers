@@ -27,22 +27,24 @@
 
 namespace ft
 {
-	template<typename T>
+	template<class T>
 	class list
 	{
 		private:
-			typedef Node<T> 					Node;
+			typedef Node<T> 		Node;
 
 			size_t _size;
 			Node *head;
 			Node *tail;
 		public:
-			typedef Iterator<T> 				iterator;
-			typedef Reverse_iterator<T> 		reverse_iterator;
+			typedef Iterator<T> 	iterator;
+			typedef Iterator<T> 	const_iterator;
+			typedef RevIterator<T> 	reverse_iterator;
+			typedef RevIterator<T>	const_reverse_iterator;
 
 			//main
 			list();
-			list(size_t count, T data);
+			list(size_t count, T const &data = T());
 			list(iterator &first, iterator &last);
 			list(list<T> &other);
 			virtual ~list();
@@ -51,8 +53,12 @@ namespace ft
 			//Iterators
 			iterator				begin(void) { return iterator(this->head); }
 			iterator				end(void) { return iterator( this->tail ); }
+			const_iterator			begin(void) const { return const_iterator(this->head); }
+			const_iterator			end(void) const { return const_iterator( this->tail ); }
 			reverse_iterator		rbegin(void) { return reverse_iterator( (this->tail && this->tail->_prev) ? this->tail->_prev : NULL ); }
 			reverse_iterator		rend(void) { return reverse_iterator( (this->tail && this->tail->_prev) ? this->head->_prev : NULL ); }
+			const_reverse_iterator		rbegin(void) const { return const_reverse_iterator( (this->tail && this->tail->_prev) ? this->tail->_prev : NULL ); }
+			const_reverse_iterator		rend(void) const { return const_reverse_iterator( (this->tail && this->tail->_prev) ? this->head->_prev : NULL ); }
 
 			//Capacity
 			size_t 					size() const {return (this->_size);}
@@ -200,7 +206,7 @@ list<T>::list()
 }
 
 template<typename T>
-list<T>::list(size_t count, T data)
+list<T>::list(size_t count, T const &data)
 {
 	if (count > 0)
 	{
