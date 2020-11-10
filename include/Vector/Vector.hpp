@@ -7,7 +7,7 @@
 */
 #include <cstdlib>
 #include <cstring>
-#include "Iterator.hpp"
+#include "VecIterator.hpp"
 
 namespace ft
 {
@@ -20,10 +20,10 @@ namespace ft
             size_t v_size;
 
         public:
-            typedef Iterator<T> 	iterator;
-			typedef Iterator<T> 	const_iterator;
-			typedef RevIterator<T> 	reverse_iterator;
-			typedef RevIterator<T>	const_reverse_iterator;
+            typedef VecIterator<T> 	iterator;
+			typedef VecIterator<T> 	const_iterator;
+			typedef VecRevIterator<T> 	reverse_iterator;
+			typedef VecRevIterator<T>	const_reverse_iterator;
 
             //main
             vector();
@@ -38,15 +38,16 @@ namespace ft
 
             //Capacity
             size_t 					size() const {return (this->v_size);}
+            size_t                  capacity() const {return (this->v_capacity);}
 			bool					empty() const {return ((this->v_size == 0) ? true : false);}
-			size_t					max_size() const {return ((std::numeric_limits<size_t>::max() / (sizeof(T))) / 2);}
+			size_t					max_size() const {return ((std::numeric_limits<size_t>::max() / sizeof(T)));}
             void                    reserve (size_t count);
 
             //Element access
+            T &operator[](size_t count) {return (*(this->v_array + count));}
+            T const &operator[](size_t count) const {return (*(this->v_array + count));}
 
             //Modifiers
-            void assign(size_t n, const T &data);
-            void assign(iterator first, iterator last);
             void clear();
 			
 
@@ -71,35 +72,47 @@ vector<T>::vector()
 template<class T>
 vector<T>::vector(size_t count, T const &data)
 {
-    this->v_array = NULL;
-    this->v_capacity = 0;
-    this->v_size = 0;
-    this->assign(count, data);
+    this->v_array = static_cast<T*>(operator new(sizeof(T) * count));
+    this->v_size = count;
+    this->v_capacity = count;
+    for (size_t i = 0; i < count; i++)
+        this->v_array[i] = data;
 }
-
+/*
 template<class T>
 vector<T>::vector(iterator first, iterator last)
 {
     this->v_array = NULL;
     this->v_capacity = 0;
     this->v_size = 0;
-    this->assign(first, last);
+    
 }
-
+*/
 template<class T>
 vector<T>::vector(vector const &other)
 {
     this->v_array = NULL;
     this->v_capacity = 0;
-    this->v_size = other.v_size;
+    this->v_size = 0;
     this->reserve(other.v_capacity);
     std::memcpy(static_cast<void *>(this->v_array), static_cast<void *>(other.v_array), other.v_size * sizeof(T));
+    this->v_size = other.v_size;
 }
 
 template<class T>
 vector<T>::~vector()
 {
     this->clear();
+}
+
+template<class T>
+vector<T> &vector<T>::operator=(vector<T> const &other)
+{
+    this->clear();
+    this->reserve(other.v_capacity);
+    std::memcpy(static_cast<void *>(this->v_array), static_cast<void *>(other.v_array), other.v_size * sizeof(T));
+    this->v_size = other.v_size;
+    return (*this);
 }
 
 /*
@@ -113,7 +126,7 @@ void vector<T>::reserve(size_t count)
 {
     if (count > this->v_capacity)
     {
-        T *temp = new T(count);
+        T *temp = static_cast<T*>(operator new(sizeof(T) * count));;
         if (this->v_size > 0)
         {
             std::memcpy(static_cast<void *>(temp), static_cast<void *>(this->v_array), this->v_size * sizeof(T));
@@ -131,23 +144,13 @@ void vector<T>::reserve(size_t count)
 */
 
 template<class T>
-void vector<T>::assign(size_t n, const T &data)
-{
-
-}
-
-template<class T>
-void vector<T>::assign(iterator first, iterator last)
-{
-
-}
-
-template<class T>
 void vector<T>::clear()
 {
-    delete [] this->v_array;
+    if (this->v_size > 0)
+        delete [] this->v_array;
     this->v_size = 0;
     this->v_capacity = 0;
+    this->v_array = NULL;
 }
 
 

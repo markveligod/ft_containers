@@ -1,6 +1,6 @@
 NAME = start
 FLAGS = -Wall -Wextra -Werror -std=c++98
-SRC = ./main.cpp ./tests/list_test.cpp
+SRC = ./main.cpp ./tests/list_test.cpp ./tests/vector_test.cpp
 OBJ=$(SRC:.cpp=.o)
 DEBUG = -g
 LOG = log_*
