@@ -9,16 +9,14 @@
 
 |**_Iterators_**|**_Capacity_**|**_Element access_**|**_Modifiers_**|**_Operations_**|**Non-member function overloads**|
 |:-------------:|:------------:|:------------------:|:-------------:|:--------------:|:-------------------------------:|
-|     begin     |    empty     |        front       |     assign    |     merge      |                                 |
-|     end       |    size      |        back        |     clear     |     splice     |                                 |
-|     rbegin    |    max_size  |                    |     insert    |     remove     |                                 |
-|     rend      |              |                    |     push_back |     remove_if  |                                 |
-|               |              |                    |     pop_back  |     unique     |                                 |
-|               |              |                    |     push_front|     sort       |                                 |
-|               |              |                    |     pop_front |                |                                 |
+|     begin     |    empty     |        front       |     assign    |     merge      |          operator==             |
+|     end       |    size      |        back        |     clear     |     splice     |          operator!=             |
+|     rbegin    |    max_size  |                    |     insert    |     remove     |          operator<              |
+|     rend      |              |                    |     push_back |     remove_if  |          operator<=             |
+|               |              |                    |     pop_back  |     unique     |          operator>              |
+|               |              |                    |     push_front|     sort       |          operator>=             |
+|               |              |                    |     pop_front |                |          swap                   |
 |               |              |                    |     resize    |                |                                 |
 |               |              |                    |     swap      |                |                                 |
   
-**Non-member function overloads**
-- [ ] relational operators (list)
-- [ ] swap (list)
+

@@ -725,36 +725,84 @@ bool operator==(list<T> &lhs, list<T> &rhs)
 	return (true);
 }
 
-/*
-template<typename T>
-bool operator!=(const list<T> &lhs, const list<T> &rhs)
-{
 
+template<typename T>
+bool operator!=(list<T> &lhs, list<T> &rhs)
+{
+	if (lhs == rhs)
+		return (false);
+	return (true);
 }
 
 template<typename T>
-bool operator<(const list<T> &lhs, const list<T> &rhs)
+bool operator<(list<T> &lhs, list<T> &rhs)
 {
-
-}
-
-template<typename T>
-bool operator<=(const list<T> &lhs, const list<T> &rhs)
-{
-
-}
-
-template<typename T>
-bool operator>(const list<T> &lhs, const list<T> &rhs)
-{
-
-}
-
-template<typename T>
-bool operator>=(const list<T> &lhs, const list<T> &rhs)
-{
+	if (lhs.size() < rhs.size())
+		return (true);
+	if (lhs.size() > rhs.size())
+		return (false);
 	
+	ft::list<int>::iterator begin_lhs = lhs.begin();
+	ft::list<int>::iterator end_lhs = lhs.end();
+	ft::list<int>::iterator begin_rhs = rhs.begin();
+	ft::list<int>::iterator end_rhs = rhs.end();
+
+	while ((begin_lhs != end_lhs) && (begin_rhs != end_rhs) && (begin_lhs.getNode()->_data == begin_rhs.getNode()->_data))
+	{
+		++begin_rhs;
+		++begin_lhs;
+	}
+	if (begin_lhs.getNode()->_data >= begin_rhs.getNode()->_data)
+		return (false);
+	return (true);
 }
-*/
+
+template<typename T>
+bool operator<=(list<T> &lhs, list<T> &rhs)
+{
+	if (lhs < rhs || lhs == rhs)
+		return (true);
+	return (false);
+}
+
+template<typename T>
+bool operator>(list<T> &lhs, list<T> &rhs)
+{
+	if (lhs.size() < rhs.size())
+		return (false);
+	if (lhs.size() > rhs.size())
+		return (true);
+	
+	ft::list<int>::iterator begin_lhs = lhs.begin();
+	ft::list<int>::iterator end_lhs = lhs.end();
+	ft::list<int>::iterator begin_rhs = rhs.begin();
+	ft::list<int>::iterator end_rhs = rhs.end();
+
+	while ((begin_lhs != end_lhs) && (begin_rhs != end_rhs) && (begin_lhs.getNode()->_data == begin_rhs.getNode()->_data))
+	{
+		++begin_rhs;
+		++begin_lhs;
+	}
+	if (begin_lhs.getNode()->_data <= begin_rhs.getNode()->_data)
+		return (false);
+	return (true);
+}
+
+template<typename T>
+bool operator>=(list<T> &lhs, list<T> &rhs)
+{
+	if (lhs > rhs || lhs == rhs)
+		return (true);
+	return (false);
+}
+
+template<typename T>
+void swap(list<T> &x, list<T> &y)
+{
+	list<T> temp = x;
+	x = y;
+	y = temp;
+}
+
 
 } // namespace

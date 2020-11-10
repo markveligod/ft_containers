@@ -1624,7 +1624,7 @@ bool list_check_non(std::ofstream *out)
     noorig.insert(noorig.begin(), 42);
     noorig_2.insert(noorig_2.begin(), 21);
 
-    os << "\nTest operator ==\n";
+    os << "\nTest operator !=\n";
     print_list(os, orig, noorig);
     os << "[Or]: \t" << orig.size() << std::endl;
     os << "[No Or]: \t" << noorig.size() << std::endl;
@@ -1632,10 +1632,133 @@ bool list_check_non(std::ofstream *out)
     os << "[Or]: \t" << orig_2.size() << std::endl;
     os << "[No Or]: \t" << noorig_2.size() << std::endl;
     
-    os << "[Or == Or_2] => " << (orig == orig_2) << std::endl;
-    os << "[Noor == noor_2] => " << (noorig == noorig_2) << std::endl;
+    os << "[Or != Or_2] => " << (orig != orig_2) << std::endl;
+    os << "[Noor != noor_2] => " << (noorig != noorig_2) << std::endl;
 
-    if ((orig == orig_2) != (noorig == noorig_2))
+    if ((orig != orig_2) != (noorig != noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    orig.insert(orig.begin(), 42);
+    orig_2.insert(orig_2.begin(), 21);
+    noorig.insert(noorig.begin(), 42);
+    noorig_2.insert(noorig_2.begin(), 21);
+
+    os << "\nTest operator <\n";
+    print_list(os, orig, noorig);
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+    print_list(os, orig_2, noorig_2);
+    os << "[Or]: \t" << orig_2.size() << std::endl;
+    os << "[No Or]: \t" << noorig_2.size() << std::endl;
+    
+    os << "[Or < Or_2] => " << (orig < orig_2) << std::endl;
+    os << "[Noor < noor_2] => " << (noorig < noorig_2) << std::endl;
+
+    if ((orig < orig_2) != (noorig < noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nTest operator >\n";
+    print_list(os, orig, noorig);
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+    print_list(os, orig_2, noorig_2);
+    os << "[Or]: \t" << orig_2.size() << std::endl;
+    os << "[No Or]: \t" << noorig_2.size() << std::endl;
+    
+    os << "[Or > Or_2] => " << (orig > orig_2) << std::endl;
+    os << "[Noor > noor_2] => " << (noorig > noorig_2) << std::endl;
+
+    if ((orig > orig_2) != (noorig > noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nTest operator >=\n";
+    print_list(os, orig, noorig);
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+    print_list(os, orig_2, noorig_2);
+    os << "[Or]: \t" << orig_2.size() << std::endl;
+    os << "[No Or]: \t" << noorig_2.size() << std::endl;
+    
+    os << "[Or >= Or_2] => " << (orig >= orig_2) << std::endl;
+    os << "[Noor >= noor_2] => " << (noorig >= noorig_2) << std::endl;
+
+    if ((orig >= orig_2) != (noorig >= noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nTest operator <=\n";
+    print_list(os, orig, noorig);
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+    print_list(os, orig_2, noorig_2);
+    os << "[Or]: \t" << orig_2.size() << std::endl;
+    os << "[No Or]: \t" << noorig_2.size() << std::endl;
+    
+    os << "[Or <= Or_2] => " << (orig <= orig_2) << std::endl;
+    os << "[Noor <= noor_2] => " << (noorig <= noorig_2) << std::endl;
+
+    if ((orig <= orig_2) != (noorig <= noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nTest ft::swap\n";
+    orig.clear();
+    orig_2.clear();
+    noorig.clear();
+    noorig_2.clear();
+
+    orig.insert(orig.begin(), 42);
+    orig_2.insert(orig_2.begin(), 21);
+    noorig.insert(noorig.begin(), 42);
+    noorig_2.insert(noorig_2.begin(), 21);
+
+    os << "\nTest before\n";
+    print_list(os, orig, noorig);
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+    print_list(os, orig_2, noorig_2);
+    os << "[Or]: \t" << orig_2.size() << std::endl;
+    os << "[No Or]: \t" << noorig_2.size() << std::endl;
+
+    std::swap(orig, orig_2);
+    ft::swap(noorig, noorig_2);
+
+    os << "\nTest after\n";
+    print_list(os, orig, noorig);
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+    os << "[Or]: \t" << orig.size() << std::endl;
+    os << "[No Or]: \t" << noorig.size() << std::endl;
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    print_list(os, orig_2, noorig_2);
+    if (!check_list(orig_2, noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+    os << "[Or]: \t" << orig_2.size() << std::endl;
+    os << "[No Or]: \t" << noorig_2.size() << std::endl;
+    if (orig_2.size() != noorig_2.size())
     {
         *out << os.str();
         return (false);
