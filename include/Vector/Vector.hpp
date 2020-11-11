@@ -34,7 +34,14 @@ namespace ft
             vector &operator=(vector const &other);
 
             //iterators
-            
+            iterator                begin() { return (iterator(this->v_array));}
+	        const_iterator          begin() const { return (const_iterator(this->v_array));}
+	        reverse_iterator        rbegin() { return (reverse_iterator(&(this->v_array[this->v_size])));}
+	        const_reverse_iterator  rbegin() const { return (const_reverse_iterator(&(this->v_array[this->v_size])));}
+	        iterator                end() { return (iterator(&(this->v_array[this->v_size])));}
+	        const_iterator          end() const { return (const_iterator(&(this->v_container[this->v_size])));}
+	        reverse_iterator        rend() { return (reverse_iterator(this->v_array));}
+	        const_reverse_iterator  rend() const { return (const_reverse_iterator(this->v_array));}
 
             //Capacity
             size_t 					size() const {return (this->v_size);}
@@ -49,6 +56,7 @@ namespace ft
 
             //Modifiers
             void clear();
+            void push_back(const T &data);
 			
 
     };
@@ -78,16 +86,25 @@ vector<T>::vector(size_t count, T const &data)
     for (size_t i = 0; i < count; i++)
         this->v_array[i] = data;
 }
-/*
+
 template<class T>
 vector<T>::vector(iterator first, iterator last)
 {
     this->v_array = NULL;
     this->v_capacity = 0;
     this->v_size = 0;
-    
+    iterator temp_it = first;
+    size_t temp_size = 0;
+    while (temp_it != last)
+    {
+        ++temp_it;
+        temp_size++;
+    }
+    this->reserve(temp_size);
+    std::memcpy(static_cast<void *>(this->v_array), static_cast<void *>(first.getData()), sizeof(T) * temp_size);
+    this->v_size = temp_size;
 }
-*/
+
 template<class T>
 vector<T>::vector(vector const &other)
 {
@@ -126,7 +143,7 @@ void vector<T>::reserve(size_t count)
 {
     if (count > this->v_capacity)
     {
-        T *temp = static_cast<T*>(operator new(sizeof(T) * count));;
+        T *temp = static_cast<T*>(operator new(sizeof(T) * count + 1));
         if (this->v_size > 0)
         {
             std::memcpy(static_cast<void *>(temp), static_cast<void *>(this->v_array), this->v_size * sizeof(T));
@@ -153,5 +170,18 @@ void vector<T>::clear()
     this->v_array = NULL;
 }
 
+template<class T>
+void vector<T>::push_back(const T &data)
+{
+    this->v_size++;
+    T *temp = static_cast<T*>(operator new(sizeof(T) * this->v_size + 1));
+    if (this->v_size > 1)
+    {
+        std::memcpy(static_cast<void *>(temp), static_cast<void *>(this->v_array), (this->v_size - 1) * sizeof(T));
+        delete [] this->v_array;
+    }
+    this->v_array = temp;
+    this->v_array[this->v_size - 1] = data;
+}
 
 } //namespace
