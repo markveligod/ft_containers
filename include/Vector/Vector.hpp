@@ -7,6 +7,7 @@
 */
 #include <cstdlib>
 #include <cstring>
+#include <string>
 #include "VecIterator.hpp"
 
 namespace ft
@@ -49,6 +50,7 @@ namespace ft
 			bool					empty() const {return ((this->v_size == 0) ? true : false);}
 			size_t					max_size() const {return ((std::numeric_limits<size_t>::max() / sizeof(T)));}
             void                    reserve (size_t count);
+            void                    resize (size_t count, T data = T());
 
             //Element access
             T &operator[](size_t count) {return (*(this->v_array + count));}
@@ -154,6 +156,19 @@ void vector<T>::reserve(size_t count)
     }
 }
 
+template<class T>
+void vector<T>::resize(size_t count, T data)
+{
+    if (count > this->v_size)
+    {
+        this->reserve(count);
+        for (size_t i = this->v_size; i < count; i++)
+            this->v_array[i] = data;
+    }
+    else
+        this->reserve(this->v_size);
+}
+
 /*
 **==========================
 **        Modifiers
@@ -174,12 +189,16 @@ template<class T>
 void vector<T>::push_back(const T &data)
 {
     this->v_size++;
-    T *temp = static_cast<T*>(operator new(sizeof(T) * this->v_size + 1));
+    std::stringstream ss;
+    ss << this->v_size;
+    size_t up = ss.str().size();
+    T *temp = static_cast<T*>(operator new(sizeof(T) * this->v_size + up));
     if (this->v_size > 1)
     {
         std::memcpy(static_cast<void *>(temp), static_cast<void *>(this->v_array), (this->v_size - 1) * sizeof(T));
         delete [] this->v_array;
     }
+    this->v_capacity = this->v_size + up;
     this->v_array = temp;
     this->v_array[this->v_size - 1] = data;
 }

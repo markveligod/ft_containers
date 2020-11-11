@@ -122,8 +122,18 @@ bool vector_check_iterators(std::ofstream *out)
         orig.push_back(21);
         noorig.push_back(21);
     }
-    
     print_vector(os, orig, noorig);
+    print_size(os, orig, noorig);
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_vector(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
 
     os << "\nCreaty iterator\n";
     std::vector<int>::iterator or_begin_1 = orig.begin();
@@ -141,8 +151,6 @@ bool vector_check_iterators(std::ofstream *out)
         os << *no_begin_1 << " ";
     os << std::endl;
     
-
-
     os << "\nCreaty const_iterator\n";
 
     std::vector<int>::const_iterator or_begin_2 = orig.begin();
@@ -198,6 +206,75 @@ bool vector_check_iterators(std::ofstream *out)
     return (true); 
 }
 
+bool vector_check_capacity(std::ofstream *out)
+{
+    std::stringstream os;
+    std::vector<int> orig(7, 42);
+    ft::vector<int> noorig(7, 42);
+
+    os << "\nCHECK capacity!!!\n";
+    for (size_t i = 0; i < 5; i++)
+    {
+        orig.push_back(21);
+        noorig.push_back(21);
+    }
+    print_vector(os, orig, noorig);
+    print_size(os, orig, noorig);
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_vector(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nTest empty\n";
+    os << "[Or] => " << orig.empty() << std::endl;
+    os << "[No] => " << noorig.empty() << std::endl;
+    if ((orig.empty()) != (noorig.empty()))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    orig.clear();
+    noorig.clear();
+    os << "\nTest empty clear\n";
+    os << "[Or] => " << orig.empty() << std::endl;
+    os << "[No] => " << noorig.empty() << std::endl;
+    if ((orig.empty()) != (noorig.empty()))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nTest size!!!\n";
+    for (size_t i = 0; i < 5; i++)
+    {
+        int temp = rand() % 100;
+        orig.push_back(temp);
+        noorig.push_back(temp);
+    }
+    print_vector(os, orig, noorig);
+    print_size(os, orig, noorig);
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_vector(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    *out << os.str();
+    return (true); 
+}
+
 void vector_start()
 {
     std::ofstream out;
@@ -207,6 +284,8 @@ void vector_start()
     std::cout << YELLOW << "\n\n[check Main]: " << (vector_check_main(&out) ? GREEN"OK" : RED"FAIL") << std::endl;
     out << "|========================================================================================================|\n";
     std::cout << YELLOW << "[check Iterators]: " << (vector_check_iterators(&out) ? GREEN"OK" : RED"FAIL") << std::endl;
+    out << "|========================================================================================================|\n";
+    std::cout << YELLOW << "[check Capacity]: " << (vector_check_capacity(&out) ? GREEN"OK" : RED"FAIL") << std::endl;
     out << "|========================================================================================================|\n";
     out.close();
     std::cout << CYAN << "\n\tCheck log_vector" << RESET;
