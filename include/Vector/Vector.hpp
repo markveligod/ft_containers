@@ -40,12 +40,12 @@ namespace ft
             //iterators
             iterator                begin() { return (iterator(this->v_array));}
 	        const_iterator          begin() const { return (const_iterator(this->v_array));}
-	        reverse_iterator        rbegin() { return (reverse_iterator(&(this->v_array[this->v_size])));}
-	        const_reverse_iterator  rbegin() const { return (const_reverse_iterator(&(this->v_array[this->v_size])));}
+	        reverse_iterator        rbegin() { return (reverse_iterator(&(this->v_array[this->v_size - 1])));}
+	        const_reverse_iterator  rbegin() const { return (const_reverse_iterator(&(this->v_array[this->v_size - 1])));}
 	        iterator                end() { return (iterator(&(this->v_array[this->v_size])));}
 	        const_iterator          end() const { return (const_iterator(&(this->v_container[this->v_size])));}
-	        reverse_iterator        rend() { return (reverse_iterator(this->v_array));}
-	        const_reverse_iterator  rend() const { return (const_reverse_iterator(this->v_array));}
+	        reverse_iterator        rend() { return (reverse_iterator(this->v_array - 1));}
+	        const_reverse_iterator  rend() const { return (const_reverse_iterator(this->v_array - 1));}
 
             //Capacity
             size_t 					size() const {return (this->v_size);}
@@ -161,21 +161,35 @@ void vector<T>::reserve(size_t count)
         this->v_capacity = count;
         this->v_array = temp;
     }
+    else
+        this->v_size = count;
+    
 }
 
-//передалать на свой функционал
 template<class T>
 void vector<T>::resize(size_t count, T data)
 {
-    if (count > this->v_size)
+    if (count >= this->v_capacity)
     {
-        this->reserve(count);
+        T *temp = static_cast<T*>(operator new(sizeof(T) * (count + 1)));
+        if (this->v_size > 0)
+        {
+            std::memcpy(static_cast<void *>(temp), static_cast<void *>(this->v_array), ((count > this->v_size) ? this->v_size : count) * sizeof(T));
+            delete [] this->v_array;
+        }
+        this->v_array = temp;
         for (size_t i = this->v_size; i < count; i++)
             this->v_array[i] = data;
         this->v_size = count;
+        this->v_capacity = count;
     }
     else
-        this->reserve(this->v_size);
+    {
+        T temp_data = ((count > this->v_size) ? data : T());
+        for (size_t i = this->v_size; i < count; i++)
+            this->v_array[i] = temp_data;
+        this->v_size = count;
+    }
 }
 
 /*
@@ -192,6 +206,7 @@ void vector<T>::clear()
     this->v_size = 0;
     this->v_capacity = 0;
     this->v_array = NULL;
+    this->gold_up = (1 + sqrt(5)) / 2;
 }
 
 template<class T>

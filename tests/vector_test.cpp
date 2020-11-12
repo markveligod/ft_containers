@@ -287,7 +287,7 @@ bool vector_check_capacity(std::ofstream *out)
 
     orig.resize(12);
     noorig.resize(12);
-    os << "\nTest resize before!!!\n";
+    os << "\nTest resize after (12)!!!\n";
     print_vector(os, orig, noorig);
     print_size(os, orig, noorig);
     if (orig.size() != noorig.size())
@@ -300,6 +300,87 @@ bool vector_check_capacity(std::ofstream *out)
         *out << os.str();
         return (false);
     }
+
+    os << "\nTest resize after (5)!!!\n";
+    orig.resize(5);
+    noorig.resize(5);
+    print_vector(os, orig, noorig);
+    print_size(os, orig, noorig);
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_vector(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nTest resize after (50)!!!\n";
+    orig.resize(50);
+    noorig.resize(50);
+    print_vector(os, orig, noorig);
+    print_size(os, orig, noorig);
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_vector(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nTest capacity!!!\n";
+    os << "[Or] => " << orig.capacity() << std::endl;
+    os << "[No] => " << noorig.capacity() << std::endl;
+
+    os << "\nTest reserve(10)!!!\n";
+    orig.resize(10);
+    noorig.resize(10);
+    print_vector(os, orig, noorig);
+    print_size(os, orig, noorig);
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_vector(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nTest reserve before!!!\n";
+    orig.clear();
+    noorig.clear();
+    for (size_t i = 0; i < 5; i++)
+    {
+        int temp = rand() % 100;
+        orig.push_back(temp);
+        noorig.push_back(temp);
+    }
+    print_vector(os, orig, noorig);
+    print_size(os, orig, noorig);
+
+    orig.reserve(20);
+    noorig.reserve(20);
+    os << "\nTest reserve after!!!\n";
+    print_vector(os, orig, noorig);
+    print_size(os, orig, noorig);
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_vector(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+
 
     *out << os.str();
     return (true); 
