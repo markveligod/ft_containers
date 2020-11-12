@@ -4,6 +4,7 @@ SRC = ./main.cpp ./tests/list_test.cpp ./tests/vector_test.cpp
 OBJ=$(SRC:.cpp=.o)
 DEBUG = -g
 LOG = log_*
+HED = ./include/List/List.hpp ./include/List/Node.hpp ./include/List/Iterator.hpp ./include/Vector/Vector.hpp ./include/Vector/VecIterator.hpp
 
 #colors
 RED=\033[1;31m
@@ -16,7 +17,7 @@ RESET=\033[0m
 	@clang++ $(DEBUG) -o $@ -c $< $(FLAGS)
 	@echo "[$(GREEN)OK$(RESET)]$(YELLOW) Compiling $<$(RESET)"
 
-$(NAME): $(OBJ)
+$(NAME): $(OBJ) $(HED)
 	@clang++ -o $(NAME) $(DEBUG) $(OBJ) $(FLAGS)
 	@echo "[$(GREEN)Success$(RESET)]$(GREEN) Successfully compiled $(NAME) project.$(RESET)"
 	@echo ""

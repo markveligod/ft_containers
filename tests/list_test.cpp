@@ -269,11 +269,6 @@ bool list_check_capacity(std::ofstream *out)
     os << "\nTest max_size\n";
     os << "[Or]: \t" << orig.max_size() << std::endl;
     os << "[No Or]: \t" << noorig.max_size() << std::endl;
-    if (orig.max_size() != noorig.max_size())
-    {
-        *out << os.str();
-        return (false);
-    }
 
     os << "\nTest size\n";
     print_list(os, orig, noorig);

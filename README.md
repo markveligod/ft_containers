@@ -7,13 +7,7 @@
 - [x] (destructor)
 - [x] operator=
 
-|:white_check_mark:  
-**_Iterators_**|:white_check_mark:  
-**_Capacity_**|:white_check_mark:  
-**_Element access_**|:white_check_mark:  
-**_Modifiers_**|:white_check_mark:  
-**_Operations_**|:white_check_mark:  
-**Non-member function overloads**|
+|**_Iterators_**|**_Capacity_**|**_Element access_**|**_Modifiers_**|**_Operations_**|**Non-member function overloads**|
 |:-------------:|:------------:|:------------------:|:-------------:|:--------------:|:-------------------------------:|
 |     begin     |    empty     |        front       |     assign    |     merge      |          operator==             |
 |     end       |    size      |        back        |     clear     |     splice     |          operator!=             |
@@ -33,8 +27,7 @@
 - [x] (destructor)
 - [x] operator=
 
-|:white_check_mark:  
-**_Iterators_**|**_Capacity_**|**_Element access_**|**_Modifiers_**|**Non-member function overloads**|
+|**_Iterators_**|**_Capacity_**|**_Element access_**|**_Modifiers_**|**Non-member function overloads**|
 |:-------------:|:------------:|:------------------:|:-------------:|:-------------------------------:|
 |     begin     |    empty     |        front       |     assign    |          operator==             |
 |     end       |    size      |        back        |     clear     |          operator!=             |

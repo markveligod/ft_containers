@@ -8,6 +8,8 @@
 #include <cstdlib>
 #include <cstring>
 #include <string>
+#include <cmath>
+#include <limits>
 #include "VecIterator.hpp"
 
 namespace ft
@@ -19,6 +21,7 @@ namespace ft
             T *v_array;
             size_t v_capacity;
             size_t v_size;
+            double gold_up;
 
         public:
             typedef VecIterator<T> 	iterator;
@@ -48,7 +51,7 @@ namespace ft
             size_t 					size() const {return (this->v_size);}
             size_t                  capacity() const {return (this->v_capacity);}
 			bool					empty() const {return ((this->v_size == 0) ? true : false);}
-			size_t					max_size() const {return ((std::numeric_limits<size_t>::max() / sizeof(T)));}
+			size_t					max_size() const {return (std::numeric_limits<std::size_t>::max() / sizeof(T));}
             void                    reserve (size_t count);
             void                    resize (size_t count, T data = T());
 
@@ -77,11 +80,13 @@ vector<T>::vector()
     this->v_array = NULL;
     this->v_capacity = 0;
     this->v_size = 0;
+    this->gold_up = (1 + sqrt(5)) / 2;
 }
 
 template<class T>
 vector<T>::vector(size_t count, T const &data)
 {
+    this->gold_up = (1 + sqrt(5)) / 2;
     this->v_array = static_cast<T*>(operator new(sizeof(T) * count));
     this->v_size = count;
     this->v_capacity = count;
@@ -95,6 +100,7 @@ vector<T>::vector(iterator first, iterator last)
     this->v_array = NULL;
     this->v_capacity = 0;
     this->v_size = 0;
+    this->gold_up = (1 + sqrt(5)) / 2;
     iterator temp_it = first;
     size_t temp_size = 0;
     while (temp_it != last)
@@ -113,6 +119,7 @@ vector<T>::vector(vector const &other)
     this->v_array = NULL;
     this->v_capacity = 0;
     this->v_size = 0;
+    this->gold_up = (1 + sqrt(5)) / 2;
     this->reserve(other.v_capacity);
     std::memcpy(static_cast<void *>(this->v_array), static_cast<void *>(other.v_array), other.v_size * sizeof(T));
     this->v_size = other.v_size;
@@ -145,7 +152,7 @@ void vector<T>::reserve(size_t count)
 {
     if (count > this->v_capacity)
     {
-        T *temp = static_cast<T*>(operator new(sizeof(T) * count + 1));
+        T *temp = static_cast<T*>(operator new(sizeof(T) * (count + 1)));
         if (this->v_size > 0)
         {
             std::memcpy(static_cast<void *>(temp), static_cast<void *>(this->v_array), this->v_size * sizeof(T));
@@ -156,6 +163,7 @@ void vector<T>::reserve(size_t count)
     }
 }
 
+//передалать на свой функционал
 template<class T>
 void vector<T>::resize(size_t count, T data)
 {
@@ -164,6 +172,7 @@ void vector<T>::resize(size_t count, T data)
         this->reserve(count);
         for (size_t i = this->v_size; i < count; i++)
             this->v_array[i] = data;
+        this->v_size = count;
     }
     else
         this->reserve(this->v_size);
@@ -189,17 +198,16 @@ template<class T>
 void vector<T>::push_back(const T &data)
 {
     this->v_size++;
-    std::stringstream ss;
-    ss << this->v_size;
-    size_t up = ss.str().size();
-    T *temp = static_cast<T*>(operator new(sizeof(T) * this->v_size + up));
-    if (this->v_size > 1)
+    int up = this->v_size * this->gold_up;
+    if (this->v_size >= this->v_capacity)
     {
+        T *temp = static_cast<T*>(operator new(sizeof(T) * up));
         std::memcpy(static_cast<void *>(temp), static_cast<void *>(this->v_array), (this->v_size - 1) * sizeof(T));
         delete [] this->v_array;
+        this->v_capacity = up;
+        this->v_array = temp;
+        this->gold_up *= (1 + sqrt(5)) / 2;
     }
-    this->v_capacity = this->v_size + up;
-    this->v_array = temp;
     this->v_array[this->v_size - 1] = data;
 }
 

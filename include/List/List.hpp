@@ -63,7 +63,7 @@ namespace ft
 			//Capacity
 			size_t 					size() const {return (this->_size);}
 			bool					empty() const {return ((this->_size == 0) ? true : false);}
-			size_t					max_size() const {return ((std::numeric_limits<size_t>::max() / (sizeof(Node))) / 2);}
+			size_t					max_size() const {return (std::numeric_limits<std::size_t>::max() / sizeof(Node));}
 
 			//Element access
 			T						front() {return (((this->head) ? this->head->_data : 0 ));}

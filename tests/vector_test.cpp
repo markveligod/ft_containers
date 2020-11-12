@@ -271,6 +271,36 @@ bool vector_check_capacity(std::ofstream *out)
         return (false);
     }
 
+    os << "\nTest max_size!!!\n";
+    os << "[Or] => " << orig.max_size() << std::endl;
+    os << "[No] => " << noorig.max_size() << std::endl;
+
+    os << "\nTest resize before!!!\n";
+    for (size_t i = 0; i < 5; i++)
+    {
+        int temp = rand() % 100;
+        orig.push_back(temp);
+        noorig.push_back(temp);
+    }
+    print_vector(os, orig, noorig);
+    print_size(os, orig, noorig);
+
+    orig.resize(12);
+    noorig.resize(12);
+    os << "\nTest resize before!!!\n";
+    print_vector(os, orig, noorig);
+    print_size(os, orig, noorig);
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_vector(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+
     *out << os.str();
     return (true); 
 }
