@@ -73,6 +73,18 @@ template<class T>
 	        bool operator==(VecIterator<T> const &other) const { return (this->it_data == other.it_data);}
 	        bool operator!=(VecIterator<T> const &other) const { return (this->it_data != other.it_data);}
 
+			size_t operator-(VecIterator const &other)
+			{
+				VecIterator temp(*this);
+				size_t it_size = 0;
+				while (temp != other)
+				{
+					it_size++;
+					++temp;
+				}
+				return (it_size);
+			}
+
     };
 
     template<class T>

@@ -10,6 +10,7 @@
 #include <string>
 #include <cmath>
 #include <limits>
+#include <stdexcept>
 #include "VecIterator.hpp"
 
 namespace ft
@@ -56,13 +57,25 @@ namespace ft
             void                    resize (size_t count, T data = T());
 
             //Element access
+            T &at (size_t count);
+            T const &at (size_t count) const;
             T &operator[](size_t count) {return (*(this->v_array + count));}
             T const &operator[](size_t count) const {return (*(this->v_array + count));}
+            T &front() { return (this->v_array[0]);}
+	        T const &front() const { return (this->v_array[0]);}
+	        T &back() { return (this->v_array[this->v_size - 1]);}
+	        T const &back() const { return (this->v_array[this->v_size - 1]);}
 
             //Modifiers
             void clear();
             void push_back(const T &data);
-			
+            void pop_back();
+            void assign(iterator first, iterator last);
+            void assign(size_t count, const T &data);
+            iterator insert (iterator position, const T &data);
+            void insert(iterator position, size_t count, const T &data);
+            void insert(iterator position, iterator first, iterator last);
+            void swap(vector<T> &other);
 
     };
 
@@ -128,13 +141,23 @@ vector<T>::vector(vector const &other)
 template<class T>
 vector<T>::~vector()
 {
-    this->clear();
+    if (this->v_size > 0)
+        delete [] this->v_array;
+    this->v_array = NULL;
+    this->v_capacity = 0;
+    this->v_size = 0;
+    this->gold_up = 0;
 }
 
 template<class T>
 vector<T> &vector<T>::operator=(vector<T> const &other)
 {
-    this->clear();
+    if (!this->empty())
+        delete [] this->v_array;
+    this->v_array = NULL;
+    this->v_capacity = 0;
+    this->v_size = 0;
+    this->gold_up = (1 + sqrt(5)) / 2;
     this->reserve(other.v_capacity);
     std::memcpy(static_cast<void *>(this->v_array), static_cast<void *>(other.v_array), other.v_size * sizeof(T));
     this->v_size = other.v_size;
@@ -160,10 +183,7 @@ void vector<T>::reserve(size_t count)
         }
         this->v_capacity = count;
         this->v_array = temp;
-    }
-    else
-        this->v_size = count;
-    
+    }    
 }
 
 template<class T>
@@ -194,6 +214,27 @@ void vector<T>::resize(size_t count, T data)
 
 /*
 **==========================
+**     Element access
+**==========================
+*/
+
+template<class T>
+T &vector<T>::at(size_t count)
+{
+    if (count >= this->v_size)
+        throw std::out_of_range("Index out of range !(-_-)!");
+    return (this->v_array[count]);
+}
+
+template<class T>
+T const &vector<T>::at(size_t count) const
+{
+    return (this->at(count));
+}
+
+
+/*
+**==========================
 **        Modifiers
 **==========================
 */
@@ -201,12 +242,9 @@ void vector<T>::resize(size_t count, T data)
 template<class T>
 void vector<T>::clear()
 {
-    if (this->v_size > 0)
-        delete [] this->v_array;
+    for (size_t i = 0; i < this->v_size; i++)
+        this->v_array[i] = T();
     this->v_size = 0;
-    this->v_capacity = 0;
-    this->v_array = NULL;
-    this->gold_up = (1 + sqrt(5)) / 2;
 }
 
 template<class T>
@@ -224,6 +262,172 @@ void vector<T>::push_back(const T &data)
         this->gold_up *= (1 + sqrt(5)) / 2;
     }
     this->v_array[this->v_size - 1] = data;
+}
+
+template<class T>
+void vector<T>::assign(iterator first, iterator last)
+{
+    if (!this->empty())
+        this->v_size = 0;
+    iterator temp_it = first;
+    size_t temp_size = 0;
+    while (temp_it != last)
+    {
+        ++temp_it;
+        temp_size++;
+    }
+    this->reserve(temp_size);
+    std::memcpy(static_cast<void *>(this->v_array), static_cast<void *>(first.getData()), sizeof(T) * temp_size);
+    if (temp_size > this->v_size)
+        this->v_size = temp_size;
+}
+
+template<class T>
+void vector<T>::assign(size_t count, const T &data)
+{
+    if (!this->empty())
+        this->v_size = 0;
+    this->reserve(count);
+    for (size_t i = 0; i < count; i++)
+        this->v_array[i] = data;
+    if (count > this->v_size)
+        this->v_size = count;
+}
+
+template<class T>
+typename vector<T>::iterator vector<T>::insert(iterator position, const T &data)
+{
+    iterator it_begin = this->begin();
+    iterator it_end = this->end();
+    T *temp;
+    size_t i_gl = 0;
+    size_t j_gl = 0;
+    
+    if (this->v_size + 1 >= this->v_capacity)
+    {
+        temp = static_cast<T*>(operator new(sizeof(T) * (this->v_size + 1 + 1)));
+        this->v_capacity = this->v_size + 1;
+    }
+    else
+        temp = static_cast<T*>(operator new(sizeof(T) * (this->v_capacity + 1)));
+    while (it_begin != position)
+    {
+        temp[i_gl] = this->v_array[j_gl];
+        ++i_gl;
+        ++j_gl;
+        ++it_begin;
+    }
+    size_t temp_it = i_gl;
+    temp[i_gl] = data;
+    ++i_gl;
+    while (position != it_end)
+    {
+        temp[i_gl] = this->v_array[j_gl];
+        ++i_gl;
+        ++j_gl;
+        ++position;
+    }
+    delete [] this->v_array;
+    this->v_array = temp;
+    this->v_size += 1;
+    return (iterator(&(this->v_array[temp_it])));
+}
+
+template<class T>
+void vector<T>::insert(iterator position, size_t count, const T &data)
+{
+    iterator it_begin = this->begin();
+    iterator it_end = this->end();
+    T *temp;
+    size_t i_gl = 0;
+    size_t j_gl = 0;
+
+    if (this->v_size + count >= this->v_capacity)
+    {
+        temp = static_cast<T*>(operator new(sizeof(T) * (this->v_size + count + 1)));
+        this->v_capacity = this->v_size + count;
+    }
+    else
+        temp = static_cast<T*>(operator new(sizeof(T) * (this->v_capacity + 1)));
+    while (it_begin != position)
+    {
+        temp[i_gl] = this->v_array[j_gl];
+        ++i_gl;
+        ++j_gl;
+        ++it_begin;
+    }
+    for (size_t i = 0; i < count; i++)
+    {
+        temp[i_gl] = data;
+        ++i_gl;
+    }
+    while (position != it_end)
+    {
+        temp[i_gl] = this->v_array[j_gl];
+        ++i_gl;
+        ++j_gl;
+        ++position;
+    }
+    delete [] this->v_array;
+    this->v_array = temp;
+    this->v_size += count;
+}
+
+template<class T>
+void vector<T>::insert(iterator position, iterator first, iterator last)
+{
+    size_t size_it = first - last;
+    T *temp;
+    iterator it_begin = this->begin();
+    iterator it_end = this->end();
+    size_t i_gl = 0;
+    size_t j_gl = 0;
+    
+    if (this->v_size + size_it >= this->v_capacity)
+    {
+        temp = static_cast<T*>(operator new(sizeof(T) * (this->v_size + size_it + 1)));
+        this->v_capacity = this->v_size + size_it;
+    }
+    else
+        temp = static_cast<T*>(operator new(sizeof(T) * (this->v_capacity + 1)));
+    while (it_begin != position)
+    {
+        temp[i_gl] = this->v_array[j_gl];
+        ++i_gl;
+        ++j_gl;
+        ++it_begin;
+    }
+    while (first != last)
+    {
+        temp[i_gl] = *first;
+        ++i_gl;
+        ++first;
+    }
+    while (position != it_end)
+    {
+        temp[i_gl] = this->v_array[j_gl];
+        ++i_gl;
+        ++j_gl;
+        ++position;
+    }
+    delete [] this->v_array;
+    this->v_array = temp;
+    this->v_size += size_it;
+}
+
+template<class T>
+void vector<T>::pop_back()
+{
+    if (this->v_size)
+        this->v_size--;
+}
+
+template<class T>
+void vector<T>::swap(vector<T> &other)
+{
+    vector<T> temp = *this;
+    *this = other;
+    other = temp;
 }
 
 } //namespace
