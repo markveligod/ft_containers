@@ -1835,7 +1835,7 @@ void list_start()
     std::cout << YELLOW << "[check Non-member function]: " << (list_check_non(&out) ? GREEN"OK" : RED"FAIL") << std::endl;
     out << "|========================================================================================================|\n";
     out.close();
-    std::cout << CYAN << "\n\tCheck log_list" << RESET;
+    std::cout << CYAN << "\n\tCheck log_list " << RESET;
     getchar();
     getchar();
 }

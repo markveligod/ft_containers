@@ -849,6 +849,254 @@ bool vector_check_modifiers(std::ofstream *out)
     return (true); 
 }
 
+bool vector_check_overloads(std::ofstream *out)
+{
+    std::stringstream os;
+    std::vector<int> orig;
+    ft::vector<int> noorig;
+    std::vector<int> orig_2(42, 21);
+    ft::vector<int> noorig_2(42, 21);
+
+    os << "\nCHECK Non-member function!!!\n";
+    os << "\nTest operator==\n";
+
+    print_vector(os, orig, noorig);
+    print_size(os, orig, noorig);
+    print_vector(os, orig_2, noorig_2);
+    print_size(os, orig_2, noorig_2);
+
+    os << "[Or] => " << (orig == orig_2) << std::endl;
+    os << "[No] => " << (noorig == noorig_2) << std::endl;
+    if ((orig == orig_2) != (noorig == noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nTest operator==\n";
+
+    orig.assign(42, 21);
+    noorig.assign(42, 21);
+
+    print_vector(os, orig, noorig);
+    print_size(os, orig, noorig);
+    print_vector(os, orig_2, noorig_2);
+    print_size(os, orig_2, noorig_2);
+
+    os << "[Or] => " << (orig == orig_2) << std::endl;
+    os << "[No] => " << (noorig == noorig_2) << std::endl;
+
+    if ((orig == orig_2) != (noorig == noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nTest operator!=\n";
+
+    orig.clear();
+    noorig.clear();
+    orig_2.clear();
+    noorig_2.clear();
+
+    print_vector(os, orig, noorig);
+    print_size(os, orig, noorig);
+    print_vector(os, orig_2, noorig_2);
+    print_size(os, orig_2, noorig_2);
+
+    os << "[Or] => " << (orig != orig_2) << std::endl;
+    os << "[No] => " << (noorig != noorig_2) << std::endl;
+
+    if ((orig != orig_2) != (noorig != noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nTest operator!=\n";
+
+    orig.assign(7, 21);
+    noorig.assign(7, 21);
+    orig_2.assign(7, 42);
+    noorig_2.assign(7, 42);
+
+    print_vector(os, orig, noorig);
+    print_size(os, orig, noorig);
+    print_vector(os, orig_2, noorig_2);
+    print_size(os, orig_2, noorig_2);
+
+    os << "[Or] => " << (orig != orig_2) << std::endl;
+    os << "[No] => " << (noorig != noorig_2) << std::endl;
+
+    if ((orig != orig_2) != (noorig != noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nTest operator<\n";
+
+    print_vector(os, orig, noorig);
+    print_size(os, orig, noorig);
+    print_vector(os, orig_2, noorig_2);
+    print_size(os, orig_2, noorig_2);
+
+    os << "[Or] => " << (orig < orig_2) << std::endl;
+    os << "[No] => " << (noorig < noorig_2) << std::endl;
+
+    if ((orig < orig_2) != (noorig < noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nTest operator<=\n";
+
+    print_vector(os, orig, noorig);
+    print_size(os, orig, noorig);
+    print_vector(os, orig_2, noorig_2);
+    print_size(os, orig_2, noorig_2);
+
+    os << "[Or] => " << (orig <= orig_2) << std::endl;
+    os << "[No] => " << (noorig <= noorig_2) << std::endl;
+
+    if ((orig <= orig_2) != (noorig <= noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nTest operator>\n";
+
+    print_vector(os, orig, noorig);
+    print_size(os, orig, noorig);
+    print_vector(os, orig_2, noorig_2);
+    print_size(os, orig_2, noorig_2);
+
+    os << "[Or] => " << (orig > orig_2) << std::endl;
+    os << "[No] => " << (noorig > noorig_2) << std::endl;
+
+    if ((orig > orig_2) != (noorig > noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nTest operator>=\n";
+
+    print_vector(os, orig, noorig);
+    print_size(os, orig, noorig);
+    print_vector(os, orig_2, noorig_2);
+    print_size(os, orig_2, noorig_2);
+
+    os << "[Or] => " << (orig >= orig_2) << std::endl;
+    os << "[No] => " << (noorig >= noorig_2) << std::endl;
+
+    if ((orig >= orig_2) != (noorig >= noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nTest swap\n";
+
+    std::swap(orig, orig_2);
+    ft::swap(noorig, noorig_2);
+
+    print_vector(os, orig, noorig);
+    print_size(os, orig, noorig);
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_vector(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    print_vector(os, orig_2, noorig_2);
+    print_size(os, orig_2, noorig_2);
+    if (orig_2.size() != noorig_2.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_vector(orig_2, noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nTest operator<\n";
+
+    print_vector(os, orig, noorig);
+    print_size(os, orig, noorig);
+    print_vector(os, orig_2, noorig_2);
+    print_size(os, orig_2, noorig_2);
+
+    os << "[Or] => " << (orig < orig_2) << std::endl;
+    os << "[No] => " << (noorig < noorig_2) << std::endl;
+
+    if ((orig < orig_2) != (noorig < noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nTest operator<=\n";
+
+    print_vector(os, orig, noorig);
+    print_size(os, orig, noorig);
+    print_vector(os, orig_2, noorig_2);
+    print_size(os, orig_2, noorig_2);
+
+    os << "[Or] => " << (orig <= orig_2) << std::endl;
+    os << "[No] => " << (noorig <= noorig_2) << std::endl;
+
+    if ((orig <= orig_2) != (noorig <= noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nTest operator>\n";
+
+    print_vector(os, orig, noorig);
+    print_size(os, orig, noorig);
+    print_vector(os, orig_2, noorig_2);
+    print_size(os, orig_2, noorig_2);
+
+    os << "[Or] => " << (orig > orig_2) << std::endl;
+    os << "[No] => " << (noorig > noorig_2) << std::endl;
+
+    if ((orig > orig_2) != (noorig > noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nTest operator>=\n";
+
+    print_vector(os, orig, noorig);
+    print_size(os, orig, noorig);
+    print_vector(os, orig_2, noorig_2);
+    print_size(os, orig_2, noorig_2);
+
+    os << "[Or] => " << (orig >= orig_2) << std::endl;
+    os << "[No] => " << (noorig >= noorig_2) << std::endl;
+
+    if ((orig >= orig_2) != (noorig >= noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    *out << os.str();
+    return (true); 
+}
+
 void vector_start()
 {
     std::ofstream out;
@@ -865,8 +1113,10 @@ void vector_start()
     out << "|========================================================================================================|\n";
     std::cout << YELLOW << "[check Modifiers]: " << (vector_check_modifiers(&out) ? GREEN"OK" : RED"FAIL") << std::endl;
     out << "|========================================================================================================|\n";
+    std::cout << YELLOW << "[check Non-member function]: " << (vector_check_overloads(&out) ? GREEN"OK" : RED"FAIL") << std::endl;
+    out << "|========================================================================================================|\n";
     out.close();
-    std::cout << CYAN << "\n\tCheck log_vector" << RESET;
+    std::cout << CYAN << "\n\tCheck log_vector " << RESET;
     getchar();
     getchar();
 }

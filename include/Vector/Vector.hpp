@@ -487,4 +487,69 @@ typename vector<T>::iterator vector<T>::erase(iterator first, iterator last)
     return (iterator(&(this->v_array[temp_pos])));
 }
 
+/*
+**==========================
+**   Non-member function 
+**        overloads
+**==========================
+*/
+
+template <class T>
+bool operator==(const vector<T> &lhs, const vector<T> &rhs)
+{
+    if (lhs.size() != rhs.size())
+        return (false);
+    for (size_t i = 0; i < lhs.size(); i++)
+    {
+        if (lhs[i] != rhs[i])
+            return (false);
+    }
+    return (true);
+}
+
+template <class T>
+bool operator!=(const vector<T> &lhs, const vector<T> &rhs)
+{
+    return (!(lhs == rhs));
+}
+
+template <class T>
+bool operator<(const vector<T> &lhs, const vector<T> &rhs)
+{
+    if (lhs.size() > rhs.size())
+        return (false);
+    for (size_t i = 0; i < lhs.size(); i++)
+    {
+        if (lhs[i] >= rhs[i])
+            return (false);
+    }
+    return (true);
+}
+
+template <class T>
+bool operator<=(const vector<T> &lhs, const vector<T> &rhs)
+{
+    return ((lhs < rhs) || (lhs == rhs));
+}
+
+template <class T>
+bool operator>(const vector<T> &lhs, const vector<T> &rhs)
+{
+    return (!(lhs <= rhs));
+}
+
+template <class T>
+bool operator>=(const vector<T> &lhs, const vector<T> &rhs)
+{
+    return ((lhs > rhs) || (lhs == rhs));
+}
+
+template <class T>
+void swap(vector<T> &x, vector<T> &y)
+{
+    vector<T> temp = x;
+    x = y;
+    y = temp;
+}
+
 } //namespace
