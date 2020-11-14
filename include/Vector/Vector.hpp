@@ -76,6 +76,8 @@ namespace ft
             void insert(iterator position, size_t count, const T &data);
             void insert(iterator position, iterator first, iterator last);
             void swap(vector<T> &other);
+            iterator erase(iterator position);
+            iterator erase(iterator first, iterator last);
 
     };
 
@@ -428,6 +430,61 @@ void vector<T>::swap(vector<T> &other)
     vector<T> temp = *this;
     *this = other;
     other = temp;
+}
+
+template<class T>
+typename vector<T>::iterator vector<T>::erase(iterator position)
+{
+    iterator it_begin = this->begin();
+    iterator it_end = this->end();
+    T *temp = static_cast<T*>(operator new(sizeof(T) * (this->v_capacity + 1)));
+    size_t i_gl = 0;
+    size_t temp_pos;
+
+    while (it_begin != it_end)
+    {
+        if (it_begin == position)
+        {
+            temp_pos = i_gl;
+            ++it_begin;
+            continue ;
+        }
+        temp[i_gl] = *it_begin;
+        ++i_gl;
+        ++it_begin;        
+    }
+    delete [] this->v_array;
+    this->v_array = temp;
+    this->v_size--;
+    return (iterator(&(this->v_array[temp_pos])));
+}
+
+template<class T>
+typename vector<T>::iterator vector<T>::erase(iterator first, iterator last)
+{
+    iterator it_begin = this->begin();
+    iterator it_end = this->end();
+    T *temp = static_cast<T*>(operator new(sizeof(T) * (this->v_capacity + 1)));
+    size_t i_gl = 0;
+    size_t it_size = first - last;
+    size_t temp_pos;
+
+    while (it_begin != it_end)
+    {
+        if (it_begin == first)
+        {
+            temp_pos = i_gl;
+            it_begin += it_size;
+            continue ;
+        }
+        temp[i_gl] = *it_begin;
+        ++it_begin;
+        ++i_gl;
+    }
+    delete [] this->v_array;
+    this->v_array = temp;
+    this->v_size -= it_size;
+    return (iterator(&(this->v_array[temp_pos])));
 }
 
 } //namespace

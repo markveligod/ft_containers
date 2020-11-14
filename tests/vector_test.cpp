@@ -783,6 +783,68 @@ bool vector_check_modifiers(std::ofstream *out)
     print_vector(os, orig_2, noorig_2);
     print_size(os, orig_2, noorig_2);
 
+    //erase
+    os << "\nTest erase(iterator position) BEGIN!!!\n";
+    std::vector<int>::iterator or_begin_5 = orig.begin();
+    ft::vector<int>::iterator no_begin_5 = noorig.begin();
+
+    orig.erase(++or_begin_5);
+    noorig.erase(++no_begin_5);
+
+    print_vector(os, orig, noorig);
+    print_size(os, orig, noorig);
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_vector(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    std::vector<int>::iterator or_end_5 = orig.end();
+    ft::vector<int>::iterator no_end_5 = noorig.end();
+    os << "\nTest erase(iterator position) END!!!\n";
+    orig.erase(--or_end_5);
+    noorig.erase(--no_end_5);
+
+    print_vector(os, orig, noorig);
+    print_size(os, orig, noorig);
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_vector(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nTest erase(iterator first, iterator last) RANGE!!!\n";
+    std::vector<int>::iterator or_begin_6 = orig.begin();
+    ft::vector<int>::iterator no_begin_6 = noorig.begin();
+    std::vector<int>::iterator or_end_6 = orig.end();
+    ft::vector<int>::iterator no_end_6 = noorig.end();
+
+    orig.erase(++or_begin_6, --or_end_6);
+    noorig.erase(++no_begin_6, --no_end_6);
+
+    print_vector(os, orig, noorig);
+    print_size(os, orig, noorig);
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_vector(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+
     *out << os.str();
     return (true); 
 }
