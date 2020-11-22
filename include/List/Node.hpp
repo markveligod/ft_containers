@@ -1,39 +1,40 @@
 #pragma once
 
-/**
- * class Node
- * Крутой класс который помогает строить цепочку списка
- *  
- */
+template <typename T>
+class node
+{
+    public:
+        typedef T value_type;
+        typedef node* node_pointer;
+        typedef node& node_reference;
 
+    private:
+        value_type data;
+        node_pointer next;
+        node_pointer prev;
 
-	template<class T>
-	class Node
-	{
-		public:
-			Node<T> *_next;
-			Node<T> *_prev;
-			T _data;
-
-			Node() 
-			{
-				this->_data = 0;
-				this->_next = NULL;
-				this->_prev = NULL;
-			};
-			Node(const T &data, Node<T> *next = NULL, Node<T> *prev = NULL)
-			{
-				this->_data = data;
-				this->_next = next;
-				this->_prev = prev;
-			}
-			Node(const Node<T> &other) {*this = other;}
-			~Node() {};
-
-			Node<T> &operator=(const Node<T> &other)
-			{
-				*this = other;
-				return (*this);
-			}
-	};
-	
+    public:
+        node(const value_type &data = value_type())
+        {
+            this->data = data;
+            this->next = NULL;
+            this->prev = NULL;
+        }
+        node(const node_reference other) { *this = other;}
+        ~node() {}
+        node_reference operator=(const node_reference rhs) 
+        {
+            if (this != &rhs) 
+            {
+                this->data = rhs.data;
+                this->next = rhs.next;
+                this->prev = rhs.prev;
+            }
+            return (*this);
+        }
+        bool            operator==(const node_reference rhs) const { return (this->data == rhs.data && this->next == rhs.next && this->prev == rhs.prev);}
+        bool            operator!=(const node_reference rhs) const { return (*this != rhs);}
+        node_pointer    getData() const {return (this->data);}
+        node_pointer    getNext() const { return (this->next);}
+        node_pointer    getPrevious() const { return (this->prev);}
+};

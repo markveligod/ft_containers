@@ -3,38 +3,39 @@
 ### Container ft::list\<\>:  
 
 **Main coplien's form**  
-- [x] (constructor)
-- [x] (destructor)
-- [x] operator=
-
-|**_Iterators_**|**_Capacity_**|**_Element access_**|**_Modifiers_**|**_Operations_**|**Non-member function overloads**|
-|:-------------:|:------------:|:------------------:|:-------------:|:--------------:|:-------------------------------:|
-|     begin     |    empty     |        front       |     assign    |     merge      |          operator==             |
-|     end       |    size      |        back        |     clear     |     splice     |          operator!=             |
-|     rbegin    |    max_size  |                    |     insert    |     remove     |          operator<              |
-|     rend      |              |                    |     push_back |     remove_if  |          operator<=             |
-|               |              |                    |     pop_back  |     unique     |          operator>              |
-|               |              |                    |     push_front|     sort       |          operator>=             |
-|               |              |                    |     pop_front |                |          swap                   |
-|               |              |                    |     resize    |                |                                 |
-|               |              |                    |     swap      |                |                                 |
+- [ ] (constructor)
+```
+default (1)	 
+explicit list (const allocator_type& alloc = allocator_type());  
   
-
-### Container ft::vector\<\>:  
-
-**Main coplien's form**  
-- [x] (constructor)
-- [x] (destructor)
-- [x] operator=
-
-|**_Iterators_**|**_Capacity_**|**_Element access_**|**_Modifiers_**|**Non-member function overloads**|
-|:-------------:|:------------:|:------------------:|:-------------:|:-------------------------------:|
-|     begin     |    empty     |        front       |     assign    |          operator==             |
-|     end       |    size      |        back        |     clear     |          operator!=             |
-|     rbegin    |    max_size  |        operator[]  |     insert    |          operator<              |
-|     rend      |    resize    |        at          |     push_back |          operator<=             |
-|               |    capacity  |                    |     pop_back  |          operator>              |
-|               |    reserve   |                    |     swap      |          operator>=             |
-|               |              |                    |     erase     |          swap                   |
-
+fill (2)  
+explicit list (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type());  
   
+range (3)  
+  
+template <class InputIterator>  
+list (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type());  
+  
+copy (4)  
+list (const list& x);  
+```
+- [ ] (destructor)
+```
+~list();
+```
+- [ ] operator=
+```
+copy (1) list& operator= (const list& x);  
+```
+
+**Iterators:**  
+- [ ] (begin)  
+```
+      iterator begin();  
+const_iterator begin() const;  
+```
+Returns an iterator pointing to the first element in the list container.  
+
+- [ ] (end)
+- [ ] (rbegin)
+- [ ] (rend)

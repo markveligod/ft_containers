@@ -1,15 +1,36 @@
 #pragma once 
 
+/*
+**==========================
+**         Includes
+**==========================
+*/
+
 #include <iostream>
 #include <cstdio>
 #include <sstream>
 #include <iterator>
+#include <memory>
 #include <algorithm>
 #include <fstream>
 #include <list>
 #include <vector>
+
+/*
+**==========================
+**       My Includes
+**==========================
+*/
+
 #include "include/List/List.hpp"
-#include "include/Vector/Vector.hpp"
+
+/*
+**==========================
+**         Tests
+**==========================
+*/
+
+#include "tests/list_test_template.hpp"
 
 /*
 **==========================
