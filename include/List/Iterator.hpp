@@ -11,11 +11,8 @@ class Iterator
         typedef node<T>*                            node_pointer;
         typedef Iterator<T, Pointer, Reference>     curr_class;
         typedef Iterator<T, T*, T&>                 iterator;
-
-    private:
         node_pointer ptr;
 
-    public:
         Iterator() { this->ptr = NULL;}
 	    Iterator(const node_pointer ptr) { this->ptr = ptr;}
 	    Iterator(const iterator &other) { *this = other;}
@@ -64,11 +61,8 @@ class RevIterator
         typedef node<T>*                                node_pointer;
         typedef RevIterator<T, Pointer, Reference>      curr_class;
         typedef RevIterator<T, T*, T&>                  iterator;
-
-    private:
         node_pointer ptr;
 
-    public:
         RevIterator() { this->ptr = NULL;}
 	    RevIterator(const node_pointer ptr) { this->ptr = ptr;}
 	    RevIterator(const iterator &other) { *this = other;}

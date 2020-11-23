@@ -78,8 +78,55 @@ namespace ft
 			void 					assign(size_type n, const value_type& val);
 			void					push_back(const value_type &val);
 			void					pop_back();
+			void					push_front(const value_type &val);
+			void					pop_front();
 			void					clear();
-				
+			iterator				insert(iterator position, const value_type& val);
+			void					insert(iterator position, size_type n, const value_type& val);
+			void					insert(iterator position, iterator first, iterator last);
+			void					insert(iterator position, const_iterator first, const_iterator last);
+			iterator				erase(iterator position);
+			iterator				erase(iterator first, iterator last);
+			void					swap(list& x);
+			void					resize (size_type n, value_type val = value_type());
+
+			//Operations
+			void					splice(iterator position, list& x);
+			void					splice(iterator position, list& x, iterator i);
+			void					splice(iterator position, list& x, iterator first, iterator last);
+			void					remove(const value_type& val);
+			void					unique();
+			
+			template <class Predicate>
+			void remove_if(Predicate pred)
+			{
+				iterator begin = this->begin();
+				iterator end = this->end();
+
+				while (begin != end)
+				{
+					if (pred(*begin))
+						begin = this->erase(begin);
+					else
+						++begin;
+				}
+			}
+			
+			template <class BinaryPredicate>
+			void unique(BinaryPredicate binary_pred)
+			{
+				iterator begin = this->begin();
+				iterator end = this->end();
+
+				++begin;
+				while (begin != end)
+				{
+					if (binary_pred(*begin, begin.ptr->prev->data))
+						begin = erase(begin);
+					else
+						++begin;
+				}
+			}
 
 	};
 
@@ -117,9 +164,10 @@ list<T, Alloc>::list(const_iterator first, const_iterator last, const allocator_
 }
 
 template < typename T, typename Alloc >
-list<T, Alloc>::list(const list &other)
+list<T, Alloc>::list(const list<T, Alloc> &other)
 {
-	*this = other;
+	this->init_default_param(other.alloc);
+	this->assign(other.begin(), other.end());
 }
 
 template < typename T, typename Alloc >
@@ -180,7 +228,7 @@ void list<T, Alloc>::assign(size_type n, const value_type& val)
 template < typename T, typename Alloc >
 void list<T, Alloc>::push_back(const value_type &val)
 {
-	node_pointer temp = new node<T>(val);
+	node_pointer temp = new node<value_type>(val);
 	temp->next = this->tail;
 	temp->prev = this->tail->prev;
 	this->tail->prev->next = temp;
@@ -202,10 +250,173 @@ void list<T, Alloc>::pop_back()
 }
 
 template < typename T, typename Alloc >
+void list<T, Alloc>::push_front(const value_type &val)
+{
+	node_pointer ptr = new node<value_type>(val);
+	ptr->prev = this->head;
+	ptr->next = this->head->next;
+	this->head->next->prev = ptr;
+	this->head->next = ptr;
+	this->len_size++;
+}
+
+template < typename T, typename Alloc >
+void list<T, Alloc>::pop_front()
+{
+	if (this->len_size)
+	{
+		node_pointer temp = this->head->next->next;
+		temp->prev = this->head;
+		delete this->head->next;
+		this->head->next = temp;
+		this->len_size--;
+	}
+}
+
+template < typename T, typename Alloc >
 void list<T, Alloc>::clear()
 {
 	while (this->len_size)
 		pop_back();
+}
+
+template < typename T, typename Alloc >
+list<T, Alloc>::iterator list<T, Alloc>::insert(iterator position, const value_type& val)
+{
+	node_pointer temp = new node<value_type>(val);
+	temp->prev = position.ptr->prev;
+	temp->next = position.ptr;
+	temp->prev->next = temp;
+	temp->next->prev = temp;
+	this->len_size++;
+	return (iterator(temp));
+}
+
+template < typename T, typename Alloc >
+void list<T, Alloc>::insert(iterator position, size_type n, const value_type& val)
+{
+	for (size_type i = 0; i < n; i++)
+		insert(position, val);
+}
+
+template < typename T, typename Alloc >
+void list<T, Alloc>::insert(iterator position, iterator first, iterator last)
+{
+	while (first != last)
+	{
+		insert(position, *first);
+		++first;
+	}
+}
+
+template < typename T, typename Alloc >
+void list<T, Alloc>::insert(iterator position, const_iterator first, const_iterator last)
+{
+	while (first != last)
+	{
+		insert(position, *first);
+		++first;
+	}
+}
+
+template < typename T, typename Alloc >
+list<T, Alloc>::iterator list<T, Alloc>::erase(iterator position)
+{
+	node_pointer temp = position.ptr;
+	temp->prev->next = temp->next;
+	temp->next->prev = temp->prev;
+	position++;
+	delete temp;
+	this->len_size--;
+	return (position);
+}
+
+template < typename T, typename Alloc >
+list<T, Alloc>::iterator list<T, Alloc>::erase(iterator first, iterator last)
+{
+	while (first != last) 
+		first = this->erase(first);
+	return (first);
+}
+
+template<typename T, typename Alloc >
+void list<T, Alloc>::swap(list<T, Alloc> &other)
+{
+	list<T, Alloc> temp = *this;
+	*this = other;
+	other = temp;
+}
+
+template<typename T, typename Alloc >
+void list<T, Alloc>::resize(size_type n, value_type val)
+{
+	if (this->len_size < n)
+	{
+		while (this->len_size < n)
+			this->push_back(val);
+	}
+	else
+	{
+		while (this->len_size > n)
+			this->pop_back();
+	}
+}
+
+/*
+**==========================
+**       Operations
+**==========================
+*/
+
+template<typename T, typename Alloc >
+void list<T, Alloc>::splice(iterator position, list& x)
+{
+	this->insert(position, x.begin(), x.end());
+	x.clear();
+}
+
+template<typename T, typename Alloc >
+void list<T, Alloc>::splice(iterator position, list& x, iterator i)
+{
+	this->insert(position, i.ptr->data);
+	x.erase(i);
+}
+
+template<typename T, typename Alloc >
+void list<T, Alloc>::splice(iterator position, list& x, iterator first, iterator last)
+{
+	this->insert(position, first, last);
+	x.erase(first, last);
+}
+
+template<typename T, typename Alloc >
+void list<T, Alloc>::remove(const value_type& val)
+{
+	iterator begin = this->begin();
+	iterator end = this->end();
+	while (begin != end)
+	{
+		if (*begin == val)
+			begin = this->erase(pos);
+		else
+			++begin;
+	}
+}
+
+template<typename T, typename Alloc >
+void list<T, Alloc>::unique()
+{
+	iterator begin = this->begin();
+	iterator end = this->end();
+
+	++begin;
+	while (begin != end)
+	{
+		if (*begin == begin.ptr->prev->data)
+			begin = erase(begin);
+		else
+			++begin;
+	}
 }
 
 } //namesapce ft
