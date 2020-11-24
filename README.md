@@ -24,23 +24,26 @@
 - [x] ([back](https://www.cplusplus.com/reference/list/list/back/))
   
 **Modifiers:**  
-- [ ] ([assign](https://www.cplusplus.com/reference/list/list/assign/))
-- [ ] ([push_back](https://www.cplusplus.com/reference/list/list/push_back/))
-- [ ] ([pop_back](https://www.cplusplus.com/reference/list/list/pop_back/))
-- [ ] ([push_front](https://www.cplusplus.com/reference/list/list/push_front/))
-- [ ] ([pop_front](https://www.cplusplus.com/reference/list/list/pop_front/))
-- [ ] ([clear](https://www.cplusplus.com/reference/list/list/clear/))
-- [ ] ([insert](https://www.cplusplus.com/reference/list/list/insert/))
-- [ ] ([erase](https://www.cplusplus.com/reference/list/list/erase/))
-- [ ] ([swap](https://www.cplusplus.com/reference/list/list/swap/))
-- [ ] ([resize](https://www.cplusplus.com/reference/list/list/resize/)) 
+- [x] ([assign](https://www.cplusplus.com/reference/list/list/assign/))
+- [x] ([push_back](https://www.cplusplus.com/reference/list/list/push_back/))
+- [x] ([pop_back](https://www.cplusplus.com/reference/list/list/pop_back/))
+- [x] ([push_front](https://www.cplusplus.com/reference/list/list/push_front/))
+- [x] ([pop_front](https://www.cplusplus.com/reference/list/list/pop_front/))
+- [x] ([clear](https://www.cplusplus.com/reference/list/list/clear/))
+- [x] ([insert](https://www.cplusplus.com/reference/list/list/insert/))
+- [x] ([erase](https://www.cplusplus.com/reference/list/list/erase/))
+- [x] ([swap](https://www.cplusplus.com/reference/list/list/swap/))
+- [x] ([resize](https://www.cplusplus.com/reference/list/list/resize/)) 
   
 **Operations:**  
 - [ ] ([splice](https://www.cplusplus.com/reference/list/list/splice/))
 - [ ] ([remove](https://www.cplusplus.com/reference/list/list/remove/))
 - [ ] ([remove_if](https://www.cplusplus.com/reference/list/list/remove_if/))
 - [ ] ([unique](https://www.cplusplus.com/reference/list/list/unique/))
-
-
-
-
+- [ ] ([merge](https://www.cplusplus.com/reference/list/list/merge/))
+- [ ] ([reverse](https://www.cplusplus.com/reference/list/list/reverse/))
+- [ ] ([sort](https://www.cplusplus.com/reference/list/list/sort/))
+  
+**Non-member function overloads:**  
+- [ ] ([relational operators (list)](https://www.cplusplus.com/reference/list/list/operators/))
+- [ ] ([swap (list)](https://www.cplusplus.com/reference/list/list/swap-free/))

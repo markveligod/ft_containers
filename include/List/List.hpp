@@ -4,7 +4,10 @@
 #include "Node.hpp"
 #include "Iterator.hpp"
 
-namespace ft 
+template<typename T>
+bool Compare(const T &a, const T &b) { return (a < b);}
+
+namespace ft
 {
 	template < typename T, typename Alloc = std::allocator<T> >
 	class list 
@@ -96,6 +99,9 @@ namespace ft
 			void					splice(iterator position, list& x, iterator first, iterator last);
 			void					remove(const value_type& val);
 			void					unique();
+			void					merge(list& x);
+			void					reverse();
+			void					sort();
 			
 			template <class Predicate>
 			void remove_if(Predicate pred)
@@ -125,6 +131,50 @@ namespace ft
 						begin = erase(begin);
 					else
 						++begin;
+				}
+			}
+
+			template <class Compare>
+  			void merge(list& x, Compare comp)
+			{
+				iterator begin_this = begin();
+				iterator end_this = end();
+				iterator begin_x = x.begin();
+				iterator end_x = x.end();
+
+				if (x == *this)
+					return ;
+				while (begin_this != end_this && begin_x != end_x)
+				{
+					while (begin_this != end_this && !comp(*begin_x, *begin_this))
+						++begin_this;
+					++begin_x;
+					this->splice(begin_this, x, begin_x.ptr->prev);
+				}
+				if (begin_x != end_x)
+					this->splice(begin_this, x, begin_x, end_x);
+			}
+
+			template <class Compare>
+  			void sort(Compare comp)
+			{
+				iterator begin_1 = this->begin();
+				iterator begin_2 = this->begin();
+				iterator end = this->end();
+				T temp;
+
+				while (++begin_2 != end)
+				{
+					if (comp(*begin_2, *begin_1))
+					{
+						temp = *begin_1;
+						*begin_1 = *begin_2;
+						*begin_2 = temp;
+						begin_1 = this->begin();
+						begin_2 = this->begin();
+					}
+					else
+						++begin_1;
 				}
 			}
 
@@ -281,7 +331,7 @@ void list<T, Alloc>::clear()
 }
 
 template < typename T, typename Alloc >
-list<T, Alloc>::iterator list<T, Alloc>::insert(iterator position, const value_type& val)
+typename list<T, Alloc>::iterator list<T, Alloc>::insert(iterator position, const value_type& val)
 {
 	node_pointer temp = new node<value_type>(val);
 	temp->prev = position.ptr->prev;
@@ -320,7 +370,7 @@ void list<T, Alloc>::insert(iterator position, const_iterator first, const_itera
 }
 
 template < typename T, typename Alloc >
-list<T, Alloc>::iterator list<T, Alloc>::erase(iterator position)
+typename list<T, Alloc>::iterator list<T, Alloc>::erase(iterator position)
 {
 	node_pointer temp = position.ptr;
 	temp->prev->next = temp->next;
@@ -332,7 +382,7 @@ list<T, Alloc>::iterator list<T, Alloc>::erase(iterator position)
 }
 
 template < typename T, typename Alloc >
-list<T, Alloc>::iterator list<T, Alloc>::erase(iterator first, iterator last)
+typename list<T, Alloc>::iterator list<T, Alloc>::erase(iterator first, iterator last)
 {
 	while (first != last) 
 		first = this->erase(first);
@@ -397,7 +447,7 @@ void list<T, Alloc>::remove(const value_type& val)
 	while (begin != end)
 	{
 		if (*begin == val)
-			begin = this->erase(pos);
+			begin = this->erase(begin);
 		else
 			++begin;
 	}
@@ -417,6 +467,139 @@ void list<T, Alloc>::unique()
 		else
 			++begin;
 	}
+}
+
+template<typename T, typename Alloc >
+void list<T, Alloc>::merge(list& x)
+{
+	this->merge(x, Compare<T>);
+}
+
+template<typename T, typename Alloc >
+void list<T, Alloc>::reverse()
+{
+	list<T, Alloc> temp;
+	iterator begin = this->begin();
+	iterator end = this->end();
+
+	while (begin != end)
+	{
+		temp.push_front(*begin);
+		++begin;
+	}
+	*this = temp;
+}
+
+template<typename T, typename Alloc >
+void list<T, Alloc>::sort()
+{
+	this->sort(Compare);
+}
+
+/*
+**==========================
+**   Non-member function 
+**        overloads
+**==========================
+*/
+
+template<typename T, typename Alloc>
+bool operator==(const list<T, Alloc>& lhs, const list<T, Alloc>& rhs)
+{
+	typename ft::list<T, Alloc>::const_iterator begin_lhs = lhs.begin();
+	typename ft::list<T, Alloc>::const_iterator end_lhs = lhs.end();
+	typename ft::list<T, Alloc>::const_iterator begin_rhs = rhs.begin();
+	typename ft::list<T, Alloc>::const_iterator end_rhs = rhs.end();
+
+	while ((begin_lhs != end_lhs) && (begin_rhs != end_rhs))
+	{
+		if (*begin_rhs != *begin_lhs)
+			return (false);
+		++begin_lhs;
+		++begin_rhs;
+	}
+	if ((begin_lhs != end_lhs) || (begin_rhs != end_rhs))
+		return (false);
+	return (true);
+}
+
+
+template<typename T, typename Alloc>
+bool operator!=(const list<T,Alloc>& lhs, const list<T,Alloc>& rhs)
+{
+	if (lhs == rhs)
+		return (false);
+	return (true);
+}
+
+template<typename T, typename Alloc>
+bool operator<(const list<T,Alloc>& lhs, const list<T,Alloc>& rhs)
+{
+	if (lhs.size() < rhs.size())
+		return (true);
+	if (lhs.size() > rhs.size())
+		return (false);
+	
+	typename ft::list<T, Alloc>::const_iterator begin_lhs = lhs.begin();
+	typename ft::list<T, Alloc>::const_iterator end_lhs = lhs.end();
+	typename ft::list<T, Alloc>::const_iterator begin_rhs = rhs.begin();
+	typename ft::list<T, Alloc>::const_iterator end_rhs = rhs.end();
+
+	while ((begin_lhs != end_lhs) && (begin_rhs != end_rhs) && (*begin_lhs == *begin_rhs))
+	{
+		++begin_rhs;
+		++begin_lhs;
+	}
+	if (*begin_lhs >= *begin_rhs)
+		return (false);
+	return (true);
+}
+
+template<typename T, typename Alloc>
+bool operator<=(const list<T,Alloc>& lhs, const list<T,Alloc>& rhs)
+{
+	if (lhs < rhs || lhs == rhs)
+		return (true);
+	return (false);
+}
+
+template<typename T, typename Alloc>
+bool operator>(const list<T,Alloc>& lhs, const list<T,Alloc>& rhs)
+{
+	if (lhs.size() < rhs.size())
+		return (false);
+	if (lhs.size() > rhs.size())
+		return (true);
+	
+	typename ft::list<T, Alloc>::const_iterator begin_lhs = lhs.begin();
+	typename ft::list<T, Alloc>::const_iterator end_lhs = lhs.end();
+	typename ft::list<T, Alloc>::const_iterator begin_rhs = rhs.begin();
+	typename ft::list<T, Alloc>::const_iterator end_rhs = rhs.end();
+
+	while ((begin_lhs != end_lhs) && (begin_rhs != end_rhs) && (*begin_lhs == *begin_rhs))
+	{
+		++begin_rhs;
+		++begin_lhs;
+	}
+	if (*begin_lhs <= *begin_rhs)
+		return (false);
+	return (true);
+}
+
+template<typename T, typename Alloc>
+bool operator>=(const list<T,Alloc>& lhs, const list<T,Alloc>& rhs)
+{
+	if (lhs > rhs || lhs == rhs)
+		return (true);
+	return (false);
+}
+
+template<typename T, typename Alloc>
+void swap(list<T,Alloc>& x, list<T,Alloc>& y)
+{
+	list<T,Alloc> temp = x;
+	x = y;
+	y = temp;
 }
 
 } //namesapce ft
