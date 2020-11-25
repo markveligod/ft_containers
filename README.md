@@ -46,4 +46,7 @@
   
 **Non-member function overloads:**  
 - [x] ([relational operators (list)](https://www.cplusplus.com/reference/list/list/operators/))
-- [ ] ([swap (list)](https://www.cplusplus.com/reference/list/list/swap-free/))
+- [x] ([swap (list)](https://www.cplusplus.com/reference/list/list/swap-free/))
+
+## Container ft::vector\<\>:
+
