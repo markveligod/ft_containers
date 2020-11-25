@@ -36,14 +36,14 @@
 - [x] ([resize](https://www.cplusplus.com/reference/list/list/resize/)) 
   
 **Operations:**  
-- [ ] ([splice](https://www.cplusplus.com/reference/list/list/splice/))
-- [ ] ([remove](https://www.cplusplus.com/reference/list/list/remove/))
-- [ ] ([remove_if](https://www.cplusplus.com/reference/list/list/remove_if/))
-- [ ] ([unique](https://www.cplusplus.com/reference/list/list/unique/))
-- [ ] ([merge](https://www.cplusplus.com/reference/list/list/merge/))
-- [ ] ([reverse](https://www.cplusplus.com/reference/list/list/reverse/))
-- [ ] ([sort](https://www.cplusplus.com/reference/list/list/sort/))
+- [x] ([splice](https://www.cplusplus.com/reference/list/list/splice/))
+- [x] ([remove](https://www.cplusplus.com/reference/list/list/remove/))
+- [x] ([remove_if](https://www.cplusplus.com/reference/list/list/remove_if/))
+- [x] ([unique](https://www.cplusplus.com/reference/list/list/unique/))
+- [x] ([merge](https://www.cplusplus.com/reference/list/list/merge/))
+- [x] ([reverse](https://www.cplusplus.com/reference/list/list/reverse/))
+- [x] ([sort](https://www.cplusplus.com/reference/list/list/sort/))
   
 **Non-member function overloads:**  
-- [ ] ([relational operators (list)](https://www.cplusplus.com/reference/list/list/operators/))
+- [x] ([relational operators (list)](https://www.cplusplus.com/reference/list/list/operators/))
 - [ ] ([swap (list)](https://www.cplusplus.com/reference/list/list/swap-free/))

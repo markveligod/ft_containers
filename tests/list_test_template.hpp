@@ -2,6 +2,12 @@
 
 #include "../main.hpp"
 
+template<typename T>
+bool Compare_my(const T &a, const T &b) { return (a > b);}
+
+template<typename T>
+bool Predict(const T &a) { return (a == a);}
+
 int gen_int() { return (rand() % 1448228);}
 
 char gen_char() 
@@ -1611,116 +1617,878 @@ bool list_check_resize(std::ofstream *out, T data_1, T data_2)
 }
 
 template<typename T>
+bool list_check_splice(std::ofstream *out, T data_1, T data_2)
+{
+    std::stringstream os;
+    os << "\n|========> !(*_*)! list_check_splice \n";
+    os << "\nlist #1 orig noorig \n";
+    std::list<T> orig_1(5, data_1);
+    ft::list<T> noorig_1(5, data_1);
+    print_list(os, orig_1, noorig_1);
+    print_size(os, orig_1, noorig_1);
+    if (orig_1.size() != noorig_1.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_list(orig_1, noorig_1))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nlist #2 orig noorig \n";
+    std::list<T> orig_2(15, data_2);
+    ft::list<T> noorig_2(15, data_2);
+    print_list(os, orig_2, noorig_2);
+    print_size(os, orig_2, noorig_2);
+    if (orig_2.size() != noorig_2.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_list(orig_2, noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nAfter splice (iterator position, list& x) \n";
+    orig_2.splice(++(orig_2.begin()), orig_1);
+    noorig_2.splice(++(noorig_2.begin()), noorig_1);
+
+    os << "\nlist #1 orig noorig \n";
+    print_list(os, orig_1, noorig_1);
+    print_size(os, orig_1, noorig_1);
+    if (orig_1.size() != noorig_1.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_list(orig_1, noorig_1))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nlist #2 orig noorig \n";
+    print_list(os, orig_2, noorig_2);
+    print_size(os, orig_2, noorig_2);
+    if (orig_2.size() != noorig_2.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_list(orig_2, noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nlist #3 orig noorig \n";
+    std::list<T> orig_3(20, data_1);
+    ft::list<T> noorig_3(20, data_1);
+    print_list(os, orig_3, noorig_3);
+    print_size(os, orig_3, noorig_3);
+    if (orig_3.size() != noorig_3.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_list(orig_3, noorig_3))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nAfter splice (iterator position, list& x, iterator i); \n";
+    orig_2.splice(++(orig_2.begin()), orig_3, --(orig_3.end()));
+    noorig_2.splice(++(noorig_2.begin()), noorig_3, --(noorig_3.end()));
+
+    os << "\nlist #2 orig noorig \n";
+    print_list(os, orig_2, noorig_2);
+    print_size(os, orig_2, noorig_2);
+    if (orig_2.size() != noorig_2.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_list(orig_2, noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nlist #3 orig noorig \n";
+    print_list(os, orig_3, noorig_3);
+    print_size(os, orig_3, noorig_3);
+    if (orig_3.size() != noorig_3.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_list(orig_3, noorig_3))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nlist #4 orig noorig \n";
+    std::list<T> orig_4(12, data_1);
+    ft::list<T> noorig_4(12, data_1);
+    print_list(os, orig_4, noorig_4);
+    print_size(os, orig_4, noorig_4);
+    if (orig_4.size() != noorig_4.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_list(orig_4, noorig_4))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nAfter splice (iterator position, list& x, iterator first, iterator last); \n";
+    orig_2.splice(orig_2.begin(), orig_4, orig_4.begin(), --(orig_4.end()));
+    noorig_2.splice(noorig_2.begin(), noorig_4, noorig_4.begin(), --(noorig_4.end()));
+
+    os << "\nlist #2 orig noorig \n";
+    print_list(os, orig_2, noorig_2);
+    print_size(os, orig_2, noorig_2);
+    if (orig_2.size() != noorig_2.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_list(orig_2, noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nlist #4 orig noorig \n";
+    print_list(os, orig_4, noorig_4);
+    print_size(os, orig_4, noorig_4);
+    if (orig_4.size() != noorig_4.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_list(orig_4, noorig_4))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    *out << os.str();
+    return (true);
+}
+
+template<typename T>
+bool list_check_remove(std::ofstream *out, T data_1, T data_2)
+{
+    std::stringstream os;
+    os << "\n|========> !(*_*)! list_check_remove \n";
+    os << "\nlist #1 orig noorig \n";
+    std::list<T> orig;
+    ft::list<T> noorig;
+
+    for (size_t i = 0; i < 11; i++)
+    {
+        if (i % 2 == 0)
+        {
+            orig.push_back(data_2);
+            noorig.push_back(data_2);
+        }
+        else
+        {
+            orig.push_back(data_1);
+            noorig.push_back(data_1);
+        }
+    }
+    print_list(os, orig, noorig);
+    print_size(os, orig, noorig);
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    orig.remove(data_1);
+    noorig.remove(data_1);
+
+    os << "\nAfter remove data_1 => " << data_1 << " \n";
+    print_list(os, orig, noorig);
+    print_size(os, orig, noorig);
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    *out << os.str();
+    return (true);
+}
+
+template<typename T>
+bool list_check_remove_if(std::ofstream *out, T data_1, T data_2)
+{
+    std::stringstream os;
+    os << "\n|========> !(*_*)! list_check_remove_if \n";
+    os << "\nlist #1 orig noorig \n";
+    std::list<T> orig;
+    ft::list<T> noorig;
+
+    for (size_t i = 0; i < 11; i++)
+    {
+        if (i % 2 == 0)
+        {
+            orig.push_back(data_2);
+            noorig.push_back(data_2);
+        }
+        else
+        {
+            orig.push_back(data_1);
+            noorig.push_back(data_1);
+        }
+    }
+    print_list(os, orig, noorig);
+    print_size(os, orig, noorig);
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    orig.remove_if(Predict<T>);
+    noorig.remove_if(Predict<T>);
+
+    os << "\nAfter remove_if himself \n";
+    print_list(os, orig, noorig);
+    print_size(os, orig, noorig);
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    *out << os.str();
+    return (true);
+}
+
+template<typename T>
+bool list_check_unique(std::ofstream *out, T data_1, T data_2)
+{
+    std::stringstream os;
+    os << "\n|========> !(*_*)! list_check_unique \n";
+    os << "\nlist #1 orig noorig \n";
+    std::list<T> orig;
+    ft::list<T> noorig;
+
+    for (size_t i = 0; i < 11; i++)
+    {
+        if (i % 2 == 0)
+        {
+            orig.push_back(data_2);
+            noorig.push_back(data_2);
+            orig.push_back(data_2);
+            noorig.push_back(data_2);
+        }
+        else
+        {
+            orig.push_back(data_1);
+            noorig.push_back(data_1);
+        }
+    }
+    print_list(os, orig, noorig);
+    print_size(os, orig, noorig);
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    orig.unique();
+    noorig.unique();
+
+    os << "\nAfter unique \n";
+    print_list(os, orig, noorig);
+    print_size(os, orig, noorig);
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    orig.unique();
+    noorig.unique();
+
+    os << "\nAfter unique \n";
+    print_list(os, orig, noorig);
+    print_size(os, orig, noorig);
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    *out << os.str();
+    return (true);
+}
+
+template<typename T>
+bool list_check_merge(std::ofstream *out, T data_1, T data_2)
+{
+    std::stringstream os;
+    os << "\n|========> !(*_*)! list_check_merge \n";
+    os << "\nlist #1 orig noorig \n";
+    std::list<T> orig_1(5, data_1);
+    ft::list<T> noorig_1(5, data_1);
+    print_list(os, orig_1, noorig_1);
+    print_size(os, orig_1, noorig_1);
+    if (orig_1.size() != noorig_1.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_list(orig_1, noorig_1))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nlist #2 orig noorig \n";
+    std::list<T> orig_2(15, data_2);
+    ft::list<T> noorig_2(15, data_2);
+    print_list(os, orig_2, noorig_2);
+    print_size(os, orig_2, noorig_2);
+    if (orig_2.size() != noorig_2.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_list(orig_2, noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nAfter merge (list& x) \n";
+    orig_1.merge(orig_2);
+    noorig_1.merge(noorig_2);
+
+    os << "\nlist #1 orig noorig \n";
+    print_list(os, orig_1, noorig_1);
+    print_size(os, orig_1, noorig_1);
+    if (orig_1.size() != noorig_1.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_list(orig_1, noorig_1))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nlist #2 orig noorig \n";
+    print_list(os, orig_2, noorig_2);
+    print_size(os, orig_2, noorig_2);
+    if (orig_2.size() != noorig_2.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_list(orig_2, noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    orig_2.assign(15, data_2);
+    noorig_2.assign(15, data_2);
+    os << "\n After assign list #2 orig noorig \n";
+    print_list(os, orig_2, noorig_2);
+    print_size(os, orig_2, noorig_2);
+    if (orig_2.size() != noorig_2.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_list(orig_2, noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nAfter merge (list& x, Compare comp) \n";
+
+    orig_1.merge(orig_2, Compare_my<T>);
+    noorig_1.merge(noorig_2, Compare_my<T>);
+
+    os << "\nlist #1 orig noorig \n";
+    print_list(os, orig_1, noorig_1);
+    print_size(os, orig_1, noorig_1);
+    if (orig_1.size() != noorig_1.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_list(orig_1, noorig_1))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nlist #2 orig noorig \n";
+    print_list(os, orig_2, noorig_2);
+    print_size(os, orig_2, noorig_2);
+    if (orig_2.size() != noorig_2.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_list(orig_2, noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    *out << os.str();
+    return (true);
+}
+
+template<typename T>
+bool list_check_reverse(std::ofstream *out, T data_1, T data_2)
+{
+    std::stringstream os;
+    os << "\n|========> !(*_*)! list_check_reverse \n";
+    os << "\nlist #1 orig noorig \n";
+    std::list<T> orig;
+    ft::list<T> noorig;
+
+    for (size_t i = 0; i < 11; i++)
+    {
+        if (i % 2 == 0)
+        {
+            orig.push_back(data_2);
+            noorig.push_back(data_2);
+            orig.push_back(data_2);
+            noorig.push_back(data_2);
+        }
+        else
+        {
+            orig.push_back(data_1);
+            noorig.push_back(data_1);
+        }
+    }
+    print_list(os, orig, noorig);
+    print_size(os, orig, noorig);
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    orig.reverse();
+    noorig.reverse();
+
+    os << "\nAfter reverse \n";
+    print_list(os, orig, noorig);
+    print_size(os, orig, noorig);
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    orig.reverse();
+    noorig.reverse();
+
+    os << "\nAfter unique \n";
+    print_list(os, orig, noorig);
+    print_size(os, orig, noorig);
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    *out << os.str();
+    return (true);
+}
+
+template<typename T>
+bool list_check_sort(std::ofstream *out, T data_1, T data_2)
+{
+    std::stringstream os;
+    os << "\n|========> !(*_*)! list_check_sort \n";
+    os << "\nlist #1 orig noorig \n";
+    std::list<T> orig;
+    ft::list<T> noorig;
+
+    for (size_t i = 0; i < 11; i++)
+    {
+        if (i % 2 == 0)
+        {
+            orig.push_back(data_2);
+            noorig.push_back(data_2);
+            orig.push_back(data_2);
+            noorig.push_back(data_2);
+        }
+        else
+        {
+            orig.push_back(data_1);
+            noorig.push_back(data_1);
+        }
+    }
+    print_list(os, orig, noorig);
+    print_size(os, orig, noorig);
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    orig.sort();
+    noorig.sort();
+
+    os << "\nAfter sort () \n";
+    print_list(os, orig, noorig);
+    print_size(os, orig, noorig);
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nAdd and push himself (*_*) \n";
+    for (size_t i = 0; i < 11; i++)
+    {
+        if (i % 2 == 0)
+        {
+            orig.push_back(data_2);
+            noorig.push_back(data_2);
+            orig.push_back(data_2);
+            noorig.push_back(data_2);
+        }
+        else
+        {
+            orig.push_back(data_1);
+            noorig.push_back(data_1);
+        }
+    }
+    print_list(os, orig, noorig);
+    print_size(os, orig, noorig);
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    orig.sort(Compare_my<T>);
+    noorig.sort(Compare_my<T>);
+
+    os << "\nAfter sort (Compare comp) \n";
+    print_list(os, orig, noorig);
+    print_size(os, orig, noorig);
+    if (orig.size() != noorig.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_list(orig, noorig))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    *out << os.str();
+    return (true);
+}
+
+template<typename T>
+bool list_check_relational(std::ofstream *out, T data_1, T data_2)
+{
+    std::stringstream os;
+    os << "\n|========> !(*_*)! list_check_relational \n";
+    os << "\nlist #1 orig noorig \n";
+    std::list<T> orig_1(5, data_1);
+    ft::list<T> noorig_1(5, data_1);
+    print_list(os, orig_1, noorig_1);
+    print_size(os, orig_1, noorig_1);
+    if (orig_1.size() != noorig_1.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_list(orig_1, noorig_1))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nlist #2 orig noorig \n";
+    std::list<T> orig_2(15, data_2);
+    ft::list<T> noorig_2(15, data_2);
+    print_list(os, orig_2, noorig_2);
+    print_size(os, orig_2, noorig_2);
+    if (orig_2.size() != noorig_2.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_list(orig_2, noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\n[Orig]: After operator== " << (orig_1 == orig_2) << std::endl;
+    os << "\n[No Orig]: After operator== " << (noorig_1 == noorig_2) << std::endl;
+    if ((orig_1 == orig_2) != (noorig_1 == noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\n[Orig]: After operator!= " << (orig_1 != orig_2) << std::endl;
+    os << "\n[No Orig]: After operator!= " << (noorig_1 != noorig_2) << std::endl;
+    if ((orig_1 != orig_2) != (noorig_1 != noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\n[Orig]: After operator< " << (orig_1 < orig_2) << std::endl;
+    os << "\n[No Orig]: After operator< " << (noorig_1 < noorig_2) << std::endl;
+    if ((orig_1 < orig_2) != (noorig_1 < noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\n[Orig]: After operator<= " << (orig_1 <= orig_2) << std::endl;
+    os << "\n[No Orig]: After operator<= " << (noorig_1 <= noorig_2) << std::endl;
+    if ((orig_1 <= orig_2) != (noorig_1 <= noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+    
+    os << "\n[Orig]: After operator> " << (orig_1 > orig_2) << std::endl;
+    os << "\n[No Orig]: After operator> " << (noorig_1 > noorig_2) << std::endl;
+    if ((orig_1 > orig_2) != (noorig_1 > noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\n[Orig]: After operator>= " << (orig_1 >= orig_2) << std::endl;
+    os << "\n[No Orig]: After operator>= " << (noorig_1 >= noorig_2) << std::endl;
+    if ((orig_1 >= orig_2) != (noorig_1 >= noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    *out << os.str();
+    return (true);
+}
+
+template<typename T>
+bool list_check_swap_2(std::ofstream *out, T data_1, T data_2)
+{
+    std::stringstream os;
+    os << "\n|========> !(*_*)! list_check_swap_2 \n";
+    os << "\nlist #1 orig noorig \n";
+    std::list<T> orig_1(5, data_1);
+    ft::list<T> noorig_1(5, data_1);
+    print_list(os, orig_1, noorig_1);
+    print_size(os, orig_1, noorig_1);
+    if (orig_1.size() != noorig_1.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_list(orig_1, noorig_1))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nlist #2 orig noorig \n";
+    std::list<T> orig_2(15, data_2);
+    ft::list<T> noorig_2(15, data_2);
+    print_list(os, orig_2, noorig_2);
+    print_size(os, orig_2, noorig_2);
+    if (orig_2.size() != noorig_2.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_list(orig_2, noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nAfter ft::swap \n";
+    std::swap(orig_1, orig_2);
+    ft::swap(noorig_1, noorig_2);
+
+    os << "\nlist #1 orig noorig \n";
+    print_list(os, orig_1, noorig_1);
+    print_size(os, orig_1, noorig_1);
+    if (orig_1.size() != noorig_1.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_list(orig_1, noorig_1))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nlist #2 orig noorig \n";
+    print_list(os, orig_2, noorig_2);
+    print_size(os, orig_2, noorig_2);
+    if (orig_2.size() != noorig_2.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_list(orig_2, noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    *out << os.str();
+    return (true);
+}
+
+template<typename T>
+void runner_cor(std::ofstream *out, T (*f)())
+{
+    std::cout << YELLOW << "\n[check constructor]: \t" << ((list_check_constructor<T>(out, f(), f())) ? GREEN"OK" : RED"FAIL") << std::endl;
+    std::cout << YELLOW << "[check operator=]: \t" << ((list_check_operator<T>(out, f(), f())) ? GREEN"OK" : RED"FAIL") << std::endl;
+    std::cout << YELLOW << "[check begin(end)]: \t" << ((list_check_begin<T>(out, f(), f())) ? GREEN"OK" : RED"FAIL") << std::endl;
+    std::cout << YELLOW << "[check rbegin(rend)]: \t" << ((list_check_rbegin<T>(out, f(), f())) ? GREEN"OK" : RED"FAIL") << std::endl;
+    std::cout << YELLOW << "[check empty]: \t\t" << ((list_check_empty<T>(out, f(), f())) ? GREEN"OK" : RED"FAIL") << std::endl;
+    std::cout << YELLOW << "[check size]: \t\t" << ((list_check_size<T>(out, f(), f())) ? GREEN"OK" : RED"FAIL") << std::endl;
+    std::cout << YELLOW << "[check max_size]: \t" << ((list_check_max_size<T>(out, f(), f())) ? GREEN"OK" : RED"FAIL") << std::endl;
+    std::cout << YELLOW << "[check front]: \t\t" << ((list_check_front<T>(out, f(), f())) ? GREEN"OK" : RED"FAIL") << std::endl;
+    std::cout << YELLOW << "[check back]: \t\t" << ((list_check_back<T>(out, f(), f())) ? GREEN"OK" : RED"FAIL") << std::endl;
+    std::cout << YELLOW << "[check assign]: \t" << ((list_check_assign<T>(out, f(), f())) ? GREEN"OK" : RED"FAIL") << std::endl;
+    std::cout << YELLOW << "[check push_back]: \t" << ((list_check_push_back<T>(out, f(), f())) ? GREEN"OK" : RED"FAIL") << std::endl;
+    std::cout << YELLOW << "[check pop_back]: \t" << ((list_check_pop_back<T>(out, f(), f())) ? GREEN"OK" : RED"FAIL") << std::endl;
+    std::cout << YELLOW << "[check push_front]: \t" << ((list_check_push_front<T>(out, f(), f())) ? GREEN"OK" : RED"FAIL") << std::endl;
+    std::cout << YELLOW << "[check pop_front]: \t" << ((list_check_pop_front<T>(out, f(), f())) ? GREEN"OK" : RED"FAIL") << std::endl;
+    std::cout << YELLOW << "[check clear]: \t\t" << ((list_check_clear<T>(out, f(), f())) ? GREEN"OK" : RED"FAIL") << std::endl;
+    std::cout << YELLOW << "[check insert]: \t" << ((list_check_insert<T>(out, f(), f())) ? GREEN"OK" : RED"FAIL") << std::endl;
+    std::cout << YELLOW << "[check erase]: \t\t" << ((list_check_erase<T>(out, f(), f())) ? GREEN"OK" : RED"FAIL") << std::endl;
+    std::cout << YELLOW << "[check swap]: \t\t" << ((list_check_swap<T>(out, f(), f())) ? GREEN"OK" : RED"FAIL") << std::endl;
+    std::cout << YELLOW << "[check resize]: \t" << ((list_check_resize<T>(out, f(), f())) ? GREEN"OK" : RED"FAIL") << std::endl;
+    std::cout << YELLOW << "[check splice]: \t" << ((list_check_splice<T>(out, f(), f())) ? GREEN"OK" : RED"FAIL") << std::endl;
+    std::cout << YELLOW << "[check remove]: \t" << ((list_check_remove<T>(out, f(), f())) ? GREEN"OK" : RED"FAIL") << std::endl;
+    std::cout << YELLOW << "[check remove_if]: \t" << ((list_check_remove_if<T>(out, f(), f())) ? GREEN"OK" : RED"FAIL") << std::endl;
+    std::cout << YELLOW << "[check unique]: \t" << ((list_check_unique<T>(out, f(), f())) ? GREEN"OK" : RED"FAIL") << std::endl;
+    std::cout << YELLOW << "[check merge]: \t\t" << ((list_check_merge<T>(out, f(), f())) ? GREEN"OK" : RED"FAIL") << std::endl;
+    std::cout << YELLOW << "[check reverse]: \t" << ((list_check_reverse<T>(out, f(), f())) ? GREEN"OK" : RED"FAIL") << std::endl;
+    std::cout << YELLOW << "[check sort]: \t\t" << ((list_check_sort<T>(out, f(), f())) ? GREEN"OK" : RED"FAIL") << std::endl;
+    std::cout << YELLOW << "[check relational]: \t" << ((list_check_relational<T>(out, f(), f())) ? GREEN"OK" : RED"FAIL") << std::endl;
+    std::cout << YELLOW << "[check swap_2]: \t" << ((list_check_swap_2<T>(out, f(), f())) ? GREEN"OK" : RED"FAIL") << std::endl;
+}
+
+template<typename T>
 void list_start(std::ofstream *out)
 {
     if (typeid(T) == typeid(int))
     {
-        std::cout << YELLOW << "\n[check constructor]: " << ((list_check_constructor<int>(out, gen_int(), gen_int())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check operator=]: " << ((list_check_operator<int>(out, gen_int(), gen_int())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check begin(end)]: " << ((list_check_begin<int>(out, gen_int(), gen_int())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check rbegin(rend)]: " << ((list_check_rbegin<int>(out, gen_int(), gen_int())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check empty]: " << ((list_check_empty<int>(out, gen_int(), gen_int())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check size]: " << ((list_check_size<int>(out, gen_int(), gen_int())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check max_size]: " << ((list_check_max_size<int>(out, gen_int(), gen_int())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check front]: " << ((list_check_front<int>(out, gen_int(), gen_int())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check back]: " << ((list_check_back<int>(out, gen_int(), gen_int())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check assign]: " << ((list_check_assign<int>(out, gen_int(), gen_int())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check push_back]: " << ((list_check_push_back<int>(out, gen_int(), gen_int())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check pop_back]: " << ((list_check_pop_back<int>(out, gen_int(), gen_int())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check push_front]: " << ((list_check_push_front<int>(out, gen_int(), gen_int())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check pop_front]: " << ((list_check_pop_front<int>(out, gen_int(), gen_int())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check clear]: " << ((list_check_clear<int>(out, gen_int(), gen_int())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check insert]: " << ((list_check_insert<int>(out, gen_int(), gen_int())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check erase]: " << ((list_check_erase<int>(out, gen_int(), gen_int())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check swap]: " << ((list_check_swap<int>(out, gen_int(), gen_int())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check resize]: " << ((list_check_resize<int>(out, gen_int(), gen_int())) ? GREEN"OK" : RED"FAIL") << std::endl;
+        runner_cor<int>(out, gen_int);
     }
     else if (typeid(T) == typeid(char))
     {
-        std::cout << YELLOW << "\n[check constructor]: " << ((list_check_constructor<char>(out, gen_char(), gen_char())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check operator=]: " << ((list_check_operator<char>(out, gen_char(), gen_char())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check begin(end)]: " << ((list_check_begin<char>(out, gen_char(), gen_char())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check rbegin(rend)]: " << ((list_check_rbegin<char>(out, gen_char(), gen_char())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check empty]: " << ((list_check_empty<char>(out, gen_char(), gen_char())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check size]: " << ((list_check_size<char>(out, gen_char(), gen_char())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check max_size]: " << ((list_check_max_size<char>(out, gen_char(), gen_char())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check front]: " << ((list_check_front<char>(out, gen_char(), gen_char())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check back]: " << ((list_check_back<char>(out, gen_char(), gen_char())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check assign]: " << ((list_check_assign<char>(out, gen_char(), gen_char())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check push_back]: " << ((list_check_push_back<char>(out, gen_char(), gen_char())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check pop_back]: " << ((list_check_pop_back<char>(out, gen_char(), gen_char())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check push_front]: " << ((list_check_push_front<char>(out, gen_char(), gen_char())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check pop_front]: " << ((list_check_pop_front<char>(out, gen_char(), gen_char())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check clear]: " << ((list_check_clear<char>(out, gen_char(), gen_char())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check insert]: " << ((list_check_insert<char>(out, gen_char(), gen_char())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check erase]: " << ((list_check_erase<char>(out, gen_char(), gen_char())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check swap]: " << ((list_check_swap<char>(out, gen_char(), gen_char())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check resize]: " << ((list_check_resize<char>(out, gen_char(), gen_char())) ? GREEN"OK" : RED"FAIL") << std::endl;
+        runner_cor<char>(out, gen_char);
     }
     else if (typeid(T) == typeid(double))
     {
-        std::cout << YELLOW << "\n[check constructor]: " << ((list_check_constructor<double>(out, gen_dd(), gen_dd())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check operator=]: " << ((list_check_operator<double>(out, gen_dd(), gen_dd())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check begin(end)]: " << ((list_check_begin<double>(out, gen_dd(), gen_dd())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check rbegin(rend)]: " << ((list_check_rbegin<double>(out, gen_dd(), gen_dd())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check empty]: " << ((list_check_empty<double>(out, gen_dd(), gen_dd())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check size]: " << ((list_check_size<double>(out, gen_dd(), gen_dd())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check max_size]: " << ((list_check_max_size<double>(out, gen_dd(), gen_dd())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check front]: " << ((list_check_front<double>(out, gen_dd(), gen_dd())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check back]: " << ((list_check_back<double>(out, gen_dd(), gen_dd())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check assign]: " << ((list_check_assign<double>(out, gen_dd(), gen_dd())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check push_back]: " << ((list_check_push_back<double>(out, gen_dd(), gen_dd())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check pop_back]: " << ((list_check_pop_back<double>(out, gen_dd(), gen_dd())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check push_front]: " << ((list_check_push_front<double>(out, gen_dd(), gen_dd())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check pop_front]: " << ((list_check_pop_front<double>(out, gen_dd(), gen_dd())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check clear]: " << ((list_check_clear<double>(out, gen_dd(), gen_dd())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check insert]: " << ((list_check_insert<double>(out, gen_dd(), gen_dd())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check erase]: " << ((list_check_erase<double>(out, gen_dd(), gen_dd())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check swap]: " << ((list_check_swap<double>(out, gen_dd(), gen_dd())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check resize]: " << ((list_check_resize<double>(out, gen_dd(), gen_dd())) ? GREEN"OK" : RED"FAIL") << std::endl;
+        runner_cor<double>(out, gen_dd);
     }
     else if (typeid(T) == typeid(float))
     {
-        std::cout << YELLOW << "\n[check constructor]: " << ((list_check_constructor<float>(out, gen_ff(), gen_ff())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check operator=]: " << ((list_check_operator<float>(out, gen_ff(), gen_ff())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check begin(end)]: " << ((list_check_begin<float>(out, gen_ff(), gen_ff())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check rbegin(rend)]: " << ((list_check_rbegin<float>(out, gen_ff(), gen_ff())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check empty]: " << ((list_check_empty<float>(out, gen_ff(), gen_ff())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check size]: " << ((list_check_size<float>(out, gen_ff(), gen_ff())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check max_size]: " << ((list_check_max_size<float>(out, gen_ff(), gen_ff())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check front]: " << ((list_check_front<float>(out, gen_ff(), gen_ff())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check back]: " << ((list_check_back<float>(out, gen_ff(), gen_ff())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check assign]: " << ((list_check_assign<float>(out, gen_ff(), gen_ff())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check push_back]: " << ((list_check_push_back<float>(out, gen_ff(), gen_ff())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check pop_back]: " << ((list_check_pop_back<float>(out, gen_ff(), gen_ff())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check push_front]: " << ((list_check_push_front<float>(out, gen_ff(), gen_ff())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check pop_front]: " << ((list_check_pop_front<float>(out, gen_ff(), gen_ff())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check clear]: " << ((list_check_clear<float>(out, gen_ff(), gen_ff())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check insert]: " << ((list_check_insert<float>(out, gen_ff(), gen_ff())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check erase]: " << ((list_check_erase<float>(out, gen_ff(), gen_ff())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check swap]: " << ((list_check_swap<float>(out, gen_ff(), gen_ff())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check resize]: " << ((list_check_resize<float>(out, gen_ff(), gen_ff())) ? GREEN"OK" : RED"FAIL") << std::endl;
+        runner_cor<float>(out, gen_ff);
     }
     else if (typeid(T) == typeid(std::string))
     {
-        std::cout << YELLOW << "\n[check constructor]: " << ((list_check_constructor<std::string>(out, gen_str(), gen_str())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check operator=]: " << ((list_check_operator<std::string>(out, gen_str(), gen_str())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check begin(end)]: " << ((list_check_begin<std::string>(out,gen_str(), gen_str())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check rbegin(rend)]: " << ((list_check_rbegin<std::string>(out, gen_str(), gen_str())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check empty]: " << ((list_check_empty<std::string>(out, gen_str(), gen_str())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check size]: " << ((list_check_size<std::string>(out, gen_str(), gen_str())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check max_size]: " << ((list_check_max_size<std::string>(out, gen_str(), gen_str())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check front]: " << ((list_check_front<std::string>(out, gen_str(), gen_str())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check back]: " << ((list_check_back<std::string>(out, gen_str(), gen_str())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check assign]: " << ((list_check_assign<std::string>(out, gen_str(), gen_str())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check push_back]: " << ((list_check_push_back<std::string>(out, gen_str(), gen_str())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check pop_back]: " << ((list_check_pop_back<std::string>(out, gen_str(), gen_str())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check push_front]: " << ((list_check_push_front<std::string>(out, gen_str(), gen_str())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check pop_front]: " << ((list_check_pop_front<std::string>(out, gen_str(), gen_str())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check clear]: " << ((list_check_clear<std::string>(out, gen_str(), gen_str())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check insert]: " << ((list_check_insert<std::string>(out, gen_str(), gen_str())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check erase]: " << ((list_check_erase<std::string>(out, gen_str(), gen_str())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check swap]: " << ((list_check_swap<std::string>(out, gen_str(), gen_str())) ? GREEN"OK" : RED"FAIL") << std::endl;
-        std::cout << YELLOW << "[check resize]: " << ((list_check_resize<std::string>(out, gen_str(), gen_str())) ? GREEN"OK" : RED"FAIL") << std::endl;
+        runner_cor<std::string>(out, gen_str);
     }
 }

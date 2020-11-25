@@ -40,7 +40,20 @@ namespace ft
 				this->head = new node<T>();
 				this->tail = new node<T>();
 				this->head->next = this->tail;
+				//this->head->prev = this->tail;
 				this->tail->prev = this->head;
+				//this->tail->next = this->head;
+			}
+
+			size_t get_count(iterator first, iterator last)
+			{
+				size_t i = 0;
+				while (first != last)
+				{
+					i++;
+					++first;
+				}
+				return (i);
 			}
 
 		public:
@@ -421,22 +434,34 @@ void list<T, Alloc>::resize(size_type n, value_type val)
 template<typename T, typename Alloc >
 void list<T, Alloc>::splice(iterator position, list& x)
 {
-	this->insert(position, x.begin(), x.end());
-	x.clear();
+	splice(position, x, x.begin(), x.end());
 }
 
 template<typename T, typename Alloc >
 void list<T, Alloc>::splice(iterator position, list& x, iterator i)
 {
-	this->insert(position, i.ptr->data);
-	x.erase(i);
+	iterator temp = i;
+	splice(position, x, i, ++temp);
 }
 
 template<typename T, typename Alloc >
 void list<T, Alloc>::splice(iterator position, list& x, iterator first, iterator last)
 {
-	this->insert(position, first, last);
-	x.erase(first, last);
+	node_pointer pos = position.ptr;
+	node_pointer first_x = first.ptr;
+	node_pointer last_x = last.ptr;
+	node_pointer last_elem_x = last_x->prev;
+	size_t count = this->get_count(first, last);
+	
+	x.len_size -= count;
+	this->len_size += count;
+
+	first_x->prev->next = last_x;
+	last_x->prev = first_x->prev;
+	pos->prev->next = first_x;
+	first_x->prev = pos->prev;
+	pos->prev = last_elem_x;
+	last_elem_x->next = pos;
 }
 
 template<typename T, typename Alloc >
@@ -493,7 +518,7 @@ void list<T, Alloc>::reverse()
 template<typename T, typename Alloc >
 void list<T, Alloc>::sort()
 {
-	this->sort(Compare);
+	this->sort(Compare<T>);
 }
 
 /*
@@ -535,63 +560,39 @@ bool operator!=(const list<T,Alloc>& lhs, const list<T,Alloc>& rhs)
 template<typename T, typename Alloc>
 bool operator<(const list<T,Alloc>& lhs, const list<T,Alloc>& rhs)
 {
-	if (lhs.size() < rhs.size())
-		return (true);
-	if (lhs.size() > rhs.size())
-		return (false);
-	
-	typename ft::list<T, Alloc>::const_iterator begin_lhs = lhs.begin();
-	typename ft::list<T, Alloc>::const_iterator end_lhs = lhs.end();
-	typename ft::list<T, Alloc>::const_iterator begin_rhs = rhs.begin();
-	typename ft::list<T, Alloc>::const_iterator end_rhs = rhs.end();
+	typename ft::list<T, Alloc>::const_iterator first_1 = lhs.begin();
+	typename ft::list<T, Alloc>::const_iterator last_1 = lhs.end();
+	typename ft::list<T, Alloc>::const_iterator first_2 = rhs.begin();
+	typename ft::list<T, Alloc>::const_iterator last_2 = rhs.end();
 
-	while ((begin_lhs != end_lhs) && (begin_rhs != end_rhs) && (*begin_lhs == *begin_rhs))
+	while (first_1 != last_1)
 	{
-		++begin_rhs;
-		++begin_lhs;
+		if (first_2 == last_2 || *first_2 < *first_1)
+			return (false);
+		else if (*first_1 < *first_2)
+			return (true);
+		++first_1;
+		++first_2;
 	}
-	if (*begin_lhs >= *begin_rhs)
-		return (false);
-	return (true);
+	return (first_2 != last_2);
 }
 
 template<typename T, typename Alloc>
 bool operator<=(const list<T,Alloc>& lhs, const list<T,Alloc>& rhs)
 {
-	if (lhs < rhs || lhs == rhs)
-		return (true);
-	return (false);
+	return !(rhs < lhs);
 }
 
 template<typename T, typename Alloc>
 bool operator>(const list<T,Alloc>& lhs, const list<T,Alloc>& rhs)
 {
-	if (lhs.size() < rhs.size())
-		return (false);
-	if (lhs.size() > rhs.size())
-		return (true);
-	
-	typename ft::list<T, Alloc>::const_iterator begin_lhs = lhs.begin();
-	typename ft::list<T, Alloc>::const_iterator end_lhs = lhs.end();
-	typename ft::list<T, Alloc>::const_iterator begin_rhs = rhs.begin();
-	typename ft::list<T, Alloc>::const_iterator end_rhs = rhs.end();
-
-	while ((begin_lhs != end_lhs) && (begin_rhs != end_rhs) && (*begin_lhs == *begin_rhs))
-	{
-		++begin_rhs;
-		++begin_lhs;
-	}
-	if (*begin_lhs <= *begin_rhs)
-		return (false);
-	return (true);
+	return (rhs < lhs);
 }
 
 template<typename T, typename Alloc>
 bool operator>=(const list<T,Alloc>& lhs, const list<T,Alloc>& rhs)
 {
-	if (lhs > rhs || lhs == rhs)
-		return (true);
-	return (false);
+	return !(lhs < rhs);
 }
 
 template<typename T, typename Alloc>
