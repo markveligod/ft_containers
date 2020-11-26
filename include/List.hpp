@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../../main.hpp"
-#include "Node.hpp"
-#include "Iterator.hpp"
+#include "../main.hpp"
+#include "Iterators/Node.hpp"
+#include "Iterators/BidirectIt.hpp"
 
 template<typename T>
 bool Compare(const T &a, const T &b) { return (a < b);}
@@ -22,10 +22,10 @@ namespace ft
 			typedef node<T>*													node_pointer;
 			typedef ptrdiff_t												   	difference_type;
 			typedef size_t													  	size_type;
-			typedef Iterator<value_type, pointer, reference>					iterator;
-			typedef Iterator<value_type, const_pointer, const_reference>		const_iterator;
-			typedef RevIterator<value_type, pointer, reference>				 	reverse_iterator;
-			typedef RevIterator<value_type, const_pointer, const_reference>	 	const_reverse_iterator;
+			typedef BidirectIt<value_type, pointer, reference>					iterator;
+			typedef BidirectIt<value_type, const_pointer, const_reference>		const_iterator;
+			typedef RevBidirectIt<value_type, pointer, reference>				reverse_iterator;
+			typedef RevBidirectIt<value_type, const_pointer, const_reference>	const_reverse_iterator;
 
 		private:
 			node_pointer	head;
@@ -40,9 +40,7 @@ namespace ft
 				this->head = new node<T>();
 				this->tail = new node<T>();
 				this->head->next = this->tail;
-				//this->head->prev = this->tail;
 				this->tail->prev = this->head;
-				//this->tail->next = this->head;
 			}
 
 			size_t get_count(iterator first, iterator last)
@@ -67,26 +65,26 @@ namespace ft
 			~list();
 		
 			// Iterators
-			iterator				begin() { return iterator(this->head->next);}
-			const_iterator			begin() const { return const_iterator(this->head->next);}
-			iterator				end() { return iterator(this->tail);}
-			const_iterator			end() const { return const_iterator(this->tail);}
-			reverse_iterator		rbegin() { return reverse_iterator(this->tail->prev);}
-			const_reverse_iterator	rbegin() const { return const_reverse_iterator(this->tail->prev);}
-			reverse_iterator		rend() { return reverse_iterator(this->head);}
-			const_reverse_iterator	rend() const { return const_reverse_iterator(this->head);}
+			iterator				begin()			{ return iterator(this->head->next);}
+			const_iterator			begin() const	{ return const_iterator(this->head->next);}
+			iterator				end()			{ return iterator(this->tail);}
+			const_iterator			end() const		{ return const_iterator(this->tail);}
+			reverse_iterator		rbegin()		{ return reverse_iterator(this->tail->prev);}
+			const_reverse_iterator	rbegin() const	{ return const_reverse_iterator(this->tail->prev);}
+			reverse_iterator		rend()			{ return reverse_iterator(this->head);}
+			const_reverse_iterator	rend() const	{ return const_reverse_iterator(this->head);}
 			
 			//Capacity
 			// https://stackoverflow.com/questions/7949486
-			bool					empty() const { return (this->len_size == 0);}
-			size_type				size() const { return this->len_size;}
-			size_type				max_size() const { return (std::numeric_limits<size_type>::max() / (sizeof(node<value_type>)));}
+			bool					empty() const		{ return (this->len_size == 0);}
+			size_type				size() const		{ return this->len_size;}
+			size_type				max_size() const	{ return (std::numeric_limits<size_type>::max() / (sizeof(node<value_type>)));}
 
 			//Element access
-			reference				front() { return this->head->next->data;}
-			const_reference			front() const { return this->head->next->data;}
-			reference				back() { return this->tail->prev->data;}
-			const_reference			back() const { return this->tail->prev->data;}
+			reference				front()			{ return this->head->next->data;}
+			const_reference			front() const	{ return this->head->next->data;}
+			reference				back()			{ return this->tail->prev->data;}
+			const_reference			back() const	{ return this->tail->prev->data;}
 
 			//Modifiers
 			void 					assign(iterator first, iterator last);

@@ -29,6 +29,7 @@
 #include <limits>
 #include <cstddef>
 #include <typeinfo>
+#include <cmath>
 
 /*
 **==========================
@@ -36,7 +37,7 @@
 **==========================
 */
 
-#include "include/List/List.hpp"
+#include "include/List.hpp"
 
 /*
 **==========================

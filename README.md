@@ -49,4 +49,13 @@
 - [x] ([swap (list)](https://www.cplusplus.com/reference/list/list/swap-free/))
 
 ## Container ft::vector\<\>:
-
+- [ ] ([constructor](https://www.cplusplus.com/reference/vector/vector/vector/))
+- [ ] ([destructor](https://www.cplusplus.com/reference/vector/vector/~vector/))
+- [ ] ([operator=](https://www.cplusplus.com/reference/vector/vector/operator=/))
+  
+**Iterators:**  
+- [ ] ([begin](https://www.cplusplus.com/reference/vector/vector/begin/))
+- [ ] ([end](https://www.cplusplus.com/reference/vector/vector/end/))
+- [ ] ([rbegin](https://www.cplusplus.com/reference/vector/vector/rbegin/))
+- [ ] ([rend](https://www.cplusplus.com/reference/vector/vector/rend/))
+ 

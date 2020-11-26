@@ -4,7 +4,6 @@ SRC = ./main.cpp
 OBJ=$(SRC:.cpp=.o)
 DEBUG = -g
 LOG = log_*
-HED_LIST = ./include/List/List.hpp ./include/List/Node.hpp ./include/List/Iterator.hpp 
 
 #colors
 RED=\033[1;31m
@@ -17,7 +16,7 @@ RESET=\033[0m
 	@clang++ $(DEBUG) -o $@ -c $< $(FLAGS)
 	@echo "[$(GREEN)OK$(RESET)]$(YELLOW) Compiling $<$(RESET)"
 
-$(NAME): $(OBJ) $(HED_LIST)
+$(NAME): $(OBJ)
 	@clang++ -o $(NAME) $(DEBUG) $(OBJ) $(FLAGS)
 	@echo "[$(GREEN)Success$(RESET)]$(GREEN) Successfully compiled $(NAME) project.$(RESET)"
 	@echo ""
@@ -40,8 +39,9 @@ clean:
 
 fclean: clean
 	@rm $(NAME)
-	@rm $(LOG)
 	@echo "[$(RED)Deleting$(RESET)]$(RED) $(NAME) deleted.$(RESET)"
+	@rm $(LOG)
+	@echo "[$(RED)Deleting$(RESET)]$(RED) $(LOG) deleted.$(RESET)"
 
 re: fclean all
 
