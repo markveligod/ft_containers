@@ -1,6 +1,12 @@
 # :black_square_button: ft_containers (project 2020)
 ## Description
-(very soon)  
+This project is aim to understand how work is containers from library STL and this project is a part methodology learning students from 42 schools (21 schools in Moscow).  
+The project implements the following containers:  
+  
+**[List](https://codelessons.ru/cplusplus/spisok-list-v-s-polnyj-material.html)**  
+**[Vector](https://codelessons.ru/cplusplus/vektory-v-c-dlya-nachinayushhix.html)**  
+  
+*P.s. On the website `www.cplusplus.com` you can find a very important information about containers library STL.*  
 ## Container ft::list\<\>:
   
 **Main coplien's form**  
