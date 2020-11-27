@@ -690,7 +690,7 @@ bool list_check_max_size(std::ofstream *out, T data_1, T data_2)
 
     os << "\nmax_size orig_1 (on mac 768614336404564650 or in std::string 461168601842738790) => " << orig_1.max_size() << std::endl;
     os << "max_size noorig_1 => " << noorig_1.max_size() << std::endl;
-    if (((typeid(T) == typeid(std::string)) ? 461168601842738790 : 768614336404564650) != (noorig_1.max_size()))
+    if ((orig_1.max_size()) != (noorig_1.max_size()))
     {
         *out << os.str();
         return (false);
@@ -714,7 +714,7 @@ bool list_check_max_size(std::ofstream *out, T data_1, T data_2)
 
     os << "\nmax_size orig_1 (on mac 768614336404564650 or in std::string 461168601842738790) => " << orig_1.max_size() << std::endl;
     os << "max_size noorig_1 => " << noorig_1.max_size() << std::endl;
-    if (((typeid(T) == typeid(std::string)) ? 461168601842738790 : 768614336404564650) != (noorig_1.max_size()))
+    if ((orig_1.max_size()) != (noorig_1.max_size()))
     {
         *out << os.str();
         return (false);
@@ -738,7 +738,7 @@ bool list_check_max_size(std::ofstream *out, T data_1, T data_2)
 
     os << "\nmax_size orig_2 (on mac 768614336404564650 or in std::string 461168601842738790) => " << orig_2.max_size() << std::endl;
     os << "max_size noorig_2 => " << noorig_2.max_size() << std::endl;
-    if (((typeid(T) == typeid(std::string)) ? 461168601842738790 : 768614336404564650) != (noorig_2.max_size()))
+    if ((orig_2.max_size()) != (noorig_2.max_size()))
     {
         *out << os.str();
         return (false);
@@ -762,7 +762,7 @@ bool list_check_max_size(std::ofstream *out, T data_1, T data_2)
 
     os << "\nmax_size orig_2 (on mac 768614336404564650 or in std::string 461168601842738790) => " << orig_2.max_size() << std::endl;
     os << "max_size noorig_2 => " << noorig_2.max_size() << std::endl;
-    if (((typeid(T) == typeid(std::string)) ? 461168601842738790 : 768614336404564650) != (noorig_2.max_size()))
+    if ((orig_2.max_size()) != (noorig_2.max_size()))
     {
         *out << os.str();
         return (false);
