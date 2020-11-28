@@ -38,6 +38,7 @@
 */
 
 #include "include/List.hpp"
+#include "include/Vector.hpp"
 
 /*
 **==========================
@@ -45,4 +46,6 @@
 **==========================
 */
 
+#include "tests/utils.hpp"
 #include "tests/list_test_template.hpp"
+#include "tests/vector_test_template.hpp"

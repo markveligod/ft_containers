@@ -24,7 +24,7 @@ class RandomIt
     
         RandomIt() { this->ptr_array = NULL;}
 		RandomIt(const pointer ptr) {this->ptr_array = ptr;}
-		RandomIt(const RandomIt &other) { *this = other}
+		RandomIt(const RandomIt &other) { *this = other;}
 		~RandomIt() {}
     
         curr_class &operator=(const curr_class& x)

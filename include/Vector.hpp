@@ -69,6 +69,7 @@ namespace ft
 template < typename T, typename Alloc >
 vector<T, Alloc>::vector(const allocator_type& alloc)
 {
+	(void)alloc;
 	this->init_def();
 }
 

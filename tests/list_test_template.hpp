@@ -3,30 +3,6 @@
 #include "../main.hpp"
 
 template<typename T>
-bool Compare_my(const T &a, const T &b) { return (a > b);}
-
-template<typename T>
-bool Predict(const T &a) { return (a == a);}
-
-int gen_int() { return (rand() % 1448228);}
-
-char gen_char() 
-{
-    int i = rand() % 100;
-    return (static_cast<char>((i < 33) ? i + 30 : i));
-}
-
-double gen_dd() { return ((rand() % 1448228) / 100.0);}
-
-float gen_ff() { return ((rand() % 1448228) / 100.0f);}
-
-std::string gen_str()
-{
-    std::string str[10] = {"Возьми это!", "Убирайся с моей лужайки!", "- Кофе? Черный... как моя душа.", "Я - огонь, Я - Смерть!", "Молния! Кукачев!", "Ты пытался открыть меня?", "Одной обоймы будет недостаточно!", "Давайте начнем эту вечеринку!", "Ты называешь себя крутым парнем?", "Неужели кто-то что-то почувствовал?"};
-    return (str[rand() % 10]);
-}
-
-template<typename T>
 void print_list(std::stringstream &os, std::list<T> &orig, ft::list<T> &no)
 {
     typename std::list<T>::iterator or_begin = orig.begin();
@@ -2466,6 +2442,7 @@ void runner_cor(std::ofstream *out, T (*f)())
     std::cout << YELLOW << "[check sort]: \t\t" << ((list_check_sort<T>(out, f(), f())) ? GREEN"OK" : RED"FAIL") << std::endl;
     std::cout << YELLOW << "[check relational]: \t" << ((list_check_relational<T>(out, f(), f())) ? GREEN"OK" : RED"FAIL") << std::endl;
     std::cout << YELLOW << "[check swap_2]: \t" << ((list_check_swap_2<T>(out, f(), f())) ? GREEN"OK" : RED"FAIL") << std::endl;
+    std::cout << RESET;
 }
 
 template<typename T>
