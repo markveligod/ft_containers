@@ -52,6 +52,8 @@ void print_size(std::stringstream &os, std::vector<T> &orig, ft::vector<T> &no)
 {
     os << "Size orig: " << orig.size() << std::endl;
     os << "Size noorig: " << no.size() << std::endl;
+    os << "Capacity orig: " << orig.capacity() << std::endl;
+    os << "Capacity noorig: " << no.capacity() << std::endl;
 }
 
 template<typename T>
@@ -202,9 +204,332 @@ bool vector_check_constructor(std::ofstream *out, T data_1, T data_2)
 }
 
 template<typename T>
+bool vector_check_operator(std::ofstream *out, T data_1, T data_2)
+{
+    std::stringstream os;
+    os << "\n|========> !(*_*)! vector_check_operator \n";
+    os << "\nCreaty operator=(const vector &other)\n";
+    std::vector<T> orig_1(10, data_1);
+    ft::vector<T> noorig_1(10, data_1);
+    std::vector<T> orig_2(15, data_2);
+    ft::vector<T> noorig_2(15, data_2);
+
+    os << "\nBefore orig_1 noorig_1\n";
+    print_vector(os, orig_1, noorig_1);
+    print_size(os, orig_1, noorig_1);
+    if (orig_1.size() != noorig_1.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_vector(orig_1, noorig_1))
+    {
+        *out << os.str();
+        return (false);
+    }
+    os << "\nBefore orig_2 noorig_2\n";
+    print_vector(os, orig_2, noorig_2);
+    print_size(os, orig_2, noorig_2);
+    if (orig_2.size() != noorig_2.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_vector(orig_2, noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    orig_1 = orig_2;
+    noorig_1 = noorig_2;
+
+    os << "\nAfter orig_1 noorig_1\n";
+    print_vector(os, orig_1, noorig_1);
+    print_size(os, orig_1, noorig_1);
+    if (orig_1.size() != noorig_1.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_vector(orig_1, noorig_1))
+    {
+        *out << os.str();
+        return (false);
+    }
+    os << "\nAfter orig_2 noorig_2\n";
+    print_vector(os, orig_2, noorig_2);
+    print_size(os, orig_2, noorig_2);
+    if (orig_2.size() != noorig_2.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_vector(orig_2, noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    *out << os.str();
+    return (true);
+}
+template<typename T>
+bool vector_check_begin(std::ofstream *out, T data_1, T data_2)
+{
+    std::stringstream os;
+    os << "\n|========> !(*_*)! vector_check_begin \n";
+
+    os << "\nvector #1 orig_1 noorig_1 \n";
+    std::vector<T> orig_1(7, data_1);
+    ft::vector<T> noorig_1(7, data_1);
+    print_vector(os, orig_1, noorig_1);
+    print_size(os, orig_1, noorig_1);
+    if (orig_1.size() != noorig_1.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_vector(orig_1, noorig_1))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nvector #2 orig_2 noorig_2 \n";
+    std::vector<T> orig_2(4, data_2);
+    ft::vector<T> noorig_2(4, data_2);
+    print_vector(os, orig_2, noorig_2);
+    print_size(os, orig_2, noorig_2);
+    if (orig_2.size() != noorig_2.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_vector(orig_2, noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    typename std::vector<T>::iterator or_begin_1 = orig_1.begin();
+    typename std::vector<T>::iterator or_end_1 = orig_1.end();
+    typename ft::vector<T>::iterator no_begin_1 = noorig_1.begin();
+    typename ft::vector<T>::iterator no_end_1 = noorig_1.end();
+
+    typename std::vector<T>::const_iterator or_begin_2 = orig_1.begin();
+    typename std::vector<T>::const_iterator or_end_2 = orig_1.end();
+    typename ft::vector<T>::const_iterator no_begin_2 = noorig_1.begin();
+    typename ft::vector<T>::const_iterator no_end_2 = noorig_1.end();
+
+    typename std::vector<T>::iterator or_begin_5 = orig_2.begin();
+    typename std::vector<T>::iterator or_end_5 = orig_2.end();
+    typename ft::vector<T>::iterator no_begin_5 = noorig_2.begin();
+    typename ft::vector<T>::iterator no_end_5 = noorig_2.end();
+
+    typename std::vector<T>::const_iterator or_begin_6 = orig_2.begin();
+    typename std::vector<T>::const_iterator or_end_6 = orig_2.end();
+    typename ft::vector<T>::const_iterator no_begin_6 = noorig_2.begin();
+    typename ft::vector<T>::const_iterator no_end_6 = noorig_2.end();
+
+    if (!check_iterators<typename std::vector<T>::iterator, typename ft::vector<T>::iterator>(or_begin_1, or_end_1, no_begin_1, no_end_1) ||
+    !check_iterators<typename std::vector<T>::const_iterator, typename ft::vector<T>::const_iterator>(or_begin_2, or_end_2, no_begin_2, no_end_2) ||
+    !check_iterators<typename std::vector<T>::iterator, typename ft::vector<T>::iterator>(or_begin_5, or_end_5, no_begin_5, no_end_5) ||
+    !check_iterators<typename std::vector<T>::const_iterator, typename ft::vector<T>::const_iterator>(or_begin_6, or_end_6, no_begin_6, no_end_6))
+    {
+        *out << os.str();
+        return (false);
+    }
+    
+    *out << os.str();
+    return (true);
+}
+
+template<typename T>
+bool vector_check_rbegin(std::ofstream *out, T data_1, T data_2)
+{
+    std::stringstream os;
+    os << "\n|========> !(*_*)! vector_check_rbegin \n";
+
+    os << "\nvector #1 orig_1 noorig_1 \n";
+    std::vector<T> orig_1(7, data_1);
+    ft::vector<T> noorig_1(7, data_1);
+    print_vector(os, orig_1, noorig_1);
+    print_size(os, orig_1, noorig_1);
+    if (orig_1.size() != noorig_1.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_vector(orig_1, noorig_1))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nvector #2 orig_2 noorig_2 \n";
+    std::vector<T> orig_2(4, data_2);
+    ft::vector<T> noorig_2(4, data_2);
+    print_vector(os, orig_2, noorig_2);
+    print_size(os, orig_2, noorig_2);
+    if (orig_2.size() != noorig_2.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_vector(orig_2, noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    typename std::vector<T>::reverse_iterator or_begin_3 = orig_1.rbegin();
+    typename std::vector<T>::reverse_iterator or_end_3 = orig_1.rend();
+    typename ft::vector<T>::reverse_iterator no_begin_3 = noorig_1.rbegin();
+    typename ft::vector<T>::reverse_iterator no_end_3 = noorig_1.rend();
+
+    typename std::vector<T>::const_reverse_iterator or_begin_4 = orig_1.rbegin();
+    typename std::vector<T>::const_reverse_iterator or_end_4 = orig_1.rend();
+    typename ft::vector<T>::const_reverse_iterator no_begin_4 = noorig_1.rbegin();
+    typename ft::vector<T>::const_reverse_iterator no_end_4 = noorig_1.rend();
+
+    typename std::vector<T>::reverse_iterator or_begin_7 = orig_2.rbegin();
+    typename std::vector<T>::reverse_iterator or_end_7 = orig_2.rend();
+    typename ft::vector<T>::reverse_iterator no_begin_7 = noorig_2.rbegin();
+    typename ft::vector<T>::reverse_iterator no_end_7 = noorig_2.rend();
+
+    typename std::vector<T>::const_reverse_iterator or_begin_8 = orig_2.rbegin();
+    typename std::vector<T>::const_reverse_iterator or_end_8 = orig_2.rend();
+    typename ft::vector<T>::const_reverse_iterator no_begin_8 = noorig_2.rbegin();
+    typename ft::vector<T>::const_reverse_iterator no_end_8 = noorig_2.rend();
+
+    if (!check_iterators<typename std::vector<T>::reverse_iterator, typename ft::vector<T>::reverse_iterator>(or_begin_3, or_end_3, no_begin_3, no_end_3) ||
+    !check_iterators<typename std::vector<T>::const_reverse_iterator, typename ft::vector<T>::const_reverse_iterator>(or_begin_4, or_end_4, no_begin_4, no_end_4) ||
+    !check_iterators<typename std::vector<T>::reverse_iterator, typename ft::vector<T>::reverse_iterator>(or_begin_7, or_end_7, no_begin_7, no_end_7) ||
+    !check_iterators<typename std::vector<T>::const_reverse_iterator, typename ft::vector<T>::const_reverse_iterator>(or_begin_8, or_end_8, no_begin_8, no_end_8))
+    {
+        *out << os.str();
+        return (false);
+    }
+    
+    *out << os.str();
+    return (true);
+}
+
+template<typename T>
+bool vector_check_empty(std::ofstream *out, T data_1, T data_2)
+{
+    std::stringstream os;
+    os << "\n|========> !(*_*)! vector_check_empty \n";
+
+    os << "\nvector #1 orig_1 noorig_1 \n";
+    std::vector<T> orig_1;
+    ft::vector<T> noorig_1;
+    print_vector(os, orig_1, noorig_1);
+    print_size(os, orig_1, noorig_1);
+    if (orig_1.size() != noorig_1.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_vector(orig_1, noorig_1))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nEmpty orig_1 => " << orig_1.empty() << std::endl;
+    os << "Empty noorig_1 => " << noorig_1.empty() << std::endl;
+    if ((orig_1.empty()) != (noorig_1.empty()))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nvector #1 orig_1 noorig_1 \n";
+    orig_1.assign(5, data_1);
+    noorig_1.assign(5, data_1);
+    print_vector(os, orig_1, noorig_1);
+    print_size(os, orig_1, noorig_1);
+    if (orig_1.size() != noorig_1.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_vector(orig_1, noorig_1))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nEmpty orig_1 => " << orig_1.empty() << std::endl;
+    os << "Empty noorig_1 => " << noorig_1.empty() << std::endl;
+    if ((orig_1.empty()) != (noorig_1.empty()))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nvector #2 orig_2 noorig_2 \n";
+    std::vector<T> orig_2;
+    ft::vector<T> noorig_2;
+    print_vector(os, orig_2, noorig_2);
+    print_size(os, orig_2, noorig_2);
+    if (orig_2.size() != noorig_2.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_vector(orig_2, noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nEmpty orig_2 => " << orig_2.empty() << std::endl;
+    os << "Empty noorig_2 => " << noorig_2.empty() << std::endl;
+    if ((orig_2.empty()) != (noorig_2.empty()))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nvector #2 orig_2 noorig_2 \n";
+    orig_2.assign(5, data_2);
+    noorig_2.assign(5, data_2);
+    print_vector(os, orig_2, noorig_2);
+    print_size(os, orig_2, noorig_2);
+    if (orig_2.size() != noorig_2.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_vector(orig_2, noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nEmpty orig_2 => " << orig_2.empty() << std::endl;
+    os << "Empty noorig_2 => " << noorig_2.empty() << std::endl;
+    if ((orig_2.empty()) != (noorig_2.empty()))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    *out << os.str();
+    return (true);
+}
+
+template<typename T>
 void runner_cor_vec(std::ofstream *out, T (*f)())
 {
     std::cout << YELLOW << "\n[check constructor]: \t" << ((vector_check_constructor<T>(out, f(), f())) ? GREEN"OK" : RED"FAIL") << std::endl;
+    std::cout << YELLOW << "[check operator=]: \t" << ((vector_check_operator<T>(out, f(), f())) ? GREEN"OK" : RED"FAIL") << std::endl;
+    std::cout << YELLOW << "[check begin(end)]: \t" << ((vector_check_begin<T>(out, f(), f())) ? GREEN"OK" : RED"FAIL") << std::endl;
+    std::cout << YELLOW << "[check rbegin(rend)]: \t" << ((vector_check_rbegin<T>(out, f(), f())) ? GREEN"OK" : RED"FAIL") << std::endl;
+    std::cout << YELLOW << "[check empty]: \t\t" << ((vector_check_empty<T>(out, f(), f())) ? GREEN"OK" : RED"FAIL") << std::endl;
     std::cout << RESET;
 }
 

@@ -54,21 +54,6 @@ void print_size(std::stringstream &os, std::list<T> &orig, ft::list<T> &no)
     os << "Size noorig: " << no.size() << std::endl;
 }
 
-template<typename T, typename K>
-bool check_iterators(T or_begin, T or_end, K no_begin, K no_end)
-{
-    while (no_begin != no_end && or_begin != or_end)
-    {
-        if (*or_begin != *no_begin)
-            return (false);
-        ++or_begin;
-        ++no_begin;
-    }
-    if (no_begin != no_end || or_begin != or_end)
-        return (false);
-    return (true);
-}
-
 template<typename T>
 bool check_list(std::list<T> &orig, ft::list<T> &no)
 {

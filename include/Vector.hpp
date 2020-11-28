@@ -10,32 +10,42 @@ namespace ft
 	class vector
 	{
 		public:
-			typedef T												value_type;
-			typedef	Alloc											allocator_type;
-			typedef value_type&										reference;
-			typedef const value_type&								const_reference;
-			typedef value_type*										pointer;
-			typedef const value_type*								const_pointer;
-			typedef ptrdiff_t										difference_type;
-			typedef size_t											size_type;
-			typedef RandomIt<T, T*, T&>								iterator;
-			typedef RandomIt<T, const T*, const T&>					const_iterator;
-			typedef RevRandomIt<T, T*, T&>							reverse_iterator;
-			typedef RevRandomIt<T, const T*, const T&>				const_reverse_iterator;
+			typedef T														value_type;
+			typedef	Alloc													allocator_type;
+			typedef value_type&												reference;
+			typedef const value_type&										const_reference;
+			typedef value_type*												pointer;
+			typedef const value_type*										const_pointer;
+			typedef ptrdiff_t												difference_type;
+			typedef size_t													size_type;
+			typedef RandomIt<value_type, pointer, reference>				iterator;
+			typedef RandomIt<value_type, const_pointer, const_reference>	const_iterator;
+			typedef RevRandomIt<value_type, pointer, reference>				reverse_iterator;
+			typedef RevRandomIt<value_type, const_pointer, const_reference>	const_reverse_iterator;
 		private:
 			pointer			ptr;
 			allocator_type	alloc;
 			size_type		len_size;
 			size_type		cap;
-			size_type		gold_up;
+			double			gold_up;
 
 			void init_def(const allocator_type& alloc = allocator_type())
 			{
 				this->alloc = alloc;
 				this->len_size = 0;
-				this->ptr = value_type();
+				this->ptr = NULL;
 				this->cap = 0;
 				this->gold_up = (1 + sqrt(5)) / 2;
+			}
+
+			void realoc(size_type y)
+			{
+				pointer temp = this->alloc.allocate(y);
+				for (size_type i = 0; i < this->len_size; i++) 
+					temp[i] = this->ptr[i];
+				this->alloc.deallocate(this->ptr, this->cap);
+				this->ptr = temp;
+				this->cap = y;
 			}
 
 		public:
@@ -72,9 +82,14 @@ namespace ft
 			const_reference	operator[](size_type n) const 	{ return (this->ptr[n]);}
 			reference		front() 						{ return (this->ptr[0]);}
 			const_reference	front() const 					{ return (this->ptr[0]);}
-			reference		back() 							{ return (this->ptr[this->_size - 1]);}
-			const_reference	back() const 					{ return (this->ptr[this->_size - 1]);}
-			reference		at(size_type n)					{ (n >= this->len_size) ? throw std::out_of_range("out of range"); : return this->ptr[n];}
+			reference		back() 							{ return (this->ptr[this->len_size - 1]);}
+			const_reference	back() const 					{ return (this->ptr[this->len_size - 1]);}
+			reference		at(size_type n)
+			{
+				if (n >= this->len_size)
+					throw (std::out_of_range("out of range"));
+				return (this->ptr[n]);
+			}
 			const_reference	at(size_type n) const			{return (this->at(n));}
 
 			// Modifiers
@@ -109,9 +124,8 @@ vector<T, Alloc>::vector(const allocator_type& alloc)
 template < typename T, typename Alloc >
 vector<T, Alloc>::vector(size_type n, const value_type& val, const allocator_type& alloc)
 {
-	this->init_def();
-	this->gold_up = (1 + sqrt(5)) / 2;
-    this->ptr = static_cast<pointer>(operator new(sizeof(value_type) * n));
+	this->init_def(alloc);
+    this->ptr = this->alloc.allocate(sizeof(value_type) * n);
     this->len_size = n;
     this->cap = n;
     for (size_type i = 0; i < n; i++)
@@ -121,31 +135,36 @@ vector<T, Alloc>::vector(size_type n, const value_type& val, const allocator_typ
 template < typename T, typename Alloc >
 vector<T, Alloc>::vector(iterator first, iterator last, const allocator_type& alloc)
 {
-	this->init_def();
-	this->cap = first - last;
+	this->init_def(alloc);
+	this->cap = last - first;
 	this->len_size = this->cap;
-	this->ptr = static_cast<pointer>(operator new(sizeof(value_type) * this->len_size));
+	this->ptr = this->alloc.allocate(sizeof(value_type) * this->len_size);
 	this->assign(first, last);
 }
 
 template < typename T, typename Alloc >
 vector<T, Alloc>::vector(const_iterator first, const_iterator last, const allocator_type& alloc)
 {
-	this->init_def();
-	this->cap = first - last;
+	this->init_def(alloc);
+	this->cap = last - first;
 	this->len_size = this->cap;
-	this->ptr = static_cast<pointer>(operator new(sizeof(value_type) * this->len_size));
+	this->ptr = this->alloc.allocate(sizeof(value_type) * this->len_size);
 	this->assign(first, last);
 }
 
 template < typename T, typename Alloc >
-vector<T, Alloc>::vector(const vector& x) { *this = x;}
+vector<T, Alloc>::vector(const vector& x)
+{
+	this->init_def();
+	*this = x;
+}
 
 template < typename T, typename Alloc >
-typename vector<T, Alloc>::vector &vector<T, Alloc>::operator=(const vector<T, Alloc>& x)
+vector<T, Alloc> &vector<T, Alloc>::operator=(const vector<T, Alloc>& x)
 {
-	delete[] this->ptr;
-	this->ptr = new value_type[x.cap];
+	if (this->cap > 0)
+		this->alloc.deallocate(this->ptr, this->cap);
+	this->ptr = this->alloc.allocate(x.cap);
 	this->cap = x.cap;
 	this->len_size = 0;
 	this->assign(x.begin(), x.end());
@@ -155,7 +174,8 @@ typename vector<T, Alloc>::vector &vector<T, Alloc>::operator=(const vector<T, A
 template < typename T, typename Alloc >
 vector<T, Alloc>::~vector()
 {
-	delete[] this->ptr;
+	if (this->cap > 0)
+		this->alloc.deallocate(this->ptr, this->cap);
 }
 
 /*
@@ -171,9 +191,9 @@ void vector<T, Alloc>::resize(size_type n, value_type val)
 		this->pop_back();
 	if (n > this->cap)
 	{
-		size_type temp = n * this->gold_up;
+		size_type temp = this->cap * this->gold_up;
 		this->gold_up *= this->gold_up;
-		this->reserve(temp);
+		this->realoc(temp);
 	}
 	while (n > this->len_size)
 		this->push_back(val);
@@ -184,12 +204,7 @@ void vector<T, Alloc>::reserve(size_type n)
 {
 	if (n <= this->cap)
 		return ;
-	pointer temp = new value_type[n];
-	for (size_type i = 0; i < this->len_size; i++) 
-		temp[i] = this->ptr[i];
-	delete[] this->ptr;
-	this->ptr = temp;
-	this->cap = n;
+	this->realoc(n);
 }
 
 
@@ -235,13 +250,15 @@ void vector<T, Alloc>::push_back(const value_type& val)
 {
 	if (this->len_size == this->cap) 
 	{
-		if (this->len_size == 0)
-			reserve(1);
+		if (this->cap == 0)
+		{
+			this->realoc(1);
+		}
 		else
 		{
 			size_type temp = this->cap * this->gold_up;
 			this->gold_up *= this->gold_up;
-			this->reserve(temp);
+			this->realoc(temp);
 		}
 	}
 	this->ptr[this->len_size] = val;
@@ -251,7 +268,7 @@ void vector<T, Alloc>::push_back(const value_type& val)
 template < typename T, typename Alloc >
 void vector<T, Alloc>::pop_back()
 {
-	this->erase(this->end());
+	this->len_size--;
 }
 
 template < typename T, typename Alloc >
@@ -356,8 +373,13 @@ void vector<T, Alloc>::swap(vector& x)
 template < typename T, typename Alloc >
 void vector<T, Alloc>::clear()
 {
-	while (this->len_size)
-		this->pop_back();
+	if (this->len_size == 0)
+		return ;
+	this->alloc.deallocate(this->ptr, this->cap);
+	this->ptr = NULL;
+	this->len_size = 0;
+	this->cap = 0;
+	this->gold_up = (1 + sqrt(5)) / 2;
 }
 
 /*
