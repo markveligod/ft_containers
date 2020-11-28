@@ -107,7 +107,7 @@ class RevRandomIt
     
         RevRandomIt() { this->ptr_array = NULL;}
 		RevRandomIt(const pointer ptr) {this->ptr_array = ptr;}
-		RevRandomIt(const RevRandomIt &other) { *this = other}
+		RevRandomIt(const RevRandomIt &other) { *this = other;}
 		~RevRandomIt() {}
     
         curr_class &operator=(const curr_class& x)
