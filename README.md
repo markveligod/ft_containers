@@ -55,13 +55,42 @@ The project implements the following containers:
 - [x] ([swap (list)](https://www.cplusplus.com/reference/list/list/swap-free/))
 
 ## Container ft::vector\<\>:
-- [ ] ([constructor](https://www.cplusplus.com/reference/vector/vector/vector/))
-- [ ] ([destructor](https://www.cplusplus.com/reference/vector/vector/~vector/))
-- [ ] ([operator=](https://www.cplusplus.com/reference/vector/vector/operator=/))
+- [x] ([constructor](https://www.cplusplus.com/reference/vector/vector/vector/))
+- [x] ([destructor](https://www.cplusplus.com/reference/vector/vector/~vector/))
+- [x] ([operator=](https://www.cplusplus.com/reference/vector/vector/operator=/))
   
 **Iterators:**  
-- [ ] ([begin](https://www.cplusplus.com/reference/vector/vector/begin/))
-- [ ] ([end](https://www.cplusplus.com/reference/vector/vector/end/))
-- [ ] ([rbegin](https://www.cplusplus.com/reference/vector/vector/rbegin/))
-- [ ] ([rend](https://www.cplusplus.com/reference/vector/vector/rend/))
- 
+- [x] ([begin](https://www.cplusplus.com/reference/vector/vector/begin/))
+- [x] ([end](https://www.cplusplus.com/reference/vector/vector/end/))
+- [x] ([rbegin](https://www.cplusplus.com/reference/vector/vector/rbegin/))
+- [x] ([rend](https://www.cplusplus.com/reference/vector/vector/rend/))
+  
+**Capacity:**  
+- [x] ([size](https://www.cplusplus.com/reference/vector/vector/size/))
+- [x] ([max_size](https://www.cplusplus.com/reference/vector/vector/max_size/))
+- [x] ([resize](https://www.cplusplus.com/reference/vector/vector/resize/))
+- [x] ([capacity](https://www.cplusplus.com/reference/vector/vector/capacity/))
+- [x] ([empty](https://www.cplusplus.com/reference/vector/vector/empty/))
+- [x] ([reserve](https://www.cplusplus.com/reference/vector/vector/reserve/))
+  
+**Element access:**  
+- [x] ([operator[]](https://www.cplusplus.com/reference/vector/vector/operator[]/))
+- [x] ([at](https://www.cplusplus.com/reference/vector/vector/at/))
+- [x] ([front](https://www.cplusplus.com/reference/vector/vector/front/))
+- [x] ([back](https://www.cplusplus.com/reference/vector/vector/back/))
+  
+**Modifiers:**  
+- [x] ([assign](https://www.cplusplus.com/reference/vector/vector/assign/))
+- [x] ([push_back](https://www.cplusplus.com/reference/vector/vector/push_back/))
+- [x] ([pop_back](https://www.cplusplus.com/reference/vector/vector/pop_back/))
+- [x] ([insert](https://www.cplusplus.com/reference/vector/vector/insert/))
+- [x] ([erase](https://www.cplusplus.com/reference/vector/vector/erase/))
+- [x] ([swap](https://www.cplusplus.com/reference/vector/vector/swap/))
+- [x] ([clear](https://www.cplusplus.com/reference/vector/vector/clear/))
+  
+**Non-member function overloads:**  
+- [x] ([relational operators (vector)](https://www.cplusplus.com/reference/vector/vector/operators/))
+- [x] ([swap (vector)](https://www.cplusplus.com/reference/vector/vector/swap-free/))
+  
+## Container ft::map\<\>:
+

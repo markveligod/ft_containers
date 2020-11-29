@@ -1744,6 +1744,169 @@ bool vector_check_swap(std::ofstream *out, T data_1, T data_2)
     return (true);
 }
 
+
+template<typename T>
+bool vector_check_relational(std::ofstream *out, T data_1, T data_2)
+{
+    std::stringstream os;
+    os << "\n|========> !(*_*)! vector_check_relational \n";
+    os << "\nvector #1 orig noorig \n";
+    std::vector<T> orig_1(5, data_1);
+    ft::vector<T> noorig_1(5, data_1);
+    print_vector(os, orig_1, noorig_1);
+    print_size(os, orig_1, noorig_1);
+    if (orig_1.size() != noorig_1.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_vector(orig_1, noorig_1))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nvector #2 orig noorig \n";
+    std::vector<T> orig_2(15, data_2);
+    ft::vector<T> noorig_2(15, data_2);
+    print_vector(os, orig_2, noorig_2);
+    print_size(os, orig_2, noorig_2);
+    if (orig_2.size() != noorig_2.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_vector(orig_2, noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\n[Orig]: After operator== " << (orig_1 == orig_2) << std::endl;
+    os << "\n[No Orig]: After operator== " << (noorig_1 == noorig_2) << std::endl;
+    if ((orig_1 == orig_2) != (noorig_1 == noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\n[Orig]: After operator!= " << (orig_1 != orig_2) << std::endl;
+    os << "\n[No Orig]: After operator!= " << (noorig_1 != noorig_2) << std::endl;
+    if ((orig_1 != orig_2) != (noorig_1 != noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\n[Orig]: After operator< " << (orig_1 < orig_2) << std::endl;
+    os << "\n[No Orig]: After operator< " << (noorig_1 < noorig_2) << std::endl;
+    if ((orig_1 < orig_2) != (noorig_1 < noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\n[Orig]: After operator<= " << (orig_1 <= orig_2) << std::endl;
+    os << "\n[No Orig]: After operator<= " << (noorig_1 <= noorig_2) << std::endl;
+    if ((orig_1 <= orig_2) != (noorig_1 <= noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+    
+    os << "\n[Orig]: After operator> " << (orig_1 > orig_2) << std::endl;
+    os << "\n[No Orig]: After operator> " << (noorig_1 > noorig_2) << std::endl;
+    if ((orig_1 > orig_2) != (noorig_1 > noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\n[Orig]: After operator>= " << (orig_1 >= orig_2) << std::endl;
+    os << "\n[No Orig]: After operator>= " << (noorig_1 >= noorig_2) << std::endl;
+    if ((orig_1 >= orig_2) != (noorig_1 >= noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    *out << os.str();
+    return (true);
+}
+
+template<typename T>
+bool vector_check_swap_2(std::ofstream *out, T data_1, T data_2)
+{
+    std::stringstream os;
+    os << "\n|========> !(*_*)! vector_check_swap_2 \n";
+    os << "\nvector #1 orig noorig \n";
+    std::vector<T> orig_1(5, data_1);
+    ft::vector<T> noorig_1(5, data_1);
+    print_vector(os, orig_1, noorig_1);
+    print_size(os, orig_1, noorig_1);
+    if (orig_1.size() != noorig_1.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_vector(orig_1, noorig_1))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nvector #2 orig noorig \n";
+    std::vector<T> orig_2(15, data_2);
+    ft::vector<T> noorig_2(15, data_2);
+    print_vector(os, orig_2, noorig_2);
+    print_size(os, orig_2, noorig_2);
+    if (orig_2.size() != noorig_2.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_vector(orig_2, noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nAfter ft::swap \n";
+    std::swap(orig_1, orig_2);
+    ft::swap(noorig_1, noorig_2);
+
+    os << "\nvector #1 orig noorig \n";
+    print_vector(os, orig_1, noorig_1);
+    print_size(os, orig_1, noorig_1);
+    if (orig_1.size() != noorig_1.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_vector(orig_1, noorig_1))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    os << "\nvector #2 orig noorig \n";
+    print_vector(os, orig_2, noorig_2);
+    print_size(os, orig_2, noorig_2);
+    if (orig_2.size() != noorig_2.size())
+    {
+        *out << os.str();
+        return (false);
+    }
+    if (!check_vector(orig_2, noorig_2))
+    {
+        *out << os.str();
+        return (false);
+    }
+
+    *out << os.str();
+    return (true);
+}
+
 template<typename T>
 void runner_cor_vec(std::ofstream *out, T (*f)())
 {
@@ -1768,6 +1931,8 @@ void runner_cor_vec(std::ofstream *out, T (*f)())
     std::cout << YELLOW << "[check insert]: \t" << ((vector_check_insert<T>(out, f(), f())) ? GREEN"OK" : RED"FAIL") << std::endl;
     std::cout << YELLOW << "[check erase]: \t\t" << ((vector_check_erase<T>(out, f(), f())) ? GREEN"OK" : RED"FAIL") << std::endl;
     std::cout << YELLOW << "[check swap]: \t\t" << ((vector_check_swap<T>(out, f(), f())) ? GREEN"OK" : RED"FAIL") << std::endl;
+    std::cout << YELLOW << "[check relational]: \t" << ((vector_check_relational<T>(out, f(), f())) ? GREEN"OK" : RED"FAIL") << std::endl;
+    std::cout << YELLOW << "[check swap_2]: \t" << ((vector_check_swap_2<T>(out, f(), f())) ? GREEN"OK" : RED"FAIL") << std::endl;
     std::cout << RESET;
 }
 

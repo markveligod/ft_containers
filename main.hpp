@@ -30,6 +30,7 @@
 #include <cstddef>
 #include <typeinfo>
 #include <cmath>
+#include <functional>
 
 /*
 **==========================
