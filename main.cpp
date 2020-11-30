@@ -103,6 +103,25 @@ void vector_run()
     getchar();
 }
 
+void map_run()
+{
+    std::ofstream out;
+    std::cout <<  "\033c";
+    out.open("log_map", std::ios::trunc);
+    out << "|========================================================================================================|\n";
+    out << "|                                        Check map<int, std::string>                                     |\n";
+    out << "|========================================================================================================|\n";
+    std::cout << "|==============================================================|\n";
+    std::cout << CYAN << "\tCHECK map" << RED << "<int>" << RESET << std::endl;
+    std::cout << "|==============================================================|\n";
+    map_start(&out);
+
+    out.close();
+    std::cout << CYAN << "\n\tCheck log_map " << RESET;
+    getchar();
+    getchar();
+}
+
 int main()
 {
     int num;
@@ -114,6 +133,7 @@ int main()
         std::cout << RED << "Progress status will be displayed on the screen and the result will be recorded in a " << CYAN << "LOG" << RED << " file!!!\n" << RESET;
         std::cout << CYAN << "1. " << RESET << "List\n";
         std::cout << CYAN << "2. " << RESET << "Vector\n";
+        std::cout << CYAN << "3. " << RESET << "Map\n";
         std::cout << CYAN << "0. " << RESET << "Exit\n";
         std::cout << YELLOW << "Choice a number: " << RESET;
         std::cin >> num;
@@ -124,6 +144,9 @@ int main()
                 break;
             case 2:
                 vector_run();
+                break;
+            case 3:
+                map_run();
                 break;
             case 0:
                 return (0);
