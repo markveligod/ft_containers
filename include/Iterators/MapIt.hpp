@@ -144,7 +144,6 @@ template <typename K, typename T, typename Pointer, typename Reference>
 			typedef BNode<K, T>* pointer;
 			typedef ReverseMapIterator<K, T, Pointer, Reference>		curr_class;
         	typedef ReverseMapIterator<K, T, T*, T&>              		iterator;
-		protected:
 			pointer _ptr;
 		private:
 			pointer _successor(pointer ptr)
