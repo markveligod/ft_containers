@@ -2,6 +2,12 @@
 
 #include "../../main.hpp"
 
+/*
+**==========================
+** bidirectional_iterator
+**==========================
+*/
+
 template <class Key, class T>
 struct BNode
 {
@@ -23,7 +29,7 @@ template <typename K, typename T, typename Pointer, typename Reference>
         	typedef MapIterator<K, T, T*, T&>              		iterator;
 			pointer _ptr;
 		private:
-			pointer _successor(pointer ptr)
+			pointer ptr_next(pointer ptr)
 			{
 				pointer next;
 				if (!ptr->right)
@@ -41,7 +47,7 @@ template <typename K, typename T, typename Pointer, typename Reference>
 				}
 				return (next);
 			};
-			pointer _predecessor(pointer ptr)
+			pointer ptr_prev(pointer ptr)
 			{
 				pointer next;
 
@@ -61,79 +67,51 @@ template <typename K, typename T, typename Pointer, typename Reference>
 				return (next);
 			};
 		public:
-			MapIterator(void)
-			: _ptr(0)
-			{};
-			MapIterator(const pointer ptr)
-			: _ptr(ptr)
-			{};
-			MapIterator(const iterator &other)
-			{
-				*this = other;
-			};
+			MapIterator(void): _ptr(0) {}
+			MapIterator(const pointer ptr): _ptr(ptr) {}
+			MapIterator(const iterator &other) { *this = other;}
+			
 			MapIterator &operator=(const iterator &other)
 			{
 				_ptr = other._ptr;
 				return (*this);
 			};
-			pointer node(void)
-			{
-				return (_ptr);
-			};
-			value_type &operator*(void)
-			{
-				return (_ptr->pair);
-			};
-			value_type *operator->(void)
-			{
-				return (&_ptr->pair);
-			};
-			bool operator==(const curr_class &other)
-			{
-				return (_ptr == other._ptr);
-			};
-			bool operator!=(const curr_class &other)
-			{
-				return (!(*this == other));
-			};
-			bool operator>(const curr_class &other)
-			{
-				return (_ptr > other._ptr);
-			};
-			bool operator<(const curr_class &other)
-			{
-				return (_ptr < other._ptr);
-			};
-			bool operator>=(const curr_class &other)
-			{
-				return (_ptr >= other._ptr);
-			};
-			bool operator<=(const curr_class &other)
-			{
-				return (_ptr <= other._ptr);
-			};
+			
+			pointer node(void) { return (_ptr);}
+			
+			value_type &operator*(void) { return (_ptr->pair);}
+			
+			value_type *operator->(void) { return (&_ptr->pair);}
+			
+			bool operator==(const curr_class &other) { return (_ptr == other._ptr);}
+			bool operator!=(const curr_class &other) { return (!(*this == other));}
+			
 			MapIterator &operator++(void)
 			{
-				_ptr = _successor(_ptr);
+				_ptr = ptr_next(_ptr);
 				return (*this);
-			};
+			}
+
 			MapIterator &operator--(void)
 			{
-				_ptr = _predecessor(_ptr);
+				_ptr = ptr_prev(_ptr);
 				return (*this);
-			};
+			}
+
 			MapIterator operator++(int)
 			{
 				MapIterator tmp(*this);
 				this->operator++();
 				return (tmp);
-			};
+			}
+
 			MapIterator operator--(int)
 			{
 				MapIterator tmp(*this);
 				this->operator--();
 				return (tmp);
-			};
+			}
+
 	};
 	template <typename K, typename T, typename Pointer, typename Reference>
 	class ReverseMapIterator
@@ -146,7 +124,7 @@ template <typename K, typename T, typename Pointer, typename Reference>
         	typedef ReverseMapIterator<K, T, T*, T&>              		iterator;
 			pointer _ptr;
 		private:
-			pointer _successor(pointer ptr)
+			pointer ptr_next(pointer ptr)
 			{
 				pointer next;
 				if (!ptr->right)
@@ -164,7 +142,7 @@ template <typename K, typename T, typename Pointer, typename Reference>
 				}
 				return (next);
 			};
-			pointer _predecessor(pointer ptr)
+			pointer ptr_prev(pointer ptr)
 			{
 				pointer next;
 
@@ -184,78 +162,50 @@ template <typename K, typename T, typename Pointer, typename Reference>
 				return (next);
 			};
 		public:
-			ReverseMapIterator(void)
-			: _ptr(0)
-			{};
-			ReverseMapIterator(const pointer ptr)
-			: _ptr(ptr)
-			{};
-			ReverseMapIterator(const iterator &other)
-			{
-				*this = other;
-			};
+			ReverseMapIterator(): _ptr(0) {}
+			ReverseMapIterator(const pointer ptr): _ptr(ptr) {}
+			ReverseMapIterator(const iterator &other) {	*this = other;}
+
 			ReverseMapIterator &operator=(const iterator &other)
 			{
 				_ptr = other._ptr;
 				return (*this);
 			};
-			pointer node(void)
-			{
-				return (_ptr);
-			};
-			value_type &operator*(void)
-			{
-				return (_ptr->pair);
-			};
-			value_type *operator->(void)
-			{
-				return (&_ptr->pair);
-			};
-			bool operator==(const curr_class &other)
-			{
-				return (_ptr == other._ptr);
-			};
-			bool operator!=(const curr_class &other)
-			{
-				return (!(*this == other));
-			};
-			bool operator>(const curr_class &other)
-			{
-				return (_ptr > other._ptr);
-			};
-			bool operator<(const curr_class &other)
-			{
-				return (_ptr < other._ptr);
-			};
-			bool operator>=(const curr_class &other)
-			{
-				return (_ptr >= other._ptr);
-			};
-			bool operator<=(const curr_class &other)
-			{
-				return (_ptr <= other._ptr);
-			};
+			
+			pointer node() { return (_ptr);}
+			
+			value_type &operator*(void) { return (_ptr->pair);}
+
+			value_type *operator->(void) { return (&_ptr->pair);}
+
+			bool operator==(const curr_class &other) { return (_ptr == other._ptr);}
+			bool operator!=(const curr_class &other) { return (!(*this == other));}
+			
 			ReverseMapIterator &operator++(void)
 			{
-				_ptr = _predecessor(_ptr);
+				_ptr = ptr_prev(_ptr);
 				return (*this);
-			};
+			}
+
 			ReverseMapIterator &operator--(void)
 			{
-				_ptr = _successor(_ptr);
+				_ptr = ptr_next(_ptr);
 				return (*this);
-			};
+			}
+
 			ReverseMapIterator operator++(int)
 			{
 				ReverseMapIterator tmp(*this);
 				this->operator++();
 				return (tmp);
-			};
+			}
+
 			ReverseMapIterator operator--(int)
 			{
 				ReverseMapIterator tmp(*this);
 				this->operator--();
 				return (tmp);
-			};
+			}
+
 	};
 	
