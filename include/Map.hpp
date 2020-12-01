@@ -34,7 +34,7 @@ namespace ft
 			typedef ReverseMapIterator<key_type, mapped_type, pointer, reference> 		reverse_iterator;
 			typedef MapIterator<key_type, mapped_type, const_pointer, const_reference> 		const_iterator;
 			typedef ReverseMapIterator<key_type, mapped_type, const_pointer, const_reference>	const_reverse_iterator;
-			class value_compare
+			class value_compare : public std::binary_function<value_type, value_type, bool>
 			{
 				friend class map;
 				protected:
@@ -338,7 +338,7 @@ namespace ft
 			};
 			value_compare value_comp(void) const
 			{
-				return (this->value_compare);
+				return (value_compare(this->_comp));
 			};
 			iterator find(const key_type &value)
 			{

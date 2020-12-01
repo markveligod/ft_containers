@@ -112,7 +112,7 @@ void map_run()
     out << "|                                        Check map<int, std::string>                                     |\n";
     out << "|========================================================================================================|\n";
     std::cout << "|==============================================================|\n";
-    std::cout << CYAN << "\tCHECK map" << RED << "<int>" << RESET << std::endl;
+    std::cout << CYAN << "\tCHECK map" << RED << "<int, std::string>" << RESET << std::endl;
     std::cout << "|==============================================================|\n";
     map_start(&out);
 
