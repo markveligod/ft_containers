@@ -70,6 +70,7 @@
         "mutex": "cpp",
         "ratio": "cpp",
         "stack": "cpp",
-        "map": "cpp"
+        "map": "cpp",
+        "queue": "cpp"
     }
 }
