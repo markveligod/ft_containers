@@ -1,13 +1,20 @@
-# :black_square_button: ft_containers (project 2020)
+# :heavy_check_mark: ft_containers (project 2020)
 ## Description
 This project is aim to understand how work is containers from library STL and this project is a part methodology learning students from 42 schools (21 schools in Moscow).  
 The project implements the following containers:  
   
 **[List](https://codelessons.ru/cplusplus/spisok-list-v-s-polnyj-material.html)**  
 **[Vector](https://codelessons.ru/cplusplus/vektory-v-c-dlya-nachinayushhix.html)**  
+**[Map](https://codelessons.ru/cplusplus/map-v-c-chto-eto-i-kak-s-etim-rabotat.html)**  
+**[Stack](https://codelessons.ru/cplusplus/realizaciya-steka-stack-v-c.html)**  
+**[Queue](https://codelessons.ru/cplusplus/ochered-queue-v-c-realizaciya-i-chto-eto-voobshhe-takoe.html)**  
   
 *P.s. On the website `www.cplusplus.com` you can find a very important information about containers library STL.*  
-## Container ft::list\<\>:
+  
+WARNING:exclamation:  
+`std::allocator` is not implemented in this project because it is not required for the task at the moment... be careful  
+
+## :moyai:Container ft::list\<\>:
   
 **Main coplien's form**  
 - [x] ([constructor](https://www.cplusplus.com/reference/list/list/list/))
@@ -54,7 +61,7 @@ The project implements the following containers:
 - [x] ([relational operators (list)](https://www.cplusplus.com/reference/list/list/operators/))
 - [x] ([swap (list)](https://www.cplusplus.com/reference/list/list/swap-free/))
 
-## Container ft::vector\<\>:
+## :moyai:Container ft::vector\<\>:
   
 **Main coplien's form**  
 - [x] ([constructor](https://www.cplusplus.com/reference/vector/vector/vector/))
@@ -94,7 +101,7 @@ The project implements the following containers:
 - [x] ([relational operators (vector)](https://www.cplusplus.com/reference/vector/vector/operators/))
 - [x] ([swap (vector)](https://www.cplusplus.com/reference/vector/vector/swap-free/))
   
-## Container ft::map\<\>:
+## :moyai:Container ft::map\<\>:
   
 **Main coplien's form**  
 - [x] ([constructor](https://www.cplusplus.com/reference/map/map/map/))
@@ -132,3 +139,33 @@ The project implements the following containers:
 - [x] ([upper_bound](https://www.cplusplus.com/reference/map/map/upper_bound/))
 - [x] ([equal_range](https://www.cplusplus.com/reference/map/map/equal_range/))
 
+## :moyai:Container ft::stack\<\>:
+  
+**Member functions:**  
+- [x] ([constructor](https://www.cplusplus.com/reference/stack/stack/stack/))
+- [x] ([empty](https://www.cplusplus.com/reference/stack/stack/empty/))
+- [x] ([size](https://www.cplusplus.com/reference/stack/stack/size/))
+- [x] ([top](https://www.cplusplus.com/reference/stack/stack/top/))
+- [x] ([push](https://www.cplusplus.com/reference/stack/stack/push/))
+- [x] ([pop](https://www.cplusplus.com/reference/stack/stack/pop/))
+  
+**Non-member function overloads:**  
+- [x] ([relational operators (stack)](https://www.cplusplus.com/reference/stack/stack/operators/))
+  
+## :moyai:Container ft::queue\<\>:
+  
+**Member functions:**  
+- [x] ([constructor](https://www.cplusplus.com/reference/queue/queue/queue/))
+- [x] ([empty](https://www.cplusplus.com/reference/queue/queue/empty/))
+- [x] ([size](https://www.cplusplus.com/reference/queue/queue/size/))
+- [x] ([front](https://www.cplusplus.com/reference/queue/queue/front/))
+- [x] ([back](https://www.cplusplus.com/reference/queue/queue/back/))
+- [x] ([push](https://www.cplusplus.com/reference/queue/queue/push/))
+- [x] ([pop](https://www.cplusplus.com/reference/queue/queue/pop/))
+  
+**Non-member function overloads:**  
+- [x] ([relational operators (queue)](https://www.cplusplus.com/reference/queue/queue/operators/))
+  
+## Other
+**Author:**  
+:copyright:*[Mark Veligod](https://github.com/markveligod)*  
