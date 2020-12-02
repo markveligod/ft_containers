@@ -16,7 +16,7 @@ WARNING:exclamation:
   
 <img src="https://github.com/markveligod/ft_containers/raw/master/img/1.gif" width="800">  
   
-*P.s. `INCHECK` is a proprietary algorithm memory allocation in the ft::vector\<\> *  
+P.s. `INCHECK` is a proprietary algorithm memory allocation in the ft::vector\<\>  
   
 ## :moyai:Container ft::list\<\>:
   
