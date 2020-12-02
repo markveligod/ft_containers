@@ -32,6 +32,7 @@
 #include <cmath>
 #include <functional>
 #include <map>
+#include <stack>
 
 /*
 **==========================
@@ -42,6 +43,7 @@
 #include "include/List.hpp"
 #include "include/Vector.hpp"
 #include "include/Map.hpp"
+#include "include/Stack.hpp"
 
 /*
 **==========================
@@ -53,3 +55,4 @@
 #include "tests/list_test_template.hpp"
 #include "tests/vector_test_template.hpp"
 #include "tests/map_test_template.hpp"
+#include "tests/stack_test_template.hpp"
