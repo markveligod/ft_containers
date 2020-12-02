@@ -12,8 +12,12 @@ The project implements the following containers:
 *P.s. On the website `www.cplusplus.com` you can find a very important information about containers library STL.*  
   
 WARNING:exclamation:  
-`std::allocator` is not implemented in this project because it is not required for the task at the moment... be careful  
-
+`std::allocator` is not implemented in this project because it is not required for the task at the moment... be careful:do_not_litter:  
+  
+<img src="https://github.com/markveligod/ft_containers/raw/master/img/1.gif" width="800">  
+  
+*P.s. `INCHECK` is a proprietary algorithm memory allocation in the ft::vector\<\> *  
+  
 ## :moyai:Container ft::list\<\>:
   
 **Main coplien's form**  
