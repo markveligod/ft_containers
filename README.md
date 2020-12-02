@@ -55,6 +55,8 @@ The project implements the following containers:
 - [x] ([swap (list)](https://www.cplusplus.com/reference/list/list/swap-free/))
 
 ## Container ft::vector\<\>:
+  
+**Main coplien's form**  
 - [x] ([constructor](https://www.cplusplus.com/reference/vector/vector/vector/))
 - [x] ([destructor](https://www.cplusplus.com/reference/vector/vector/~vector/))
 - [x] ([operator=](https://www.cplusplus.com/reference/vector/vector/operator=/))
@@ -93,4 +95,40 @@ The project implements the following containers:
 - [x] ([swap (vector)](https://www.cplusplus.com/reference/vector/vector/swap-free/))
   
 ## Container ft::map\<\>:
+  
+**Main coplien's form**  
+- [x] ([constructor](https://www.cplusplus.com/reference/map/map/map/))
+- [x] ([destructor](https://www.cplusplus.com/reference/map/map/~map/))
+- [x] ([operator=](https://www.cplusplus.com/reference/map/map/operator=/))
+  
+**Iterators:**  
+- [x] ([begin](https://www.cplusplus.com/reference/map/map/begin/))
+- [x] ([end](https://www.cplusplus.com/reference/map/map/end/))
+- [x] ([rbegin](https://www.cplusplus.com/reference/map/map/rbegin/))
+- [x] ([rend](https://www.cplusplus.com/reference/map/map/rend/))
+  
+**Capacity:**  
+- [x] ([empty](https://www.cplusplus.com/reference/map/map/empty/))
+- [x] ([size](https://www.cplusplus.com/reference/map/map/size/))
+- [x] ([max_size](https://www.cplusplus.com/reference/map/map/max_size/))
+  
+**Element access:**  
+- [x] ([operator[]](https://www.cplusplus.com/reference/map/map/operator[]/))
+
+**Modifiers:**  
+- [x] ([insert](https://www.cplusplus.com/reference/map/map/insert/))
+- [x] ([erase](https://www.cplusplus.com/reference/map/map/erase/))
+- [x] ([swap](https://www.cplusplus.com/reference/map/map/swap/))
+- [x] ([clear](https://www.cplusplus.com/reference/map/map/clear/))
+  
+**Observers:**  
+- [x] ([key_comp](https://www.cplusplus.com/reference/map/map/key_comp/))
+- [x] ([value_comp](https://www.cplusplus.com/reference/map/map/value_comp/))
+
+**Operations:**  
+- [x] ([find](https://www.cplusplus.com/reference/map/map/find/))
+- [x] ([count](https://www.cplusplus.com/reference/map/map/count/))
+- [x] ([lower_bound](https://www.cplusplus.com/reference/map/map/lower_bound/))
+- [x] ([upper_bound](https://www.cplusplus.com/reference/map/map/upper_bound/))
+- [x] ([equal_range](https://www.cplusplus.com/reference/map/map/equal_range/))
 

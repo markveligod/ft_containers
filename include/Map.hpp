@@ -35,11 +35,11 @@ namespace ft
 			typedef MapIterator<key_type, mapped_type, const_pointer, const_reference> 			const_iterator;
 			typedef ReverseMapIterator<key_type, mapped_type, const_pointer, const_reference>	const_reverse_iterator;
 			class value_compare : public std::binary_function<value_type, value_type, bool>
-			{
+			{// in C++98, it is required to inherit binary_function<value_type,value_type,bool>
 				friend class map;
 				protected:
 					Compare comp;
-					value_compare (Compare c) : comp(c) {};
+					value_compare (Compare c) : comp(c) {} // constructed with map's comparison object
 				public:
 					typedef bool result_type;
 					typedef value_type first_argument_type;
@@ -47,7 +47,7 @@ namespace ft
 					bool operator() (const value_type& x, const value_type& y) const
 					{
 						return comp(x.first, y.first);
-					};
+					}
 			};
 		private:
 			allocator_type _allocator;
@@ -57,14 +57,14 @@ namespace ft
 
 			node _new_node(key_type key, mapped_type value, node parent, bool end = false)
 			{
-				node el = new BNode<key_type, mapped_type>();
-				el->pair = std::make_pair(key, value);
-				el->right = 0;
-				el->left = 0;
-				el->parent = parent;
-				el->end = end;
-				return (el);
-			};
+				node temp = new BNode<key_type, mapped_type>();
+				temp->pair = std::make_pair(key, value);
+				temp->right = 0;
+				temp->left = 0;
+				temp->parent = parent;
+				temp->end = end;
+				return (temp);
+			}
 			void _free_tree(node n)
 			{
 				if (n->right)
@@ -72,7 +72,7 @@ namespace ft
 				if (n->left)
 					_free_tree(n->left);
 				delete n;
-			};
+			}
 			node _insert_node(node n, key_type key, mapped_type value, bool end = false)
 			{
 				if (n->end)
@@ -104,24 +104,24 @@ namespace ft
 					else
 						return(_insert_node(n->right, key, value));
 				}
-			};
+			}
 			node _find(node n, key_type key) const
 			{
-				node tmp;
+				node temp;
 				if (!n->end && n->pair.first == key && n->parent)
 					return (n);
 				if (n->right)
 				{
-					if ((tmp = _find(n->right, key)))
-						return (tmp);
+					if ((temp = _find(n->right, key)))
+						return (temp);
 				}
 				if (n->left)
 				{
-					if ((tmp = _find(n->left, key)))
-						return (tmp);
+					if ((temp = _find(n->left, key)))
+						return (temp);
 				}
 				return (0);
-			};
+			}
 			void _delete_node(node n)
 			{
 				node parent = n->parent;
@@ -159,17 +159,17 @@ namespace ft
 					next = (--iterator(n)).node();
 				ft::swap(next->pair, n->pair);
 				_delete_node(next);
-			};
+			}
 			void _init_tree(void)
 			{
 				_root = _new_node(key_type(), mapped_type(), 0);
 				_root->right  = _new_node(key_type(), mapped_type(), _root, true);
 				_length = 0;
-			};
+			}
 			node _end(void) const
 			{
 				return (_root->right);
-			};
+			}
 		public:
 			//Main
 			explicit map(const key_compare &comp = key_compare(), const allocator_type alloc = allocator_type());
@@ -211,136 +211,42 @@ namespace ft
 			std::pair<iterator, bool> insert(const value_type &value);
 			iterator insert(iterator position, const value_type &value);
 			void erase(iterator position);
-			
+			size_type erase(const key_type &value);
+			void erase(iterator first, iterator last);
+			void swap(map &x);
+			void clear();
 			
 			template <class InputIterator>
 			void insert(InputIterator first, InputIterator last)
 			{
 				while (first != last)
 				{
-					insert(*first);
+					this->insert(*first);
 					++first;
 				}
 			}
 
+			//Observers
+			key_compare		key_comp(void) const	{ return (_comp);}
+			value_compare	value_comp(void) const	{ return (value_compare(this->_comp));}
 
-			
-			size_type erase(const key_type &value)
-			{
-				int i = 0;
-				iterator item;
-				while ((item = find(value)) != end())
-				{
-					erase(item);
-					++i;
-				};
-				return (i);
-			};
-			void erase(iterator first, iterator last)
-			{
-				while (first != last)
-					erase(first++);
-			};
-			void swap(map &x)
-			{
-				ft::swap(_length, x._length);
-				ft::swap(_root, x._root);
-			};
-			void clear(void)
-			{
-				erase(begin(), end());
-			};
-			key_compare key_comp(void) const
-			{
-				return (_comp);
-			};
-			value_compare value_comp(void) const
-			{
-				return (value_compare(this->_comp));
-			};
-			iterator find(const key_type &value)
-			{
-				if (empty())
-					return (end());
-				node tmp = _find(_root, value);
-				if (tmp)
-					return (iterator(tmp));
-				return (end());
-			};
-			const_iterator find(const key_type &value) const
-			{
-				if (empty())
-					return (end());
-				node tmp = _find(_root, value);
-				if (tmp)
-					return (const_iterator(tmp));
-				return (end());
-			};
-			size_type count(const key_type &value) const
-			{
-				size_t c = 0;
-				const_iterator it = begin();
+			//Operations
+			iterator find(const key_type &value);
+			const_iterator find(const key_type &value) const;
+			size_type count(const key_type &value) const;
+			iterator lower_bound(const key_type &key);
+			const_iterator lower_bound(const key_type &key) const;
+			iterator upper_bound(const key_type &key);
+			const_iterator upper_bound(const key_type &key) const;
 
-				while (it != end())
-				{
-					if (it->first == value)
-						++c;
-					++it;
-				}
-				return (c);
-			};
-			iterator lower_bound(const key_type &key)
-			{
-				iterator it = begin();
-				while (it != end())
-				{
-					if (this->_comp(it->first, key) <= 0)
-						return (it);
-					++it;
-				}
-				return (end());
-			};
-			const_iterator lower_bound(const key_type &key) const
-			{
-				const_iterator it = begin();
-				while (it != end())
-				{
-					if (this->_comp(it->first, key) <= 0)
-						return (it);
-					++it;
-				}
-				return (end());
-			};
-			iterator upper_bound(const key_type &key)
-			{
-				iterator it = begin();
-				while (it != end())
-				{
-					if (it->first != key && this->_comp(it->first, key) <= 0)
-						return (it);
-					++it;
-				};
-				return (end());
-			};
-			const_iterator upper_bound(const key_type &key) const
-			{
-				const_iterator it = begin();
-				while (it != end())
-				{
-					if (it->first != key && this->_comp(it->first, key) <= 0)
-						return (it);
-					++it;
-				};
-				return (end());
-			};
 			std::pair<const_iterator, const_iterator> equal_range(const key_type &k) const
 			{
 				return (std::pair<const_iterator, const_iterator>(this->lower_bound(k), this->upper_bound(k)));
-			};
+			}
 			std::pair<iterator, iterator> equal_range(const key_type &k)
 			{
 				return (std::pair<iterator, iterator>(this->lower_bound(k), this->upper_bound(k)));
-			};
+			}
 	};
 
 /*
@@ -474,6 +380,139 @@ void map<Key, T, Compare, Alloc>::erase(iterator position)
 {
 	this->_delete_node(position.node());
 	--this->_length;
-};
+}
+
+template <class Key, class T, class Compare, class Alloc >
+typename map<Key, T, Compare, Alloc>::size_type map<Key, T, Compare, Alloc>::erase(const key_type &value)
+{
+	size_type i = 0;
+	iterator item;
+	while ((item = this->find(value)) != this->end())
+	{
+		this->erase(item);
+		++i;
+	}
+	return (i);
+}
+
+template <class Key, class T, class Compare, class Alloc >
+void map<Key, T, Compare, Alloc>::erase(iterator first, iterator last)
+{
+	while (first != last)
+		this->erase(first++);
+}
+
+template <class Key, class T, class Compare, class Alloc >
+void map<Key, T, Compare, Alloc>::swap(map &x)
+{
+	map<Key, T, Compare, Alloc> temp = *this;
+	*this = x;
+	x = temp;
+}
+
+template <class Key, class T, class Compare, class Alloc >
+void map<Key, T, Compare, Alloc>::clear()
+{
+	this->erase(this->begin(), this->end());
+}
+
+/*
+**==========================
+**       Operations
+**==========================
+*/
+
+template <class Key, class T, class Compare, class Alloc >
+typename map<Key, T, Compare, Alloc>::iterator map<Key, T, Compare, Alloc>::find(const key_type &value)
+{
+	if (this->empty())
+		return (this->end());
+	node temp = this->_find(this->_root, value);
+	if (temp)
+		return (iterator(temp));
+	return (this->end());
+}
+
+template <class Key, class T, class Compare, class Alloc >
+typename map<Key, T, Compare, Alloc>::const_iterator map<Key, T, Compare, Alloc>::find(const key_type &value) const
+{
+	if (this->empty())
+		return (this->end());
+	node temp = this->_find(this->_root, value);
+	if (temp)
+		return (const_iterator(temp));
+	return (this->end());
+}
+
+template <class Key, class T, class Compare, class Alloc >
+typename map<Key, T, Compare, Alloc>::size_type map<Key, T, Compare, Alloc>::count(const key_type &value) const
+{
+	const_iterator it_begin = this->begin();
+	const_iterator it_end = this->end();
+
+	while (it_begin != it_end)
+	{
+		if (it_begin->first == value)
+			return (1);
+		++it_begin;
+	}
+	return (0);
+}
+
+template <class Key, class T, class Compare, class Alloc >
+typename map<Key, T, Compare, Alloc>::iterator map<Key, T, Compare, Alloc>::lower_bound(const key_type &key)
+{
+	iterator it_begin = this->begin();
+	iterator it_end = this->end();
+	while (it_begin != it_end)
+	{
+		if (this->_comp(it_begin->first, key) <= 0)
+			return (it_begin);
+		++it_begin;
+	}
+	return (it_end);
+}
+
+template <class Key, class T, class Compare, class Alloc >
+typename map<Key, T, Compare, Alloc>::const_iterator map<Key, T, Compare, Alloc>::lower_bound(const key_type &key) const
+{
+	const_iterator it_begin = this->begin();
+	const_iterator it_end = this->end();
+	while (it_begin != it_end)
+	{
+		if (this->_comp(it_begin->first, key) <= 0)
+			return (it_begin);
+		++it_begin;
+	}
+	return (it_end);
+}
+
+template <class Key, class T, class Compare, class Alloc >
+typename map<Key, T, Compare, Alloc>::iterator map<Key, T, Compare, Alloc>::upper_bound(const key_type &key)
+{
+	iterator it_begin = this->begin();
+	iterator it_end = this->end();
+	while (it_begin != it_end)
+	{
+		if (it_begin->first != key && this->_comp(it_begin->first, key) <= 0)
+			return (it_begin);
+		++it_begin;
+	}
+	return (it_end);
+}
+
+template <class Key, class T, class Compare, class Alloc >
+typename map<Key, T, Compare, Alloc>::const_iterator map<Key, T, Compare, Alloc>::upper_bound(const key_type &key) const
+{
+	const_iterator it_begin = this->begin();
+	const_iterator it_end = this->end();
+	while (it_begin != it_end)
+	{
+		if (it_begin->first != key && this->_comp(it_begin->first, key) <= 0)
+			return (it_begin);
+		++it_begin;
+	}
+	return (it_end);
+}
 
 } //namespace ft
